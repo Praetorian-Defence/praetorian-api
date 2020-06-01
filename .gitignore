@@ -1,0 +1,16 @@
+.env
+.idea/
+.deploy/
+/venv
+__pycache__
+
+/out/
+!/out/.gitkeep
+/static/
+!/static/.gitkeep
+/media/
+!/media/.gitkeep
+/logs/
+!/logs/.gitkeep
+/templates/
+!/templates/.gitkeep
