@@ -1,16 +1,17 @@
-\setcounter{figure}{0}
+\usepackage{hyperref}
+\usepackage{biblatex}\setcounter{figure}{0}
 \setcounter{listing}{0}
 
 \chapter{Špecifikácia API rozhrania}
-\label{appendix:API}
+\label{ch:api}
 
 \begin{refsegment}
 
-\par This is the application programming interface
+This is the application programming interface
 
-\par \lipsum{10}
+\lipsum{10}
 
-\section{Endpointy}
+\section{Endpointy}\label{sec:endpointy}
 
 \begin{itemize}
   \item v1 - API version 1
@@ -18,7 +19,7 @@
   \item test - API placeholder
 \end{itemize}
 
-\section{Cesty}
+\section{Cesty}\label{sec:cesty}
 
 \begin{itemize}
   \item \hyperref[section:auth]{A.2.1 Auth}
@@ -29,23 +30,23 @@
 \end{itemize}
 
 \subsection{Auth}
-\label{section:auth}
+\label{subsec:auth}
 
 
 \subsection{Music}
-\label{section:music}
+\label{subsec:music}
 
 
 \subsection{Pictures}
-\label{section:pictures}
+\label{subsec:pictures}
 
 
 \subsection{Video}
-\label{section:video}
+\label{subsec:video}
 
 
 \subsection{Mail}
-\label{section:mail}
+\label{subsec:mail}
 
 % Bibliography
 \printbibliography[heading=referencessec,segment=\therefsegment]

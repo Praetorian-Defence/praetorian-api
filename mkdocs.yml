@@ -1,0 +1,28 @@
+# Project information
+site_name: Praetorian API
+site_description: 'Centralized management and distribution of sensitive access data'
+site_author: 'Adam Žúrek'
+#site_url: 'https://api.leitus.jakubdubec.me/docs'
+
+# Navigation
+nav:
+  - Home: index.md
+
+# Repository
+#repo_name: 'DubPac/leitus-api'
+#repo_url: 'https://gitlab.backbone.sk/praetorian/praetorian-api'
+
+# Configuration
+theme:
+  name: 'material'
+  language: 'en'
+  features:
+    - instant
+    - tabs
+
+# Extensions
+markdown_extensions:
+  - codehilite:
+      guess_lang: false
+  - toc:
+      permalink: true
