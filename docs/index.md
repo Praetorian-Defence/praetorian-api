@@ -1,4 +1,4 @@
-# Django API Forms
+# Praetorian API
 
 [Django Forms](https://docs.djangoproject.com/en/3.0/topics/forms/) approach in validation of request payload
 (especially for content type like [JSON](https://www.json.org/) or [MessagePack](https://msgpack.org/))
