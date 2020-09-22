@@ -1,45 +1,22 @@
 # Praetorian API
 
-[Django Forms](https://docs.djangoproject.com/en/3.0/topics/forms/) approach in validation of request payload
-(especially for content type like [JSON](https://www.json.org/) or [MessagePack](https://msgpack.org/))
-without HTML front-end.
+[Nasadenie vzdialeného prístupu](https://www.ibm.com/support/knowledgecenter/en/SSZJPZ_11.5.0/com.ibm.swg.im.iis.ds.parjob.dev.doc/topics/c_deeref_Remote_Deployment.html) 
+spočíva v nasadení finálneho produktu poskytovateľa ku koncovým zariadeniam zákazníka bez nutnosti fyzického prístupu k zariadeniu. 
+Praetorian API pokrýva všetky bezpečnostné aspekty tohto prípadu použitia ako napríklad [ochrana osobných údajov](https://en.wikipedia.org/wiki/Privacy), 
+[autentifikácia](https://techterms.com/definition/authentication) alebo [autorizácia](https://auth0.com/docs/authorization).
 
-## Motivation
+## Motivácia
 
-Main idea was to create a simple and declarative way to specify format of expecting request with ability to validate
-them. Firstly I tried to use [Django Forms](https://docs.djangoproject.com/en/3.0/topics/forms/) to validate my API
-request (I use pure Django in my APIs). I have encountered a problem with nesting my requests without huge boilerplate.
-Also, the whole HTML thing was pretty useless in my RESTful APIs.
+Hlavnou myšlienkou je nasadenie produktu vzdialeným prístupom jednoduchou a bezpečnou cestou správa konfiguračných nastavení a prístupov.
+Základný management prístupov.
 
-I wanted something to:
-
-- define my requests as object (`Form`)
-- pass the request to my defined object (`form = Form.create_from_request(request)`)
-- validate my request `form.is_valid()`
-- extract data `form.clean_data` property
-
-I wanted to keep:
-
-- friendly declarative Django syntax
-([DeclarativeFieldsMetaclass](https://github.com/django/django/blob/master/django/forms/forms.py#L22) is beautiful)
-- [Django Validators](https://docs.djangoproject.com/en/3.0/ref/validators/)
-- [ValidationError](https://docs.djangoproject.com/en/3.0/ref/exceptions/#validationerror)
-
-So I decided to create simple Python package to cover all my expectations.
-
-## Community examples
+## Príklady komunitných riešení nasadenia vzdialeného prístupu 
 
 - [django_api_forms_modelchoicefield_example](https://github.com/pawl/django_api_forms_modelchoicefield_example):
 Example usage of the
 [ModelChoiceField](https://docs.djangoproject.com/en/3.0/ref/forms/fields/#django.forms.ModelChoiceField) with
 Django API Forms created by [pawl](https://github.com/pawl)
 
-## Tests
+## Testy
 
-```shell
-# install all dependencies
-poetry install
-
-# run the tests
-poetry run pytest
-```
+> Pracujeme na tom ...

@@ -7,8 +7,8 @@ site_url: 'https://zurek11.github.io/praetorian-api/'
 # Navigation
 nav:
   - Domov: index.md
-  - Podporované služby: supported_services.md
-  - Autentifikácia: authentication.md
+  - Podporované konfigurácie: supported_configurations.md
+  - Podporované prístupy: access_sources.md
   - Funkcie: features.md
   - Zabezpečenie: security.md
   - EER diagram: eer_diagram.md
@@ -23,7 +23,6 @@ theme:
   language: 'sk'
   features:
     - instant
-    - tabs
 
 # Extensions
 markdown_extensions:
