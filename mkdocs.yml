@@ -12,6 +12,7 @@ nav:
   - Funkcie: features.md
   - Zabezpečenie: security.md
   - EER diagram: eer_diagram.md
+  - Vizualizácia nasadenia: deploy_example.md
 
 # Repository
 repo_name: 'zurek11/praetorian-api'

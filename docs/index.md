@@ -7,15 +7,18 @@ Praetorian API pokrýva všetky bezpečnostné aspekty tohto prípadu použitia 
 
 ## Motivácia
 
-Hlavnou myšlienkou je nasadenie produktu vzdialeným prístupom jednoduchou a bezpečnou cestou správa konfiguračných nastavení a prístupov.
-Základný management prístupov.
+Hlavnou myšlienkou je nasadenie produktu vzdialeným prístupom jednoduchou a bezpečnou cestou, pričom medzi dôležité 
+vlastnosti by mala byť zaradená správa konfiguračných nastavení a prístupov. Spôsobov prístupu by malo byť taktiež na 
+výber niekoľko cez základný management.
+
+Samotné riešenie by malo v procese nasadzovania zaujať takzvanú tretiu stranu, pričom klient by o koncovom zariadení 
+nemal vedieť žiadne dôležité informácie ani naopak. Všetky dôležité informácie by mali byť uložené na bezpečnom mieste, 
+ku ktorému má prístup iba samotná tretia strana.
 
 ## Príklady komunitných riešení nasadenia vzdialeného prístupu 
 
-- [django_api_forms_modelchoicefield_example](https://github.com/pawl/django_api_forms_modelchoicefield_example):
-Example usage of the
-[ModelChoiceField](https://docs.djangoproject.com/en/3.0/ref/forms/fields/#django.forms.ModelChoiceField) with
-Django API Forms created by [pawl](https://github.com/pawl)
+- [fabric](https://github.com/fabric/fabric)
+- [capistrano](https://github.com/capistrano/capistrano)
 
 ## Testy
 

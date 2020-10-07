@@ -26,7 +26,7 @@
 
 ---
 
-## Environment variables
+## Environment premenné
 
 [comment]: # (Toto asi spada pod tie environment variables ci?)
 ## Sentry

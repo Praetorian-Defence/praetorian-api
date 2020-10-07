@@ -12,6 +12,8 @@ django-filter = "^2.2.0"
 python-dotenv = "^0.13.0"
 psycopg2-binary = "^2.8.5"
 porcupine-python = "^0.1.0"
+pycryptodome = "^3.9.8"
+django-enum-choices = "^2.1.2"
 
 [tool.poetry.dev-dependencies]
 mkdocs = "^1.1.2"
