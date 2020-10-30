@@ -9,6 +9,7 @@ from django_enum_choices.fields import EnumChoiceField
 from apps.core.managers.user import UserManager
 from apps.core.models.base import BaseModel
 from apps.core.fields.aes_text_field import AesTextField
+from apps.core.fields.aes_json_field import AesJSONField
 
 
 class User(BaseModel, AbstractBaseUser, PermissionsMixin):
@@ -27,13 +28,18 @@ class User(BaseModel, AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=100, verbose_name=_('user_name'))
     surname = models.CharField(max_length=100, verbose_name=_('user_surname'))
     email = models.CharField(max_length=255, unique=True, verbose_name=_('user_email'))
+    phone = AesTextField(null=True, verbose_name=_('user_phone'))
+
     is_active = models.BooleanField(default=False, verbose_name=_('user_is_active'))
     is_vpn = models.BooleanField(default=False, verbose_name=_('user_is_vpn'))
     is_2fa = models.BooleanField(default=False, verbose_name=_('user_is_2fa'))
     is_temporary = models.BooleanField(default=False, verbose_name=_('user_is_temporary'))
+
     source = EnumChoiceField(Source, null=False, default=Source.DB, verbose_name=_('user_source'))
-    phone = AesTextField(null=True, verbose_name=_('user_phone'))
-    additional_data = models.JSONField(null=True)
+    additional_data = AesJSONField(null=True, verbose_name=_('user_additional_data'))
+    active_to = models.DateTimeField(null=True, verbose_name=_('user_active_to'))
+
+    language = models.ForeignKey('Language', null=False, on_delete=models.CASCADE, verbose_name=_('user_language'))
 
     objects = UserManager()
 

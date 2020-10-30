@@ -7,13 +7,25 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.7"
+python-dotenv = "^0.13.0"
+porcupine-python = "^0.1.0"
+
 django = "^3.0.6"
 django-filter = "^2.2.0"
-python-dotenv = "^0.13.0"
-psycopg2-binary = "^2.8.5"
-porcupine-python = "^0.1.0"
-pycryptodome = "^3.9.8"
+django-api-forms = "^0.16.1"
 django-enum-choices = "^2.1.2"
+django-object-checker = "^0.1.0"
+django-camel-spitter = "^0.3.0"
+django-imap-backend = "^0.2.3"
+
+psycopg2-binary = "^2.8.5"
+pycryptodome = "^3.9.8"
+pyopenssl = "^19.1.0"
+pyotp = "^2.4.0"
+qrcode = "^6.1.0"
+pillow = "^7.2.0"
+
+sentry-sdk = "^0.18.0"
 
 [tool.poetry.dev-dependencies]
 mkdocs = "^1.1.2"

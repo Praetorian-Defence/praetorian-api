@@ -9,11 +9,15 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
+import datetime
 import os
+
+import sentry_sdk
+from django.utils.translation import ugettext_lazy as _
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from sentry_sdk.integrations.django import DjangoIntegration
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ENV_FILE = os.path.join(BASE_DIR, '.env')
@@ -27,9 +31,6 @@ BASE_URL = os.getenv('BASE_URL', None)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'zlrm4_x*oq8og@=9sdt-#+$!u!ixd*8wav*i-kg(&$63%n+8dd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -56,6 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'apps.api.middleware.token.TokenMiddleware',
+    'apps.api.middleware.exceptions.ExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'praetorian_api.urls'
@@ -92,8 +95,19 @@ DATABASES = {
         'NAME': os.getenv('DATABASE_NAME'),
         'USER': os.getenv('DATABASE_USER'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', None)
+    },
+    'logging': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': os.getenv('DATABASE_PORT', 5432),
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', None)
     }
 }
+
+AUTH_USER_MODEL = "core.user"
+TOKEN_EXPIRATION = datetime.timedelta(1)
 
 
 # Password validation
@@ -114,21 +128,29 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "core.user"
+AUTHENTICATION_BACKENDS = [
+    'apps.api.auth.backend.TokenBackend'
+]
 
 # Internationalization
-# https://docs.djangoproject.com/en/3.0/topics/i18n/
+# https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'sk'
+
+LANGUAGES = [
+    ('en', _('English')),
+    ('sk', _('Slovak'))
+]
 
 TIME_ZONE = 'UTC'
+
+DATETIME_INPUT_FORMATS = ('%Y-%m-%dT%H:%M:%S%z',)
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -138,7 +160,77 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+# Media
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+DATA_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 10
+
+# Sentry
+
+if os.getenv('SENTRY_DSN', False):
+    def before_send(event, hint):
+        if 'exc_info' in hint:
+            exc_type, exc_value, tb = hint['exc_info']
+            if exc_type.__name__ in ['ValidationException']:
+                return None
+        if 'extra' in event and not event['extra'].get('to_sentry', True):
+            return None
+
+        return event
+
+    sentry_sdk.init(
+        integrations=[DjangoIntegration()],
+        attach_stacktrace=True,
+        send_default_pii=True,
+        request_bodies='always',
+        before_send=before_send,
+    )
+
+# Security
 
 AES_SECRET = os.getenv('AES_SECRET')
+OTP_SECRET = os.getenv('OTP_SECRET')
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'zlrm4_x*oq8og@=9sdt-#+$!u!ixd*8wav*i-kg(&$63%n+8dd'
+
+# Authorisation
+
+OBJECT_CHECKERS_MODULE = 'apps.core.checkers'
+
+# Emails
+
+EMAIL_SENDER = 'noreply@praetorian.sk'
+EMAIL_SENDER_NAME = 'Praetorian API'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.backbone.sk')
+EMAIL_USE_TLS = True
+EMAIL_PORT = 25
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'mailtest@backbone.sk')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'backbonemailtest')
+
+# Logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'db_filter': {
+            '()': 'camel_spitter.db_filter.DBFilter',
+        },
+    },
+    'handlers': {
+        'db': {
+            'level': 'INFO',
+            'class': 'camel_spitter.db_handler.DBHandler',
+            'model': 'apps.core.models.LogEntry',
+            'filters': ['db_filter']
+        }
+    },
+    'loggers': {
+        'logger': {
+            'handlers': ['db'],
+            'level': 'INFO'
+        }
+    }
+}

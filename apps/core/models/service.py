@@ -18,6 +18,7 @@ class Service(BaseModel):
 
     class ServiceType(Enum):
         DB = 'db'
+        SSH = 'ssh'
 
     name = models.CharField(max_length=50, null=False, verbose_name=_('service_name'))
     type = EnumChoiceField(ServiceType, null=False, default=ServiceType.DB, verbose_name=_('service_type'))

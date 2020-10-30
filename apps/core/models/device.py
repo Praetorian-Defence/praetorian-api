@@ -13,5 +13,8 @@ class Device(BaseModel):
         verbose_name = _('device')
         verbose_name_plural = _('devices')
 
+    user = models.ForeignKey(
+        'User', null=False, on_delete=models.CASCADE, related_name='my_devices', verbose_name=_('device_user')
+    )
     name = models.CharField(max_length=50, null=False, verbose_name=_('device_name'))
     certificate = AesTextField(max_length=50, null=False, verbose_name=_('device_certificate'))

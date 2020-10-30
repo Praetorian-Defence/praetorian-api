@@ -1,0 +1,16 @@
+[
+  {
+    "model": "core.project",
+    "pk": "cd2e3efe-3e5d-4495-8d0e-589e2fa05f85",
+    "fields": {
+      "created_at": "2020-10-29T16:53:23.717Z",
+      "updated_at": "2020-10-29T16:53:23.717Z",
+      "deleted_at": null,
+      "name": "Test Project",
+      "is_vpn": false,
+      "remotes": [
+        "8e4b64e9-6756-4f15-bb33-80ef4bee4d20"
+      ]
+    }
+  }
+]
