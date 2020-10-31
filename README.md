@@ -22,7 +22,7 @@ and install all required dependencies.
 
 - Seed multiple fixtures to the database:
 
-> `python manage.py loaddata api_keys languages users devices services remotes projects`
+> `python manage.py loaddata api_keys languages users devices services remotes projects user_project_devices`
 
 ---
 Developed with 💙 and ☕️ by [Adam Žúrek](https://zurek11.github.io/)
