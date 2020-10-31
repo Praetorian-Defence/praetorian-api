@@ -3,6 +3,7 @@
 .deploy/
 /venv
 __pycache__
+praetorian_api.egg-info
 
 /docs/thesis/out/
 !"/docs/thesis/out/.gitkeep

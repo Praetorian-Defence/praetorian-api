@@ -18,4 +18,4 @@ class Remote(BaseModel):
     )
     name = models.CharField(max_length=50, null=False, verbose_name=_('remote_name'))
     host = AesTextField(null=False, verbose_name=_('remote_host'))
-    port = AesTextField(null=False, verbose_name=_('remote_port'))
+    port = AesTextField(null=True, verbose_name=_('remote_port'))
