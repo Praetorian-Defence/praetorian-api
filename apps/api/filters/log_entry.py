@@ -1,7 +1,7 @@
 import django_filters
 from django.db.models import Q
 
-from apps.core.models import Device
+from apps.core.models import LogEntry
 
 
 class LogEntryFilter(django_filters.FilterSet):
@@ -11,15 +11,8 @@ class LogEntryFilter(django_filters.FilterSet):
     query = django_filters.CharFilter(method='filter_query')
 
     class Meta:
-        model = Device
+        model = LogEntry
         fields = []
-
-    @property
-    def qs(self):
-        queryset = super().qs
-        user = getattr(self.request, 'user', None)
-
-        return queryset
 
     @staticmethod
     def filter_query(qs, name, value):

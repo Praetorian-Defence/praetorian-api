@@ -6,12 +6,14 @@ from porcupine.base import Serializer
 
 from apps.core.models import User
 from apps.core.serializers.language import LanguageSerializer
+from apps.core.serializers.user_project import UserProjectSerializer
 
 
 class RelatedDevice(Serializer):
     id: UUID
     name: str
     certificate: str
+    user_projects: List[UserProjectSerializer.Base] = None
 
 
 class UserSerializer:
@@ -22,6 +24,11 @@ class UserSerializer:
         surname: str
         email: str
         phone: str = None
+
+    class Temporary(Serializer):
+        id: UUID
+        username: str
+        password: str
 
     class Detail(Serializer):
         id: UUID

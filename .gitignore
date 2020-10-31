@@ -13,5 +13,3 @@ praetorian_api.egg-info
 !/media/.gitkeep
 /logs/
 !/logs/.gitkeep
-/templates/
-!/templates/.gitkeep

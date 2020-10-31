@@ -13,6 +13,7 @@ import datetime
 import os
 
 import sentry_sdk
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from dotenv import load_dotenv
 
@@ -28,6 +29,7 @@ if os.path.exists(ENV_FILE):
     load_dotenv(dotenv_path=ENV_FILE, verbose=True)
 
 BASE_URL = os.getenv('BASE_URL', None)
+ADMIN_BASE_URL = os.getenv('ADMIN_BASE_URL', None)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -106,9 +108,12 @@ DATABASES = {
     }
 }
 
+# Authentication
+
 AUTH_USER_MODEL = "core.user"
 TOKEN_EXPIRATION = datetime.timedelta(1)
-
+TEMPORARY_USER_EXPIRATION = datetime.timedelta(1)
+PASSWORD_RECOVERY_TIME = timezone.timedelta(hours=72)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -202,12 +207,8 @@ OBJECT_CHECKERS_MODULE = 'apps.core.checkers'
 
 EMAIL_SENDER = 'noreply@praetorian.sk'
 EMAIL_SENDER_NAME = 'Praetorian API'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.backbone.sk')
 EMAIL_USE_TLS = True
 EMAIL_PORT = 25
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'mailtest@backbone.sk')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'backbonemailtest')
 
 # Logging
 
