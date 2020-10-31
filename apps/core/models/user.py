@@ -1,4 +1,5 @@
 from enum import Enum
+from http import HTTPStatus
 
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
@@ -6,6 +7,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_enum_choices.fields import EnumChoiceField
 
+from apps.api.errors import ApiException
 from apps.core.managers.user import UserManager
 from apps.core.models.base import BaseModel
 from apps.core.fields.aes_text_field import AesTextField
@@ -56,3 +58,21 @@ class User(BaseModel, AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+    def assign_projects(self, request, projects_devices):
+        self.projects_devices.all().delete()
+
+        for project_devices in projects_devices:
+            project = project_devices.get('project_id')
+            devices = project_devices.get('devices')
+
+            for device in devices:
+                if device.user != self:
+                    raise ApiException(
+                        request, _('The device does not belong to specified user.'), status_code=HTTPStatus.CONFLICT
+                    )
+
+                self.projects_devices.create(
+                    project=project,
+                    device=device
+                )

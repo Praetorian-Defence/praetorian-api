@@ -1,3 +1,4 @@
+from typing import List
 from uuid import UUID
 
 from porcupine.base import Serializer
@@ -10,4 +11,4 @@ class ProjectSerializer:
         id: UUID
         name: str
         is_vpn: bool
-        remotes: RemoteSerializer.Base = None
+        remotes: List[RemoteSerializer.Base] = None

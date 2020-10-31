@@ -16,9 +16,9 @@ EMAIL_BACKEND = 'django_imap_backend.ImapBackend'
 
 EMAIL_IMAP_SECRETS = [
     {
-        'HOST': 'imap.backbone.sk',
-        'USER': 'testing@backbone.sk',
-        'PASSWORD': 'smecarovni123.',
+        'HOST': os.getenv('EMAIL_HOST', None),
+        'USER': os.getenv('EMAIL_HOST_USER', None),
+        'PASSWORD': os.getenv('EMAIL_HOST_PASSWORD', None),
         'MAILBOX': 'praetorian',
         'SSL': False
     }
