@@ -112,7 +112,7 @@ class TemporaryUserManagement(View):
             template='_emails/temporary_user_activation.html'
         ).send_email()
 
-        return HttpResponse(status=HTTPStatus.NO_CONTENT)
+        return SingleResponse(request, {'username': user.username, 'password': password}, status=HTTPStatus.CREATED)
 
 
 class UserDetail(View):
