@@ -5,9 +5,9 @@ from apps.core.models import LogEntry
 
 
 class LogEntryFilter(django_filters.FilterSet):
-    username = django_filters.CharFilter(lookup_expr='unaccent__icontains')
-    level = django_filters.CharFilter(lookup_expr='unaccent__icontains')
-    message = django_filters.CharFilter(lookup_expr='unaccent__icontains')
+    username = django_filters.CharFilter(lookup_expr='icontains')
+    level = django_filters.CharFilter(lookup_expr='icontains')
+    message = django_filters.CharFilter(lookup_expr='icontains')
     query = django_filters.CharFilter(method='filter_query')
 
     class Meta:
@@ -17,7 +17,7 @@ class LogEntryFilter(django_filters.FilterSet):
     @staticmethod
     def filter_query(qs, name, value):
         return qs.filter(
-            Q(username__unaccent__icontains=value) |
-            Q(level__unaccent__icontains=value) |
-            Q(message__unaccent__icontains=value)
+            Q(username__icontains=value) |
+            Q(level__icontains=value) |
+            Q(message__icontains=value)
         ).distinct()

@@ -205,7 +205,7 @@ if os.getenv('SENTRY_DSN', False):
 AES_SECRET = os.getenv('AES_SECRET')
 OTP_SECRET = os.getenv('OTP_SECRET')
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'zlrm4_x*oq8og@=9sdt-#+$!u!ixd*8wav*i-kg(&$63%n+8dd'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # Authorisation
 

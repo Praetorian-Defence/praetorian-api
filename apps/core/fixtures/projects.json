@@ -9,7 +9,9 @@
       "name": "Test Project",
       "is_vpn": false,
       "remotes": [
-        "9f7ae332-8e2d-41c5-b9e6-b6deef4f0ccb"
+        "9f7ae332-8e2d-41c5-b9e6-b6deef4f0ccb",
+        "f2228baf-d999-4d7a-9780-b8f2be97956f",
+        "15dbdd49-ca4b-41a4-8bd3-11a6cdb102b1"
       ]
     }
   }

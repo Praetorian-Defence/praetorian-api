@@ -5,8 +5,8 @@ from apps.core.models import Device
 
 
 class DeviceFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(lookup_expr='unaccent__icontains')
-    certificate = django_filters.CharFilter(lookup_expr='unaccent__icontains')
+    name = django_filters.CharFilter(lookup_expr='icontains')
+    certificate = django_filters.CharFilter(lookup_expr='icontains')
     query = django_filters.CharFilter(method='filter_query')
 
     class Meta:
@@ -23,6 +23,6 @@ class DeviceFilter(django_filters.FilterSet):
     @staticmethod
     def filter_query(qs, name, value):
         return qs.filter(
-            Q(name__unaccent__icontains=value) |
-            Q(certificate__unaccent__icontains=value)
+            Q(name__icontains=value) |
+            Q(certificate__icontains=value)
         ).distinct()

@@ -13,6 +13,6 @@ class Remote(BaseModel):
         verbose_name = _('remote')
         verbose_name_plural = _('remotes')
 
-    name = models.CharField(max_length=50, null=False, verbose_name=_('remote_name'))
+    name = models.CharField(max_length=100, unique=True, null=False, verbose_name=_('remote_name'))
     host = AesTextField(null=False, verbose_name=_('remote_host'))
     port = AesTextField(null=True, verbose_name=_('remote_port'))
