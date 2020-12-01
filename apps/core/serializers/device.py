@@ -11,4 +11,5 @@ class DeviceSerializer:
         id: UUID
         name: str
         certificate: str
+        ip_address: str = None
         user_projects: List[UserProjectSerializer.Base] = None

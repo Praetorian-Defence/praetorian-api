@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rolepermissions',
     'apps.core',
     'apps.api'
 ]
@@ -108,15 +109,8 @@ DATABASES = {
     }
 }
 
-# Authentication
-
-AUTH_USER_MODEL = "core.user"
-TOKEN_EXPIRATION = datetime.timedelta(1)
-TEMPORARY_USER_EXPIRATION = datetime.timedelta(1)
-PASSWORD_RECOVERY_TIME = timezone.timedelta(hours=72)
-
 # Password validation
-# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
+# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -132,6 +126,20 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+]
+
+# Authentication
+
+AUTH_USER_MODEL = "core.user"
+TOKEN_EXPIRATION = datetime.timedelta(1)
+TEMPORARY_USER_EXPIRATION = datetime.timedelta(1)
+PASSWORD_RECOVERY_TIME = timezone.timedelta(hours=72)
 
 AUTHENTICATION_BACKENDS = [
     'apps.api.auth.backend.TokenBackend'
@@ -201,6 +209,7 @@ SECRET_KEY = 'zlrm4_x*oq8og@=9sdt-#+$!u!ixd*8wav*i-kg(&$63%n+8dd'
 
 # Authorisation
 
+ROLEPERMISSIONS_MODULE = 'apps.core.roles'
 OBJECT_CHECKERS_MODULE = 'apps.core.checkers'
 
 # Emails

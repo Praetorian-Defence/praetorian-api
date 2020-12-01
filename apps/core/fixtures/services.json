@@ -1,26 +1,15 @@
 [
   {
     "model": "core.service",
-    "pk": "0ed87b3c-ed61-4d19-81af-8ed0578b50fd",
+    "pk": "9b3eada9-1369-4ece-93e5-b5ba2e783a94",
     "fields": {
-      "created_at": "2020-10-29T16:17:41.779Z",
-      "updated_at": "2020-10-29T16:17:41.779Z",
-      "deleted_at": null,
-      "name": "PostgreSql",
-      "type": "db",
-      "variables": null
-    }
-  },
-  {
-    "model": "core.service",
-    "pk": "dc03c3fe-2490-4806-94cd-43ac49228bc7",
-    "fields": {
-      "created_at": "2020-10-29T16:18:47.982Z",
-      "updated_at": "2020-10-29T16:18:47.982Z",
+      "created_at": "2020-11-25T14:18:28.764Z",
+      "updated_at": "2020-11-25T14:18:28.764Z",
       "deleted_at": null,
       "name": "SSH Server",
       "type": "ssh",
-      "variables": null
+      "variables": null,
+      "remote_id": "9f7ae332-8e2d-41c5-b9e6-b6deef4f0ccb"
     }
   }
 ]

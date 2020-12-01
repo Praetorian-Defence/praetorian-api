@@ -24,6 +24,17 @@ class UserSerializer:
         surname: str
         email: str
         phone: str = None
+        role: str
+        is_temporary: bool
+
+        @staticmethod
+        def resolve_role(user) -> str:
+            role_name = 'admin'
+
+            if not user.is_superuser:
+                role_name = user.groups.first().name
+
+            return role_name
 
     class Temporary(Serializer):
         id: UUID
@@ -37,6 +48,7 @@ class UserSerializer:
         surname: str
         email: str
         phone: str = None
+        role: str
 
         is_active: bool
         is_vpn: bool
@@ -49,3 +61,12 @@ class UserSerializer:
 
         language: LanguageSerializer.Base
         my_devices: List[RelatedDevice] = None
+
+        @staticmethod
+        def resolve_role(user) -> str:
+            role_name = 'admin'
+
+            if not user.is_superuser:
+                role_name = user.groups.first().name
+
+            return role_name

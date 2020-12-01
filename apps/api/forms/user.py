@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
 from django.forms import fields, ModelChoiceField, ModelMultipleChoiceField
 from django_api_forms import Form, AnyField, BooleanField, EnumField, FormFieldList
@@ -17,11 +18,12 @@ class UserForms:
         password = fields.CharField(required=True)
         name = fields.CharField(required=True)
         surname = fields.CharField(required=True)
-        phone = fields.CharField(required=True)
+        phone = fields.CharField(required=False)
 
         is_vpn = BooleanField(required=False)
 
         source = EnumField(enum=User.Source, required=True)
+        role = ModelChoiceField(to_field_name='name', queryset=Group.objects.all(), required=True)
         additional_data = AnyField(required=False)
 
         language_id = ModelChoiceField(queryset=Language.objects.all(), required=False)
@@ -40,11 +42,12 @@ class UserForms:
         email = fields.EmailField(required=True)
         name = fields.CharField(required=True)
         surname = fields.CharField(required=True)
-        phone = fields.CharField(required=True)
+        phone = fields.CharField(required=False)
 
         is_vpn = BooleanField(required=False)
 
         source = EnumField(enum=User.Source, required=True)
+        role = ModelChoiceField(to_field_name='name', queryset=Group.objects.all(), required=False)
         additional_data = AnyField(required=False)
         assign_projects = FormFieldList(form=AssignProjectsForm, required=False)
 

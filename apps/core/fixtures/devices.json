@@ -1,86 +1,28 @@
 [
   {
     "model": "core.device",
-    "pk": "021ef39b-7b73-4483-b229-9d1837bb859d",
+    "pk": "972af4a3-9486-4101-bb2f-01444cee1357",
     "fields": {
-      "created_at": "2020-10-29T16:13:28.884Z",
-      "updated_at": "2020-10-29T16:13:28.884Z",
+      "created_at": "2020-12-01T17:00:10.485Z",
+      "updated_at": "2020-12-01T17:00:10.485Z",
       "deleted_at": null,
-      "user": "76a3653c-2b29-4baf-9012-416ea1805971",
-      "name": "MyMobile",
-      "certificate": "bc8e9f5d-8ea3-4026-8c90-a81f5030c6a5"
+      "user": "36fbaec1-98fc-41fa-b6ac-1ea84082ff1f",
+      "name": "temporary_PQWsMyD@praetorian.sk",
+      "certificate": "af739a82-9488-4183-81b0-cb91581b6313",
+      "ip_address": "127.0.0.1"
     }
   },
   {
     "model": "core.device",
-    "pk": "2afb5654-42a1-47f3-a7d3-526b720e4fd4",
+    "pk": "f41cb44b-4096-4a94-b1ba-1bd192e52361",
     "fields": {
-      "created_at": "2020-10-29T16:14:42.221Z",
-      "updated_at": "2020-10-29T16:14:42.221Z",
+      "created_at": "2020-11-25T14:35:03.304Z",
+      "updated_at": "2020-11-25T14:35:03.304Z",
       "deleted_at": null,
-      "user": "afc4a126-903e-41db-868d-75273e1845f1",
-      "name": "Notebook",
-      "certificate": "eb9ba673-988a-4a95-8959-460d5d8f4d66"
-    }
-  },
-  {
-    "model": "core.device",
-    "pk": "8018488e-d36f-4d53-a5f3-b18a4e83ca28",
-    "fields": {
-      "created_at": "2020-10-29T16:14:59.427Z",
-      "updated_at": "2020-10-29T16:14:59.427Z",
-      "deleted_at": null,
-      "user": "afc4a126-903e-41db-868d-75273e1845f1",
+      "user": "0af3b431-eccd-41a7-9009-20b730102c95",
       "name": "PC",
-      "certificate": "2ef4d95f-266d-41f2-a07e-66f71c1931de"
-    }
-  },
-  {
-    "model": "core.device",
-    "pk": "aec24a3c-1690-4ceb-8d4a-6c383909bf5d",
-    "fields": {
-      "created_at": "2020-10-29T16:13:54.352Z",
-      "updated_at": "2020-10-29T16:13:54.352Z",
-      "deleted_at": null,
-      "user": "c705d2bf-de4f-4e33-9d54-30cf5263d298",
-      "name": "Desktop",
-      "certificate": "eda58851-e64b-46d8-8660-973d01485625"
-    }
-  },
-  {
-    "model": "core.device",
-    "pk": "b1801253-d5b9-460b-bb1d-16e01da074bb",
-    "fields": {
-      "created_at": "2020-10-29T16:14:23.240Z",
-      "updated_at": "2020-10-29T16:14:23.240Z",
-      "deleted_at": null,
-      "user": "5d834fc4-35b7-4303-917b-d9a808d69c3e",
-      "name": "Laptop",
-      "certificate": "11e18cf8-b696-493c-a269-d3a400488713"
-    }
-  },
-  {
-    "model": "core.device",
-    "pk": "cf2b65f0-0dc0-44aa-b0ae-6e4914d9e6c9",
-    "fields": {
-      "created_at": "2020-10-29T16:12:47.362Z",
-      "updated_at": "2020-10-29T16:12:47.362Z",
-      "deleted_at": null,
-      "user": "76a3653c-2b29-4baf-9012-416ea1805971",
-      "name": "MyPC",
-      "certificate": "085be112-8d4f-46c7-920c-c42ccc72d267"
-    }
-  },
-  {
-    "model": "core.device",
-    "pk": "d35775a6-cd4a-4e63-937f-dc1bd3dba14b",
-    "fields": {
-      "created_at": "2020-10-29T16:13:03.703Z",
-      "updated_at": "2020-10-29T16:13:03.703Z",
-      "deleted_at": null,
-      "user": "76a3653c-2b29-4baf-9012-416ea1805971",
-      "name": "OldPC",
-      "certificate": "5be38bb4-9bb1-4f44-bf89-9f8d5b8193b7"
+      "certificate": "2ef4d95f-266d-41f2-a07e-66f71c1931de",
+      "ip_address": "127.0.0.1"
     }
   }
 ]

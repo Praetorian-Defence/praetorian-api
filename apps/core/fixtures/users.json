@@ -1,94 +1,13 @@
 [
   {
     "model": "core.user",
-    "pk": "5d834fc4-35b7-4303-917b-d9a808d69c3e",
+    "pk": "0af3b431-eccd-41a7-9009-20b730102c95",
     "fields": {
-      "password": "pbkdf2_sha256$180000$mW2sCGeZyYjy$ZBbIr9Md03L/3x/B2kAUbrtwg4rYDporw+X9fal8p2M=",
-      "last_login": null,
-      "is_superuser": false,
-      "created_at": "2020-10-29T16:10:01.801Z",
-      "updated_at": "2020-10-29T16:10:01.801Z",
-      "deleted_at": null,
-      "username": "basic_user@praetorian.sk",
-      "name": "basic_user",
-      "surname": "basic_user",
-      "email": "basic_user@praetorian.sk",
-      "phone": "0123456789",
-      "is_active": false,
-      "is_vpn": false,
-      "is_2fa": false,
-      "is_temporary": false,
-      "source": "db",
-      "additional_data": "{}",
-      "active_to": null,
-      "language": "ee3f8e7a-c9d8-4d96-8dd0-816775b25b7d",
-      "groups": [],
-      "user_permissions": []
-    }
-  },
-  {
-    "model": "core.user",
-    "pk": "76a3653c-2b29-4baf-9012-416ea1805971",
-    "fields": {
-      "password": "pbkdf2_sha256$180000$fwqaf1B9JV2B$a4fyY3YgxHFO68sY/axABquHVfMaPThnQWe4/GJwUs0=",
-      "last_login": null,
-      "is_superuser": false,
-      "created_at": "2020-10-29T16:10:17.421Z",
-      "updated_at": "2020-10-29T16:10:17.422Z",
-      "deleted_at": null,
-      "username": "vpn_user@praetorian.sk",
-      "name": "vpn_user",
-      "surname": "vpn_user",
-      "email": "vpn_user@praetorian.sk",
-      "phone": "0123456789",
-      "is_active": false,
-      "is_vpn": true,
-      "is_2fa": false,
-      "is_temporary": false,
-      "source": "db",
-      "additional_data": "{}",
-      "active_to": null,
-      "language": "ee3f8e7a-c9d8-4d96-8dd0-816775b25b7d",
-      "groups": [],
-      "user_permissions": []
-    }
-  },
-  {
-    "model": "core.user",
-    "pk": "afc4a126-903e-41db-868d-75273e1845f1",
-    "fields": {
-      "password": "pbkdf2_sha256$180000$YRyt7rKsSflB$sg/F/Wd1CL+gimk22HsQz7scQg47JRTwfolKP/NoXSE=",
-      "last_login": null,
-      "is_superuser": false,
-      "created_at": "2020-10-29T16:08:57.044Z",
-      "updated_at": "2020-10-29T16:09:14.623Z",
-      "deleted_at": null,
-      "username": "2fa_user@praetorian.sk",
-      "name": "2fa_user",
-      "surname": "2fa_user",
-      "email": "2fa_user@praetorian.sk",
-      "phone": "0123456789",
-      "is_active": false,
-      "is_vpn": false,
-      "is_2fa": true,
-      "is_temporary": false,
-      "source": "db",
-      "additional_data": "{'otp_secret': 'TVFUFP72LI5PXWNU'}",
-      "active_to": null,
-      "language": "ee3f8e7a-c9d8-4d96-8dd0-816775b25b7d",
-      "groups": [],
-      "user_permissions": []
-    }
-  },
-  {
-    "model": "core.user",
-    "pk": "c705d2bf-de4f-4e33-9d54-30cf5263d298",
-    "fields": {
-      "password": "pbkdf2_sha256$180000$h7Qn1rjO0tbg$kRJL3r7apIdihI3OuYjGIbNuArVS0zVX8eVyFituXJ4=",
-      "last_login": "2020-10-29T16:10:17.067Z",
+      "password": "argon2$argon2i$v=19$m=512,t=2,p=2$QTFkMUJCMndlV3BT$vnpbvZKFmqCm9qN1ckJzRA",
+      "last_login": "2020-12-01T17:00:06.977Z",
       "is_superuser": true,
-      "created_at": "2020-10-13T09:03:22.191Z",
-      "updated_at": "2020-10-29T16:10:17.076Z",
+      "created_at": "2020-11-25T14:17:16.525Z",
+      "updated_at": "2020-12-01T17:00:06.985Z",
       "deleted_at": null,
       "username": "admin@praetorian.sk",
       "name": "admin",
@@ -105,6 +24,38 @@
       "language": "ee3f8e7a-c9d8-4d96-8dd0-816775b25b7d",
       "groups": [],
       "user_permissions": []
+    }
+  },
+  {
+    "model": "core.user",
+    "pk": "36fbaec1-98fc-41fa-b6ac-1ea84082ff1f",
+    "fields": {
+      "password": "argon2$argon2i$v=19$m=512,t=2,p=2$RGZXcEtKbks3WENT$7mIYnO7uYtlQQ78pAZK8lw",
+      "last_login": null,
+      "is_superuser": false,
+      "created_at": "2020-12-01T17:00:07.030Z",
+      "updated_at": "2020-12-01T17:00:10.435Z",
+      "deleted_at": null,
+      "username": "PQWsMyD@praetorian.sk",
+      "name": "temp_user",
+      "surname": "temp_user",
+      "email": "PQWsMyD@praetorian.sk",
+      "phone": null,
+      "is_active": true,
+      "is_vpn": false,
+      "is_2fa": false,
+      "is_temporary": true,
+      "source": "db",
+      "additional_data": null,
+      "active_to": "2025-12-02T17:00:07.020Z",
+      "language": "ee3f8e7a-c9d8-4d96-8dd0-816775b25b7d",
+      "groups": [
+        1
+      ],
+      "user_permissions": [
+        17,
+        18
+      ]
     }
   }
 ]

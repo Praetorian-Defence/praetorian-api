@@ -17,9 +17,17 @@ class Service(BaseModel):
         verbose_name_plural = _('services')
 
     class ServiceType(Enum):
-        DB = 'db'
+        POSTGRESQL = 'postgresql'
+        MYSQL = 'mysql'
+        MARIADB = 'mariadb'
+        LDAP = 'ldap'
+        REDIS = 'redis'
         SSH = 'ssh'
+        ENV = 'env'
 
-    name = models.CharField(max_length=50, null=False, verbose_name=_('service_name'))
-    type = EnumChoiceField(ServiceType, null=False, default=ServiceType.DB, verbose_name=_('service_type'))
+    name = models.CharField(max_length=100, null=False, verbose_name=_('service_name'))
+    type = EnumChoiceField(ServiceType, null=False, default=ServiceType.SSH, verbose_name=_('service_type'))
     variables = AesJSONField(null=True, verbose_name=_('service_variables'))
+    remote = models.ForeignKey(
+        'Remote', null=False, on_delete=models.CASCADE, related_name='services', verbose_name=_('service_remotes')
+    )

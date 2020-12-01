@@ -6,6 +6,7 @@ from apps.core.models import ApiKey
 
 class ApiKeyForms:
     class Basic(Form):
+        name = fields.CharField(max_length=100, required=True)
         platform = EnumField(enum=ApiKey.DevicePlatformEnum, required=True)
         key = fields.CharField(max_length=100, required=True)
         secret = fields.CharField(max_length=100, required=True)

@@ -1,6 +1,4 @@
 import base64
-import random
-import string
 from datetime import datetime
 
 from io import BytesIO
@@ -10,24 +8,24 @@ import pyotp
 import qrcode
 import six
 from django.conf import settings
-from django.contrib.auth.decorators import permission_required
 from django.db import transaction
 from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.crypto import salted_hmac
 from django.utils.decorators import method_decorator
-from django.utils.formats import date_format
 from django.utils.http import int_to_base36
 from django.views import View
 from django.utils.translation import gettext_lazy as _
+from rolepermissions.roles import assign_role, clear_roles
 
 from apps.api.filters.user import UserFilter
 from apps.api.auth.decorators import token_required
 from apps.api.errors import ValidationException, ApiException
 from apps.api.forms.password import PasswordActivateForm
 from apps.api.forms.user import UserForms
+from apps.api.permissions import permission_required
 from apps.api.response import SingleResponse, PaginationResponse
-from apps.core.models import User, Language
+from apps.core.models import User
 from apps.core.models.password_recovery import PasswordRecovery
 from apps.core.serializers.password import PasswordRecoverySerializer
 from apps.core.serializers.user import UserSerializer
@@ -37,7 +35,7 @@ from apps.core.services.notification import NotificationService
 class UserProfile(View):
     @method_decorator(token_required)
     def get(self, request):
-        return SingleResponse(request, request.user, serializer=UserSerializer.Detail)
+        return SingleResponse(request, request.user, serializer=UserSerializer.Base)
 
 
 class UserManagement(View):
@@ -51,12 +49,15 @@ class UserManagement(View):
             raise ValidationException(request, form)
 
         password = form.cleaned_data.get('password')
+        role = form.cleaned_data.get('role')
 
         user = User()
         form.fill(user)
 
         user.set_password(password)
         user.username = user.email
+        user.is_active = True
+        assign_role(user, role.name)
         user.save()
 
         return SingleResponse(request, user, status=HTTPStatus.CREATED, serializer=UserSerializer.Base)
@@ -67,52 +68,6 @@ class UserManagement(View):
         users = UserFilter(request.GET, queryset=User.objects.all(), request=request).qs
 
         return PaginationResponse(request, users, serializer=UserSerializer.Base)
-
-
-class TemporaryUserManagement(View):
-    @staticmethod
-    def _get_random_email(length):
-        name = ''.join(random.choice(string.ascii_letters) for x in range(length))
-        return name+'@praetorian.sk'
-
-    @transaction.atomic
-    @method_decorator(token_required)
-    @method_decorator(permission_required('core.add_temporary_user'))
-    def get(self, request):
-        email = self._get_random_email(7)
-
-        user = User.objects.create(
-            username=email,
-            email=email,
-            name='temp_user',
-            surname='temp_user',
-            is_temporary=True,
-            active_to=timezone.now() + settings.TEMPORARY_USER_EXPIRATION,
-            language=Language.objects.get(code='sk')
-        )
-
-        password = User.objects.make_random_password()
-        user.set_password(password)
-        user.save()
-
-        NotificationService.create(
-            recipients=[user.email],
-            sender=f"{settings.EMAIL_SENDER_NAME} <{settings.EMAIL_SENDER}>",
-            subject=_('[Praetorian API] - Temporary user activation'),
-            content={
-                'message': _(
-                    'test'
-                ),
-                'username': user.username,
-                'password': password,
-                'email_text': _(
-                    'Your temporary user is successfully activated to {expiration}. Credentials are listed below:'
-                ).format(expiration=date_format(user.active_to, format='SHORT_DATE_FORMAT', use_l10n=True)),
-            },
-            template='_emails/temporary_user_activation.html'
-        ).send_email()
-
-        return SingleResponse(request, {'username': user.username, 'password': password}, status=HTTPStatus.CREATED)
 
 
 class UserDetail(View):
@@ -142,6 +97,7 @@ class UserDetail(View):
 
         email = form.cleaned_data.get('email')
         assign_projects = form.cleaned_data.get('assign_projects')
+        role = form.cleaned_data.get('role')
 
         if email != user.email:
             if User.objects.filter(email=email).exists():
@@ -151,6 +107,9 @@ class UserDetail(View):
         user.username = email
         if assign_projects is not None:
             user.assign_projects(request, assign_projects)
+        if role:
+            clear_roles(user)
+            assign_role(user, role.value)
         user.save()
 
         return SingleResponse(request, data=user, status=HTTPStatus.OK, serializer=UserSerializer.Base)

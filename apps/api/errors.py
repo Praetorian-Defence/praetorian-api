@@ -15,7 +15,9 @@ class ApiException(Exception):
         message: str,
         status_code: int = HTTPStatus.INTERNAL_SERVER_ERROR,
         previous: Exception = None,
-        to_sentry: bool = False
+        to_log: bool = True,
+        to_sentry: bool = False,
+        hide_body: bool = False
     ):
         super().__init__(message)
 
@@ -31,11 +33,12 @@ class ApiException(Exception):
 
                 sentry_sdk.capture_exception(self)
 
-        logging.getLogger('logger').error(self.message, extra={
-            'status_code': self._status_code,
-            'request_body': json.loads(request.body) if request.body else None,
-            'username': request.user.username
-        })
+        if to_log:
+            logging.getLogger('logger').error(self.message, extra={
+                'status_code': self._status_code,
+                'request_body': json.loads(request.body) if (hide_body and request.body) else None,
+                'username': request.user.username if request.user else 'no_user'
+            })
 
     @property
     def request(self):

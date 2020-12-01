@@ -1,12 +1,11 @@
 [
   {
     "model": "core.remote",
-    "pk": "8e4b64e9-6756-4f15-bb33-80ef4bee4d20",
+    "pk": "9f7ae332-8e2d-41c5-b9e6-b6deef4f0ccb",
     "fields": {
-      "created_at": "2020-10-29T16:39:47.320Z",
-      "updated_at": "2020-10-29T16:39:47.320Z",
+      "created_at": "2020-11-25T14:18:45.418Z",
+      "updated_at": "2020-11-25T14:18:45.419Z",
       "deleted_at": null,
-      "service": "dc03c3fe-2490-4806-94cd-43ac49228bc7",
       "name": "test ssh device",
       "host": "diplomovka.adamzurek.tech",
       "port": null

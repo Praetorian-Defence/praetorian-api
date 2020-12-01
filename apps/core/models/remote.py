@@ -13,9 +13,6 @@ class Remote(BaseModel):
         verbose_name = _('remote')
         verbose_name_plural = _('remotes')
 
-    service = models.ForeignKey(
-        'Service', null=False, on_delete=models.CASCADE, related_name='remotes', verbose_name=_('remote_services')
-    )
     name = models.CharField(max_length=50, null=False, verbose_name=_('remote_name'))
     host = AesTextField(null=False, verbose_name=_('remote_host'))
     port = AesTextField(null=True, verbose_name=_('remote_port'))

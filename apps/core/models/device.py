@@ -18,3 +18,4 @@ class Device(BaseModel):
     )
     name = models.CharField(max_length=50, null=False, verbose_name=_('device_name'))
     certificate = AesTextField(max_length=50, null=False, verbose_name=_('device_certificate'))
+    ip_address = AesTextField(max_length=50, null=True, verbose_name=_('device_ip_address'))

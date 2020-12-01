@@ -26,7 +26,7 @@ setup(
         'django-filter==2.*',
         'django-api-forms==0.16.*',
         'django-enum-choices==2.1.*',
-        'django-object-checker==0.1.*',
+        'django-object-checker==1.0.*',
         'django-camel-spitter==0.3.*',
         'django-imap-backend==0.2.*',
         'psycopg2-binary==2.8.*',

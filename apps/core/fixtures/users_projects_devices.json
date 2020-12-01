@@ -1,0 +1,26 @@
+[
+  {
+    "model": "core.userprojectdevice",
+    "pk": "84df845e-2830-4767-af2f-8704a6d472c2",
+    "fields": {
+      "created_at": "2020-11-25T15:36:00.337Z",
+      "updated_at": "2020-11-25T15:36:02.063Z",
+      "deleted_at": null,
+      "user": "0af3b431-eccd-41a7-9009-20b730102c95",
+      "project": "408c57f3-6ea4-42dc-beb3-a0051b97182f",
+      "device": "f41cb44b-4096-4a94-b1ba-1bd192e52361"
+    }
+  },
+  {
+    "model": "core.userprojectdevice",
+    "pk": "8a2c480c-123c-471a-bea0-5cf7cb729853",
+    "fields": {
+      "created_at": "2020-12-01T17:00:10.488Z",
+      "updated_at": "2020-12-01T17:00:10.488Z",
+      "deleted_at": null,
+      "user": "36fbaec1-98fc-41fa-b6ac-1ea84082ff1f",
+      "project": "408c57f3-6ea4-42dc-beb3-a0051b97182f",
+      "device": "972af4a3-9486-4101-bb2f-01444cee1357"
+    }
+  }
+]

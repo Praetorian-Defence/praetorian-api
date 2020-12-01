@@ -24,6 +24,7 @@ class ApiKey(BaseModel):
         def __str__(self):
             return _(f"api_key_{self.value}")
 
+    name = models.CharField(max_length=100, null=False, unique=True)
     platform = EnumChoiceField(DevicePlatformEnum, null=False, default=DevicePlatformEnum.WEB)
     key = models.CharField(max_length=100, null=False, unique=True)
     secret = models.CharField(max_length=100, null=False)

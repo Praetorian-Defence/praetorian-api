@@ -1,6 +1,9 @@
+from typing import List
 from uuid import UUID
 
 from porcupine.base import Serializer
+
+from apps.core.serializers.service import ServiceSerializer
 
 
 class RemoteSerializer:
@@ -9,3 +12,4 @@ class RemoteSerializer:
         name: str
         host: str
         port: str = None
+        services: List[ServiceSerializer.Base] = []

@@ -1,16 +1,17 @@
 from http import HTTPStatus
 
-from django.contrib.auth.decorators import permission_required
 from django.db import transaction
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.utils.translation import gettext_lazy as _
+from object_checker.base_object_checker import has_object_permission
 
 from apps.api.auth.decorators import token_required
 from apps.api.errors import ValidationException, ApiException
 from apps.api.filters.project import ProjectFilter
 from apps.api.forms.project import ProjectForms
+from apps.api.permissions import permission_required
 from apps.api.response import SingleResponse, PaginationResponse
 from apps.core.models import Project
 from apps.core.serializers.project import ProjectSerializer
@@ -47,12 +48,15 @@ class ProjectManagement(View):
 
 class ProjectDetail(View):
     @method_decorator(token_required)
-    @method_decorator(permission_required('core.read_project'))
+    @method_decorator(permission_required('read_project'))
     def get(self, request, project_id):
         try:
             project = Project.objects.get(pk=project_id)
         except Project.DoesNotExist:
             raise ApiException(request, _('Project does not exist.'), status_code=HTTPStatus.NOT_FOUND)
+
+        if not has_object_permission('check_project', request.user, project):
+            raise ApiException(request, _('User is unauthorized.'), status_code=HTTPStatus.FORBIDDEN)
 
         return SingleResponse(request, project, serializer=ProjectSerializer.Base)
 

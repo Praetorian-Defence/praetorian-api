@@ -2,7 +2,6 @@ import json
 import logging
 from http import HTTPStatus
 
-from django.contrib.auth.decorators import permission_required
 from django.db import transaction
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
@@ -13,6 +12,7 @@ from apps.api.auth.decorators import token_required
 from apps.api.errors import ValidationException, ApiException
 from apps.api.filters.device import DeviceFilter
 from apps.api.forms.device import DeviceForms
+from apps.api.permissions import permission_required
 from apps.api.response import SingleResponse, PaginationResponse
 from apps.core.models import Device
 from apps.core.serializers.device import DeviceSerializer

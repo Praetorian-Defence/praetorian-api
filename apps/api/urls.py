@@ -1,6 +1,6 @@
 from django.urls import path
 
-from apps.api.views import project, auth, user, remote, service, device, api_key, log_entry
+from apps.api.views import project, auth, user, remote, service, device, api_key, log_entry, temporary_user
 
 urlpatterns = [
     # Authentication
@@ -14,7 +14,8 @@ urlpatterns = [
     path('users/me/', user.UserProfile.as_view(), name='user-profile'),
     path('users/<uuid:user_id>/', user.UserDetail.as_view(), name='user-detail'),
     path('users/<uuid:user_id>/2fa/', user.User2faActivate.as_view(), name='user-2fa'),
-    path('users/temporary/', user.TemporaryUserManagement.as_view(), name='temporary-user-management'),
+
+    path('temporary_users/create/', temporary_user.create_temporary_user, name='temporary-user-create'),
 
     path('password/recovery/<str:email>/', user.PasswordRecoveryManagement.as_view(), name='password_recovery'),
     path('password/activate/', user.PasswordActivateManagement.as_view(), name='password_activate'),

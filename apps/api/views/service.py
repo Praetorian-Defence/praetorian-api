@@ -1,6 +1,5 @@
 from http import HTTPStatus
 
-from django.contrib.auth.decorators import permission_required
 from django.db import transaction
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
@@ -11,6 +10,7 @@ from apps.api.auth.decorators import token_required
 from apps.api.errors import ValidationException, ApiException
 from apps.api.filters.service import ServiceFilter
 from apps.api.forms.service import ServiceForms
+from apps.api.permissions import permission_required
 from apps.api.response import SingleResponse, PaginationResponse
 from apps.core.models import Service
 from apps.core.serializers.service import ServiceSerializer
