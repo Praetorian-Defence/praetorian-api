@@ -26,6 +26,7 @@ class UserSerializer:
         phone: str = None
         role: str
         is_temporary: bool
+        additional_data: dict = {}
 
         @staticmethod
         def resolve_role(user) -> str:
@@ -56,7 +57,7 @@ class UserSerializer:
         is_temporary: bool
 
         source: User.Source
-        additional_data: dict = None
+        additional_data: dict = {}
         active_to: datetime.datetime = None
 
         language: LanguageSerializer.Base

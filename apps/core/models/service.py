@@ -27,7 +27,7 @@ class Service(BaseModel):
 
     name = models.CharField(max_length=100, unique=True, null=False, verbose_name=_('service_name'))
     type = EnumChoiceField(ServiceType, null=False, default=ServiceType.SSH, verbose_name=_('service_type'))
-    variables = AesJSONField(null=True, verbose_name=_('service_variables'))
+    variables = AesJSONField(null=False, default='{}', verbose_name=_('service_variables'))
     remote = models.ForeignKey(
         'Remote', null=False, on_delete=models.CASCADE, related_name='services', verbose_name=_('service_remotes')
     )

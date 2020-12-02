@@ -10,4 +10,4 @@ class ServiceSerializer:
         id: UUID
         name: str
         type: Service.ServiceType
-        variables: dict = None
+        variables: dict = {}

@@ -37,12 +37,17 @@ def create_temporary_user(request):
         raise ValidationException(request, form)
 
     project = form.cleaned_data.get('project_id')
+    remote = form.cleaned_data.get('remote_id')
 
     try:
         UserProjectDevice.objects.get(user=request.user, project=project, device=device)
     except UserProjectDevice.DoesNotExist:
         raise ApiException(
             request, _('Specified project does not belong to the user.'), status_code=HTTPStatus.NOT_FOUND
+        )
+    if remote not in project.remotes.all():
+        raise ApiException(
+            request, _('Specified remote does not belong to the specified project.'), status_code=HTTPStatus.NOT_FOUND
         )
 
     email = get_random_email(7)
@@ -60,6 +65,7 @@ def create_temporary_user(request):
 
     password = User.objects.make_random_password()
     temporary_user.set_password(password)
+    temporary_user.additional_data['remote_id'] = str(remote.id)
     assign_role(temporary_user, 'temporary')
     temporary_user.save()
 

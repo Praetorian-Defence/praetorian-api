@@ -4,10 +4,10 @@
     "pk": "0af3b431-eccd-41a7-9009-20b730102c95",
     "fields": {
       "password": "argon2$argon2i$v=19$m=512,t=2,p=2$QTFkMUJCMndlV3BT$vnpbvZKFmqCm9qN1ckJzRA",
-      "last_login": "2020-12-01T17:00:06.977Z",
+      "last_login": "2020-12-02T08:40:39.560Z",
       "is_superuser": true,
       "created_at": "2020-11-25T14:17:16.525Z",
-      "updated_at": "2020-12-01T17:00:06.985Z",
+      "updated_at": "2020-12-02T08:40:39.565Z",
       "deleted_at": null,
       "username": "admin@praetorian.sk",
       "name": "admin",
@@ -19,7 +19,7 @@
       "is_2fa": false,
       "is_temporary": false,
       "source": "db",
-      "additional_data": null,
+      "additional_data": "{}",
       "active_to": null,
       "language": "ee3f8e7a-c9d8-4d96-8dd0-816775b25b7d",
       "groups": [],
@@ -31,10 +31,10 @@
     "pk": "36fbaec1-98fc-41fa-b6ac-1ea84082ff1f",
     "fields": {
       "password": "argon2$argon2i$v=19$m=512,t=2,p=2$RGZXcEtKbks3WENT$7mIYnO7uYtlQQ78pAZK8lw",
-      "last_login": null,
+      "last_login": "2020-12-02T17:33:38.844Z",
       "is_superuser": false,
       "created_at": "2020-12-01T17:00:07.030Z",
-      "updated_at": "2020-12-01T17:00:10.435Z",
+      "updated_at": "2020-12-02T17:33:38.849Z",
       "deleted_at": null,
       "username": "PQWsMyD@praetorian.sk",
       "name": "temp_user",
@@ -46,15 +46,15 @@
       "is_2fa": false,
       "is_temporary": true,
       "source": "db",
-      "additional_data": null,
+      "additional_data": "{'remote_id': '9f7ae332-8e2d-41c5-b9e6-b6deef4f0ccb'}",
       "active_to": "2025-12-02T17:00:07.020Z",
       "language": "ee3f8e7a-c9d8-4d96-8dd0-816775b25b7d",
       "groups": [
         1
       ],
       "user_permissions": [
-        17,
         18,
+        17,
         19
       ]
     }
