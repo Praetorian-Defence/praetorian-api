@@ -43,7 +43,7 @@ class RemoteManagement(View):
 
 class RemoteDetail(View):
     @method_decorator(token_required)
-    @method_decorator(permission_required('read_remote'))
+    @method_decorator(permission_required('core.read_remote'))
     def get(self, request, remote_id):
         try:
             remote = Remote.objects.get(pk=remote_id)

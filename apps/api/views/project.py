@@ -48,7 +48,7 @@ class ProjectManagement(View):
 
 class ProjectDetail(View):
     @method_decorator(token_required)
-    @method_decorator(permission_required('read_project'))
+    @method_decorator(permission_required('core.read_project'))
     def get(self, request, project_id):
         try:
             project = Project.objects.get(pk=project_id)

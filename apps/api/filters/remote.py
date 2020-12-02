@@ -5,7 +5,7 @@ from apps.core.models import Remote
 
 
 class RemoteFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(lookup_expr='icontains')
+    name = django_filters.CharFilter(lookup_expr='exact')
     project_id = django_filters.CharFilter(method='filter_project')
     query = django_filters.CharFilter(method='filter_query')
 
