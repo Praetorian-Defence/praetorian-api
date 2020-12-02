@@ -37,6 +37,18 @@ class UserProfile(View):
     def get(self, request):
         return SingleResponse(request, request.user, serializer=UserSerializer.Base)
 
+    @transaction.atomic
+    @method_decorator(token_required)
+    def delete(self, request):
+        user = request.user
+
+        if user.is_temporary:
+            user.delete()
+        else:
+            raise ApiException(request, _('Permission denied.'), status_code=HTTPStatus.FORBIDDEN)
+
+        return HttpResponse(status=HTTPStatus.NO_CONTENT)
+
 
 class UserManagement(View):
     @transaction.atomic
