@@ -11,3 +11,7 @@
 - Implemented full temporary user functionality.
 - Changed database model.
 - Added fixtures for generating test data.
+
+## 1.0.1 : 2020-12-12
+
+- 🧚‍♂️ Added final analysis section to the docs.

@@ -21,6 +21,7 @@
 \usepackage{xcolor}
 \usepackage{lipsum}
 \usepackage{lmodern}
+\usepackage{fancyvrb}
 
 % Custom commands
 \newcommand{\signaturespace}[2]{
@@ -37,6 +38,19 @@
   \end{tabular}
   \endgroup
 }
+
+\definecolor{lightgray}{gray}{0.9}
+
+\lstset{
+    showstringspaces=false,
+    basicstyle=\ttfamily,
+    keywordstyle=\color{blue},
+    commentstyle=\color[grey]{0.6},
+    stringstyle=\color[RGB]{255,150,75}
+}
+
+\newcommand{\inlinecode}[2]{\colorbox{lightgray}{\lstinline[language=#1]$#2$}}
+
 
 \renewcommand{\chaptername}{Kapitola}
 \renewcommand{\figurename}{Obr.}
