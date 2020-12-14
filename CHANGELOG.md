@@ -15,3 +15,8 @@
 ## 1.0.1 : 2020-12-12
 
 - 🧚‍♂️ Added final analysis section to the docs.
+
+## 1.0.2 : 2020-14-12
+
+- 👽 Added all multimedia references like (models, diagrams, schemas)
+- 👽 Also updated already existing references.

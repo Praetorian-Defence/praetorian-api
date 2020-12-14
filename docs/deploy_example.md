@@ -2,4 +2,4 @@
 
 > Diagram zobrazujúci komunikáciu medzi komponentami pri nasadení.
 
-![title](assets/deploy_example.png)
+![title](assets/demonstracia_riesenia.png)
