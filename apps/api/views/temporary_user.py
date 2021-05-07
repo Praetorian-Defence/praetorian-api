@@ -1,3 +1,4 @@
+import json
 import random
 import string
 import uuid
@@ -38,6 +39,7 @@ def create_temporary_user(request):
 
     project = form.cleaned_data.get('project_id')
     remote = form.cleaned_data.get('remote_id')
+    service = form.cleaned_data.get('service_id')
 
     try:
         UserProjectDevice.objects.get(user=request.user, project=project, device=device)
@@ -48,6 +50,10 @@ def create_temporary_user(request):
     if remote not in project.remotes.all():
         raise ApiException(
             request, _('Specified remote does not belong to the specified project.'), status_code=HTTPStatus.NOT_FOUND
+        )
+    if service not in remote.services.all():
+        raise ApiException(
+            request, _('Specified service does not belong to the specified remote.'), status_code=HTTPStatus.NOT_FOUND
         )
 
     email = get_random_email(7)
@@ -65,7 +71,7 @@ def create_temporary_user(request):
 
     password = User.objects.make_random_password()
     temporary_user.set_password(password)
-    temporary_user.additional_data['remote_id'] = str(remote.id)
+    temporary_user.additional_data = {'remote_id': str(remote.id), 'service_id': str(service.id)}
     assign_role(temporary_user, 'temporary')
     temporary_user.save()
 
@@ -95,6 +101,24 @@ def create_temporary_user(request):
         template='_emails/temporary_user_activation.html'
     ).send_email()
 
+    response = {
+        'username': temporary_user.username,
+        'password': password,
+        'variables': _get_all_keys(service.variables)
+    }
+
     return SingleResponse(
-        request, {'username': temporary_user.username, 'password': password}, status=HTTPStatus.CREATED
+        request, response, status=HTTPStatus.CREATED
     )
+
+
+def _get_all_keys(dictionary):
+    keys = []
+
+    for k, v in dictionary.items():
+        if isinstance(v, dict):
+            keys.append({k: _get_all_keys(v)})
+        else:
+            keys.append(k)
+
+    return keys

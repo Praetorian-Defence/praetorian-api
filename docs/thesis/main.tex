@@ -6,7 +6,7 @@
 
 % Load all necessary packages
 \include{packages}
-\addbibresource{bibliography.bib}
+\bibliography{bibliography}
 
 % Page design
 \pagestyle{fancy}
@@ -28,33 +28,32 @@
 % Thesis assignment
 \newpage
 \thispagestyle{empty}
-\includepdf[pages=1]{assets/zadanie}
+\includepdf[pages=1,scale=0.85]{assets/zadanie}
 \newpage
 \emptypage
 
-% Annotation
-\include{pages/annotation}
-
 % Declaration of honor
 \include{pages/declaration}
+
+% Annotation
+\include{pages/annotation}
 
 % Acknowledgements
 %\include{pages/acknowledgements}
 
 % Table of contents
 \renewcommand{\contentsname}{Obsah}
-\tableofcontents{}
-\emptypage
+\tableofcontents
+\pagebreak
 
 % List of figures
 \renewcommand{\listfigurename}{Zoznam obrázkov}
-\listoffigures{}
-\emptypage
+\listoffigures
+\markboth{}{}
 
 % List of tables
-\renewcommand{\listtablename}{Zoznam tabuliek}
-\listoftables{}
-\emptypage
+%\renewcommand{\listtablename}{Zoznam tabuliek}
+%\listoftables{}
 
 % List of abbreviations
 \include{pages/abbreviations}
@@ -67,21 +66,24 @@
 \begin{refsegment}
 
 \include{content/chapter1}
-
 \include{content/chapter2}
-
 \include{content/chapter3}
-
 \include{content/chapter4}
+\include{content/chapter5}
+\include{content/chapter6}
 
 % Bibliography
 \printbibliography[heading=references,segment=\therefsegment]
+\addcontentsline{toc}{chapter}{Zoznam použitej literatúry}
+
+% no page numbers for appendicies
+\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+\addtocontents{toc}{\cftpagenumbersoff{chapter}}
 
 \end{refsegment}
 
-% Appendix
-%\appendix
-%
-%\include{content/appendix1}
+\appendix
+\include{content/appendix1}
+\include{content/appendix2}
 
 \end{document}

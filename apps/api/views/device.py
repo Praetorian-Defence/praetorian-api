@@ -28,9 +28,14 @@ class DeviceManagement(View):
         if not form.is_valid():
             raise ValidationException(request, form)
 
+        user = form.cleaned_data['user']
         device = Device()
         form.fill(device)
         device.save()
+
+        if user.my_devices.exists() and user.is_active is False:
+            user.is_active = True
+            user.save()
 
         logging.getLogger('logger').info(
             _('Vytvorenie nového zariadenia s názvom {device_name}, používateľom {user_name}.'.format(

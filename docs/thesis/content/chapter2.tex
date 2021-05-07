@@ -354,7 +354,7 @@ Jedným z príkladov takéhoto spôsobu šifrovania je možnosť overenia totož
 
 AWS Secrets Manager je službou cloudovej platformy Amazon Web Services, ktorá má za úlohu bezpečné ukladanie citlivých údajov.
 Služba je reprezentovaná vo forme API rozhrania.
-Tým pádom operácie nad citlivými dátami aplikácie sú vo forme šifrovaných HTTPS požiadaviek na dané API rozhranie.
+Tým pádom sú operácie nad citlivými dátami aplikácie vo forme šifrovaných HTTPS požiadaviek na dané API rozhranie.
 Hlavnou úlohou tohto riešenia je predovšetkým zamedzenie odhalenia citlivých údajov v zdrojovom kóde, ako napríklad prístupové údaje.
 
 Dátové úložisko s citlivými údajmi prislúchajúce pod správu služby AWS Secrets Manager sa nachádza na cloudovom serveri, ktorý
@@ -371,7 +371,7 @@ Týmto spôsobom overenia je k citlivým údajom zaručený bezpečný prístup~
 
 ProxyCommand, ako aj názov napovedá, je príkazom protokolu SSH, ktorého úlohou je preposielať vstup a výstup medzi klientom
 a serverom tretej strane.
-Tento scenár je vhodný napríklad, keď sa používateľ (klient) snaží pripojiť na zabezpečený server, ktorého
+Tento scenár je vhodný v situácii, keď sa používateľ (klient) snaží pripojiť na zabezpečený server, ktorého
 prístup je podmienený bezpečnostnou bránou, alebo firewallom (tretia strana).
 Takéto riešenie môže zabezpečovať nadstavby formy autentifikácie, alebo je takýmto spôsobom možné filtrovanie vstupov od klienta.
 
@@ -382,7 +382,7 @@ ssh -o ProxyCommand="ssh -W %h:%p jumphost.firewall.example"
 secure.server.example
 \end{Verbatim}
 
-Prepínač \inlinecode{Python}{-W} vyžaduje, aby sa štandardný vstup a výstup preposielal na konkrétne zadanú adresu hostiteľa
+Prepínač \inlinecode{-W} vyžaduje, aby sa štandardný vstup a výstup preposielal na konkrétne zadanú adresu hostiteľa
 a konkrétny port cez zabezpečený kanál~\cite{SshMan}.
 
 \subsection{The Bastion}\label{subsec:the-bastion}
@@ -407,11 +407,11 @@ Napríklad vývojárovi nie je dovolené pripojiť sa na vzdialený server zaria
 
 \section{Zhodnotenie}\label{sec:zhodnotenie}
 
-Ako analýzy vyplýva, jednotlivé problémy spojené s bezpečnostnými rizikami sú v súčastnosti riešiteľné veľkým počtom
+Ako z analýzy vyplýva, jednotlivé problémy spojené s bezpečnostnými rizikami sú v súčastnosti riešiteľné výrazným počtom
 rôznych spôsobov protiopatrení.
 V súčastnosti existujú presne špecifikované postupy a normy, ktoré je dôležité dodržovať softvérovými firmami pre zlepšenie
 ich informačnej bezpečnosti.
-Otázkou ostáva, z akého dôvodu naďalej väčšina malých softvérových firiem odkladá, alebo úmyselne prehliada jednotlivé bezpečnostné hrozby.
+Otázkou ostáva, z akého dôvodu väčšina malých softvérových firiem naďalej odkladá, alebo úmyselne prehliada jednotlivé bezpečnostné hrozby.
 V prvom rade je dôležité si uvedomiť, že firmy sú schopné jednotlivé bezpečnostné opatrenia vyriešiť, no z dôvodu
 prekážok, v podobe časových a finančných prostriedkov im vo väčšine prípadov takáto možnosť riešenia nie je umožnená~\cite{CompanySecurity}.
 Príkladom môže byť nízky počet zamestnancov, ktorý sú potrebný na jednotlivých špecializovaných úlohách pridelených k projektom.

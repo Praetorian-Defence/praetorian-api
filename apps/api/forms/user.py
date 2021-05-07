@@ -13,7 +13,7 @@ class AssignProjectsForm(Form):
 
 
 class UserForms:
-    class Basic(Form):
+    class Create(Form):
         email = fields.EmailField(required=True)
         password = fields.CharField(required=True)
         name = fields.CharField(required=True)
@@ -22,7 +22,7 @@ class UserForms:
 
         is_vpn = BooleanField(required=False)
 
-        source = EnumField(enum=User.Source, required=True)
+        source = EnumField(enum=User.Source, required=False)
         role = ModelChoiceField(to_field_name='name', queryset=Group.objects.all(), required=True)
         additional_data = AnyField(required=False)
 
@@ -46,7 +46,7 @@ class UserForms:
 
         is_vpn = BooleanField(required=False)
 
-        source = EnumField(enum=User.Source, required=True)
+        source = EnumField(enum=User.Source, required=False)
         role = ModelChoiceField(to_field_name='name', queryset=Group.objects.all(), required=False)
         additional_data = AnyField(required=False)
         assign_projects = FormFieldList(form=AssignProjectsForm, required=False)

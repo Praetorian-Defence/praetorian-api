@@ -20,3 +20,10 @@
 
 - 👽 Added all multimedia references like (models, diagrams, schemas)
 - 👽 Also updated already existing references.
+
+## 1.1.0 : 2021-07-05
+
+- 🌞 Changed DB structure.
+- 🌞 Implemented device checking middleware.
+- 🌞 Added new roles.
+- 🌞 Minor REST changes.

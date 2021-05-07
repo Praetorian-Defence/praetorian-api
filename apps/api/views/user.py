@@ -55,7 +55,7 @@ class UserManagement(View):
     @method_decorator(token_required)
     @method_decorator(permission_required('core.add_user'))
     def post(self, request):
-        form = UserForms.Basic.create_from_request(request)
+        form = UserForms.Create.create_from_request(request)
 
         if not form.is_valid():
             raise ValidationException(request, form)
@@ -68,8 +68,8 @@ class UserManagement(View):
 
         user.set_password(password)
         user.username = user.email
-        user.is_active = True
         assign_role(user, role.name)
+        user.is_active = False
         user.save()
 
         return SingleResponse(request, user, status=HTTPStatus.CREATED, serializer=UserSerializer.Base)
@@ -142,7 +142,6 @@ class UserDetail(View):
 
 class User2faActivate(View):
     @method_decorator(token_required)
-    @method_decorator(permission_required('core.add_user'))
     def get(self, request, user_id):
         try:
             user = User.objects.get(pk=user_id)

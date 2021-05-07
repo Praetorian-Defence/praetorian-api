@@ -24,6 +24,8 @@ class TokenBackend(ModelBackend):
 
     def authenticate(self, request, **kwargs) -> Union[User, None]:
         if kwargs.get('token'):
-            return self._by_token(kwargs.get('token'))
+            user = self._by_token(kwargs.get('token'))
         else:
-            return super().authenticate(request, **kwargs)
+            user = super().authenticate(request, **kwargs)
+
+        return user

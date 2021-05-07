@@ -5,6 +5,9 @@
 __pycache__
 praetorian_api.egg-info
 
+
+/apps/core/fixtures/
+
 /docs/thesis/out/
 !"/docs/thesis/out/.gitkeep
 /static/

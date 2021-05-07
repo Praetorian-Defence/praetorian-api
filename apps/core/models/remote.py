@@ -15,4 +15,7 @@ class Remote(BaseModel):
 
     name = models.CharField(max_length=100, unique=True, null=False, verbose_name=_('remote_name'))
     host = AesTextField(null=False, verbose_name=_('remote_host'))
-    port = AesTextField(null=True, verbose_name=_('remote_port'))
+    port = AesTextField(null=False, verbose_name=_('remote_port'))
+    user = AesTextField(null=False, verbose_name=_('remote_user'))
+    password = AesTextField(null=False, verbose_name=_('remote_password'))
+    services = models.ManyToManyField('Service', related_name='remotes', verbose_name=_('remote_services'))

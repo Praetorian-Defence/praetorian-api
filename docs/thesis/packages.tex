@@ -22,6 +22,10 @@
 \usepackage{lipsum}
 \usepackage{lmodern}
 \usepackage{fancyvrb}
+\usepackage{tocloft}
+
+% Remove unnecessary gap between paragraph if large figure is inserted after them
+\raggedbottom
 
 % Custom commands
 \newcommand{\signaturespace}[2]{
@@ -39,22 +43,51 @@
   \endgroup
 }
 
-\definecolor{lightgray}{gray}{0.9}
-
-\lstset{
-    showstringspaces=false,
-    basicstyle=\ttfamily,
-    keywordstyle=\color{blue},
-    commentstyle=\color[grey]{0.6},
-    stringstyle=\color[RGB]{255,150,75}
-}
-
-\newcommand{\inlinecode}[2]{\colorbox{lightgray}{\lstinline[language=#1]$#2$}}
-
-
-\renewcommand{\chaptername}{Kapitola}
-\renewcommand{\figurename}{Obr.}
-\newcommand{\emptypage}{\newpage
+\newcommand{\emptypage}{
+\newpage
 \thispagestyle{empty}
 \mbox{}
-\newpage}
+\newpage
+}
+
+\renewcommand\appendixname{Príloha}
+\renewcommand\chaptername{Kapitola}
+\renewcommand{\figurename}{Obr.}
+
+\definecolor{lightgray}{gray}{0.9}
+
+\newcommand{\inlinecode}[1]{{\textbf{\colorbox{lightgray}{\textcolor{darkgray}{\footnotesize #1}}}}}
+
+\colorlet{punct}{red!60!black}
+\definecolor{background}{HTML}{EEEEEE}
+\definecolor{delim}{RGB}{20,105,176}
+\colorlet{numb}{magenta!60!black}
+
+\lstdefinelanguage{json}{
+    basicstyle=\normalfont\ttfamily,
+    numbers=left,
+    numberstyle=\scriptsize,
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=lines,
+    backgroundcolor=\color{background},
+    literate=
+     *{0}{{{\color{numb}0}}}{1}
+      {1}{{{\color{numb}1}}}{1}
+      {2}{{{\color{numb}2}}}{1}
+      {3}{{{\color{numb}3}}}{1}
+      {4}{{{\color{numb}4}}}{1}
+      {5}{{{\color{numb}5}}}{1}
+      {6}{{{\color{numb}6}}}{1}
+      {7}{{{\color{numb}7}}}{1}
+      {8}{{{\color{numb}8}}}{1}
+      {9}{{{\color{numb}9}}}{1}
+      {:}{{{\color{punct}{:}}}}{1}
+      {,}{{{\color{punct}{,}}}}{1}
+      {\{}{{{\color{delim}{\{}}}}{1}
+      {\}}{{{\color{delim}{\}}}}}{1}
+      {[}{{{\color{delim}{[}}}}{1}
+      {]}{{{\color{delim}{]}}}}{1},
+}

@@ -61,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'apps.api.middleware.token.TokenMiddleware',
+    'apps.api.middleware.device.DeviceMiddleware',
     'apps.api.middleware.exceptions.ExceptionMiddleware',
 ]
 
@@ -142,7 +143,7 @@ TEMPORARY_USER_EXPIRATION = datetime.timedelta(1)
 PASSWORD_RECOVERY_TIME = timezone.timedelta(hours=72)
 
 AUTHENTICATION_BACKENDS = [
-    'apps.api.auth.backend.TokenBackend'
+    'apps.api.auth.backend.TokenBackend',
 ]
 
 # Internationalization

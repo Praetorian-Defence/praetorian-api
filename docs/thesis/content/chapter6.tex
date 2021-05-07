@@ -1,0 +1,35 @@
+\chapter{Zhodnotenie}\label{ch:zhodnotenie}
+
+Prvotnou myšlienkou nášho riešenia bola predovšetkým schopnosť ukladať citlivé firemné údaje na centralizované dátové úložisko
+s cieľom využitia potenciálu na automatizovanie procesov, ktoré sú voči zneužitiu z pohľadu informačnej bezpečnosti
+najcitlivejšie.
+Prístup k citlivým údajom podlieha určitým oprávneniam, ktoré je možné nakonfigurovať pre každú z firiem rozdielne, aby
+odzrkadľovali vnútro-firemnú štruktúru.
+Z dôvodu vyžadovania takejto formy prístupu u všetkých typoch firemných procesov, sme sa rozhodli využiť danú myšlienku
+centralizovaného úložiska rozšírením vo forme nadstavby api rozhrania, cez ktoré bude umožnená bezpečná komunikácia s centralizovaným
+úložiskom.
+Týmto riešením je umožnené konfigurovať nielen vnútro-firemnú štruktúru, no taktiež manažovanie citlivých údajov a ich monitorovanie.
+Keďže výsledné webové api rozhranie reprezentovalo samostatný modul, bolo možné vytvoriť ďalšie moduly s rôznymi funkcionalitami,
+ako napríklad zabezpečenie prístupu na vzdialené zariadenia.
+Takýto modul vie s webovým api rozhraním komunikovať a poskytuje ďalšie možné formy nadstavby, ako napríklad poskytnutie
+komunikácie s vzdialenými zariadeniami.
+
+Jedným z problémov, ktorý sa počas implementácie ssh proxy servera vyskytol, nastával pri odchytávaní príkazov v interaktívnom
+móde pripojenia vzhľadom na whitelist, alebo blacklist proces filtrovania.
+Jadro problému spočívalo v spôsobe implementácie, ktorá fungovala iba spôsobom presmerovania vstupov a výstupov komunikujúcich
+uzlov.
+Tým pádom boli z klienta na vzdialené zariadenie preposielané všetky znaky bez možnosti buffrovania vstupu, následného
+rozoznania jednotlivých príkazov a následnej kontroly pred ich odoslaním na vzdialené zariadenie.
+Druhý problém spočíval v kvantitatívnom vyhodnotení nášho riešenia.
+Hlavnými kritériami systému je bezpečnosť, modularita, udržiavateľnosť a rozšíriteľnosť s cieľom jeho použitia softvérovou
+firmou v praxi.
+
+Existuje vysoký počet možností, ktorými je dané riešenie možné zlepšovať.
+Hlavnou prioritou pri práci v ďalšej fáze projektu bude vyriešenie filtrovania v interaktívnom prostredí ssh, kde jednou
+z možných riešení je rozdelenie daného prostredia na dva ďalšie typy, pričom prvý by bol promiskuitný, ktorého úlohou
+by bol neobmedzený prístup bez kontroly vstupov.
+Druhý by vstup ukladal do vyrovnávacej pamäte dovtedy, dokiaľ nebude poslaný znak nového riadku, alebo dokiaľ neuplynie
+časový interval.
+Následne by bol pred odoslaním daný vstup skontrolovaný a napokon poslaný na koncové zariadenie.
+Ďalšími možnosťami zlepšenia by bolo systémové zaznamenávanie udalostí na ssh proxy serveri do syslogu, alebo dané riešenie
+kvantitatívne a kvalitatívne ohodnotiť podľa penetračných testov, alebo softvérových metrík.

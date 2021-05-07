@@ -1,8 +1,65 @@
 \chapter{Implementácia}\label{ch:implementácia}
 
-\section{Vylepšený entitno-relačný diagram}\label{sec:eer-diagram}
+\section{Webové API}\label{sec:webove-api}
+
+Prvou implementovanou časťou systému, bolo webové api rozhranie, ktoré je naprogramované v programovacom jazyku \inlinecode{Python 3.7}
+s webovým frameworkom \inlinecode{Django 3.1.4}.
+
+Autentifikácia je postavená na princípe webového tokenu, ktorý je používateľovi po prihlásení následne priradený po určitú dobu.
+Validácia jednotlivých požiadaviek na api je overovaná pomocou podpisu, ktorý je vygenerovaný z troch častí: api kľúč, diel
+požiadavky a tajomstvo.
+Podpis v hlavičke požiadavky sa musí rovnať vygenerovanému podpisu na strane servera, inak je požiadavka od klienta neplatná.
+Rozširujúcou možnosťou autentifikácie je povolenie dvojfaktorového overenia pomocou knižnice \inlinecode{pyotp}, ktorá obsahuje
+nástroje na komunikáciu s google api pre vytvorenie unikátneho účtu a následnú validáciu vygenerovaných jednorázových hesiel
+(One Time Passwords - OTP).
+Po aktivácii účtu sa vygeneruje tajomstvo, ktoré slúži pre aktiváciu účtu na google api.
+Naše webové api rozhranie po aktivácii toto tajomstvo pošle ako qr kód vo forme emailu prislúchajúcemu používateľovi, ktorý si
+qr kód naskenuje napríklad v aplikácii „Authenticator“.
+Tým sa mu aktivuje účet, cez ktorý vie generovať spomínané OTP, ktorými je možné sa autentifikovať v našom webovom api.
+
+Autorizácia používateľov je kontrolovaná kombináciou nami rozšírenej knižnice \inlinecode{django-role-permissions}, knižnice
+\inlinecode{django-filter} a vlastnej implementácii knižnice\newline\inlinecode{django-object-checker}.
+Prvé rozšírenie zabezpečuje manažment skupín, oprávnení a kontrolu používateľov na základe ich role, alebo konkrétneho povolenia.
+Druhý nástroj, ako aj názov napovedá, predovšetkým slúži na filtrovanie odpovedí pre požiadavky od klienta.
+Pri tomto procese je možné na úrovni filtrovania kontrolovať reštrikciu odosielaných správ, podľa dostupných oprávnení používateľa.
+Posledným rozšírením je nami naimplementovaná knižnica umožňujúca formu abstrakcie, pri kontrole prístupu k jednotlivým objektom.
+Týmto spôsobom je rozšírený štandardný autorizačný prístup za pomoci rolí (RBAC) o funkcionalitu kontroly oprávnení používateľov k
+danému objektu na základe jeho atribútov (ABAC).
+
+Čo sa týka návrhu a implementácie dátového úložiska, relačná databáza, ktorá uchováva všetky potrebné informácie o systéme
+je typu \inlinecode{PostgreSQL 12} a všetky operácie sú implementované pomocou vstavaného objektovo-relačného
+mapovania (Object–Relational Mapping - ORM) v spomínanom frameworku Django.
+Nasledujúci rozšírený entitno-relačný (extended entity relationship - EER) diagram~\ref{fig:obr_13}~znázorňuje
+vzťahy a atribúty nami nakonfigurovanej databázy.
 
 \begin{figure}[H]
 \begin{center}\includegraphics[width=\textwidth,height=15cm,keepaspectratio=true]{assets/eer_diagram.png}\end{center}
-\caption[Vylepšený entitno-relačný diagram]{Vylepšený entitno-relačný diagram}\label{fig:obr_13}
+\caption[Rozšírený entitno-relačný diagram]{Rozšírený entitno-relačný diagram}\label{fig:obr_13}
 \end{figure}
+
+Z databázovej schémy je možné vidieť formu uchovávania záznamov v tabuľke \inlinecode{log\_entries}, ktorá slúži na bezpečné
+zaznamenávanie všetkých udalostí na strane danej webovej aplikácie.
+Do tabuľky sa taktiež zaznamenávajú telá požiadaviek, ktoré používateľ v určitom čase vykonal, pričom požiadavky uchovávajúce
+citlivé údaje, ako napríklad prihlasovacie údaje používateľa sa z pravidla neukladajú.
+Na audtitovanie záznamov do databázy je použitá nami naimplementovaná knižnica \inlinecode{django-camel-spitter}, ktorá rozširuje
+vstavaný logovací systém \inlinecode{python.logging}.
+
+Ďalším monitorovacím rozšírením je komunikácia na službu Sentry, ktorá slúži na prehľadné zobrazovanie a sledovanie chýb v
+systéme, čím pomáha pri reportovaní chýb a opravách systému.
+
+Kryptografia zahŕňajúca, šifrovanie údajov v databáze, ukladanie hesiel a vytváranie certifikátov je obsiahnutá v knižniciach
+\inlinecode{pycryptodome}, \inlinecode{pyopenssl} a \inlinecode{argon}.
+
+\section{SSH Poxy server}\label{sec:ssh-proxy-server}
+
+Druhou časťou systému je samotný proxy server, ktorý je primárne postavený na knižnici \inlinecode{paramiko}.
+Táto knižnica pokrýva celú implementáciu protokolu ssh verzie 2, pričom poskytuje funkcie klienta aj servera.
+Proxy server musí zabezpečovať rolu ssh servera počas komunikácie s klientom a rolu klienta pri komunikácii so vzdialeným
+zariadením.
+Pre rozhranie servera paramiko disponuje triedou \inlinecode{ServerInterface}, ktorá je veľmi jednoducho konfigurovateľná
+a rozšíriteľná.
+Na druhej strane pre vytvorenie a správu spojenia cez ssh klienta je možné použiť triedu \inlinecode{SSHClient}.
+
+Komunikáciu medzi našou webovou aplikáciou a daným proxy serverom zabezpečuje knižnica \inlinecode{praetorian-api-client},
+ktorá je nami navrhnutá a implementovaná pre modulárnejšiu a jednoduchšiu správu posielaných správ.
+Taktiež je týmto spôsobom umožnené všetku logiku autentifikácie a autorizácie zachovať na strane webovej aplikácie.

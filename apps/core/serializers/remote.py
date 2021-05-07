@@ -11,5 +11,7 @@ class RemoteSerializer:
         id: UUID
         name: str
         host: str
-        port: str = None
+        port: str
+        user: str
+        password: str
         services: List[ServiceSerializer.Base] = []
