@@ -7,12 +7,16 @@ praetorian_api.egg-info
 
 
 /apps/core/fixtures/
+!"/apps/core/fixtures/.gitkeep
 
 /docs/thesis/out/
 !"/docs/thesis/out/.gitkeep
+
 /static/
 !/static/.gitkeep
+
 /media/
 !/media/.gitkeep
+
 /logs/
 !/logs/.gitkeep

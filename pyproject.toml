@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "praetorian_api"
-version = "1.1.0"
+version = "1.1.1"
 description = "Centralized management and distribution of sensitive access data"
 authors = ["Adam Žúrek <adamzurek14@gmail.com>"]
 license = "MIT"

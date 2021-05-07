@@ -21,10 +21,10 @@ setup(
     ],
     install_requires=[
         'python-dotenv==0.13.*',
-        'porcupine-python==0.1.*',
-        'django==3.0.*',
+        'porcupine-python==0.4.*',
+        'django==3.2.*',
         'django-filter==2.*',
-        'django-api-forms==0.16.*',
+        'django-api-forms==0.18.*',
         'django-enum-choices==2.1.*',
         'django-object-checker==1.0.*',
         'django-camel-spitter==0.3.*',
@@ -34,7 +34,7 @@ setup(
         'pyopenssl==19.1.*',
         'pyotp==2.4.*',
         'qrcode==6.1.*',
-        'pillow==7.2.*',
+        'Pillow>=8.1.2',
         'sentry-sdk==0.18.*'
     ],
     url='https://github.com/Praetorian-Defence/praetorian-api',

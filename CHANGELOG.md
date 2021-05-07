@@ -27,3 +27,7 @@
 - 🌞 Implemented device checking middleware.
 - 🌞 Added new roles.
 - 🌞 Minor REST changes.
+
+## 1.1.1 : 2021-07-05
+
+- 🌸 Changed installation requires dependencies versions in the setup.py.
