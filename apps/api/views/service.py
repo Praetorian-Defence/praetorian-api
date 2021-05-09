@@ -26,6 +26,15 @@ class ServiceManagement(View):
         if not form.is_valid():
             raise ValidationException(request, form)
 
+        if form.cleaned_data['remote_id'].services.filter(name=form.cleaned_data['name']).exists():
+            raise ApiException(
+                request=request,
+                message=_('Assigned remote already has service with name: "{service_name}"').format(
+                    service_name=form.cleaned_data['name']
+                ),
+                status_code=HTTPStatus.CONFLICT
+            )
+
         service = Service()
         form.fill(service)
         service.save()
@@ -64,6 +73,16 @@ class ServiceDetail(View):
 
         if not form.is_valid():
             raise ValidationException(request, form)
+
+        if service.name != form.cleaned_data['name']:
+            if form.cleaned_data['remote_id'].services.filter(name=form.cleaned_data['name']).exists():
+                raise ApiException(
+                    request=request,
+                    message=_('Assigned remote already has service with name: "{service_name}"').format(
+                        service_name=form.cleaned_data['name']
+                    ),
+                    status_code=HTTPStatus.CONFLICT
+                )
 
         form.fill(service)
         service.save()

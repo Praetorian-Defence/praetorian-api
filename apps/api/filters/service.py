@@ -9,12 +9,16 @@ from apps.core.models import Service
 class ServiceFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(lookup_expr='exact')
     type = EnumChoiceFilter(Service.ServiceType)
-    remote_id = django_filters.CharFilter(lookup_expr='exact')
+    remote_id = django_filters.CharFilter(method='filter_remote')
     query = django_filters.CharFilter(method='filter_query')
 
     class Meta:
         model = Service
         fields = []
+
+    @staticmethod
+    def filter_remote(qs, name, value):
+        return qs.filter(remote__id=value)
 
     @staticmethod
     def filter_query(qs, name, value):

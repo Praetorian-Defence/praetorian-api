@@ -8,4 +8,3 @@ class TemporaryUserForms:
     class Create(Form):
         project_id = ModelChoiceField(queryset=Project.objects.all(), required=True)
         remote_id = ModelChoiceField(queryset=Remote.objects.all(), required=True)
-        service_id = ModelChoiceField(queryset=Service.objects.all(), required=True)

@@ -42,7 +42,7 @@ class SignatureMiddleware(object):
         request.api_key = api_key_model
 
         # Do not check signature for GitLab API keys
-        if api_key_model.platform == ApiKey.DevicePlatformEnum.GILTAB:
+        if api_key_model.platform == ApiKey.ApiKeyType.GIT:
             return None
 
         message = f"{request.body.decode('utf-8')}:{request.path}"
@@ -53,7 +53,7 @@ class SignatureMiddleware(object):
         ).hexdigest()
 
         # Do not check signature for DEBUG API keys in DEBUG environment
-        if api_key_model.platform == ApiKey.DevicePlatformEnum.DEBUG and settings.DEBUG:
+        if api_key_model.platform == ApiKey.ApiKeyType.DEBUG and settings.DEBUG:
             return None
 
         if signature != signature_check:

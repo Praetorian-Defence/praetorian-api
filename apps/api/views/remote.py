@@ -27,8 +27,18 @@ class RemoteManagement(View):
         if not form.is_valid():
             raise ValidationException(request, form)
 
+        if form.cleaned_data['project_id'].remotes.filter(name=form.cleaned_data['name']).exists():
+            raise ApiException(
+                request=request,
+                message=_('Assigned project already has remote with name: "{remote_name}"').format(
+                    remote_name=form.cleaned_data['name']
+                ),
+                status_code=HTTPStatus.CONFLICT
+            )
+
         remote = Remote()
         form.fill(remote)
+        remote.variables = {}
         remote.save()
 
         return SingleResponse(request, remote, status=HTTPStatus.CREATED, serializer=RemoteSerializer.Base)
@@ -69,6 +79,16 @@ class RemoteDetail(View):
         if not form.is_valid():
             raise ValidationException(request, form)
 
+        if remote.name != form.cleaned_data['name']:
+            if form.cleaned_data['project_id'].remotes.filter(name=form.cleaned_data['name']).exists():
+                raise ApiException(
+                    request=request,
+                    message=_('Assigned project already has remote with name: "{remote_name}"').format(
+                        remote_name=form.cleaned_data['name']
+                    ),
+                    status_code=HTTPStatus.CONFLICT
+                )
+
         form.fill(remote)
         remote.save()
 
@@ -83,6 +103,7 @@ class RemoteDetail(View):
         except Remote.DoesNotExist:
             raise ApiException(request, _('Remote does not exist.'), status_code=HTTPStatus.NOT_FOUND)
 
+        remote.services.all().delete()
         remote.delete()
 
         return HttpResponse(status=HTTPStatus.NO_CONTENT)

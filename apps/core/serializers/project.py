@@ -11,4 +11,9 @@ class ProjectSerializer:
         id: UUID
         name: str
         is_vpn: bool
+
+    class Detail(Serializer):
+        id: UUID
+        name: str
+        is_vpn: bool
         remotes: List[RemoteSerializer.Base] = None

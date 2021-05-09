@@ -20,6 +20,7 @@ class UserForms:
         surname = fields.CharField(required=True)
         phone = fields.CharField(required=False)
 
+        is_active = BooleanField(required=False)
         is_vpn = BooleanField(required=False)
 
         source = EnumField(enum=User.Source, required=False)
@@ -45,6 +46,7 @@ class UserForms:
         phone = fields.CharField(required=False)
 
         is_vpn = BooleanField(required=False)
+        is_active = BooleanField(required=False)
 
         source = EnumField(enum=User.Source, required=False)
         role = ModelChoiceField(to_field_name='name', queryset=Group.objects.all(), required=False)

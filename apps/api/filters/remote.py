@@ -21,4 +21,4 @@ class RemoteFilter(django_filters.FilterSet):
 
     @staticmethod
     def filter_project(qs, name, value):
-        return qs.filter(projects=value)
+        return qs.filter(project__id=value)

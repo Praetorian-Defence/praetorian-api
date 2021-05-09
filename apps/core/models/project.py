@@ -12,6 +12,5 @@ class Project(BaseModel):
         verbose_name = _('project')
         verbose_name_plural = _('projects')
 
-    name = models.CharField(max_length=50, null=False, verbose_name=_('project_name'))
+    name = models.CharField(max_length=50, unique=True, null=False, verbose_name=_('project_name'))
     is_vpn = models.BooleanField(null=False, default=False, verbose_name=_('project_is_vpn'))
-    remotes = models.ManyToManyField('Remote', related_name='projects', verbose_name=_('projects_remotes'))

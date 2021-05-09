@@ -8,4 +8,3 @@ class ProjectForms:
     class Basic(Form):
         name = fields.CharField(max_length=128, required=True)
         is_vpn = fields.BooleanField(required=False)
-        remotes = ModelMultipleChoiceField(queryset=Remote.objects.all(), required=False)

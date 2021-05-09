@@ -31,12 +31,7 @@ class ProjectManagement(View):
         form.fill(project)
         project.save()
 
-        remotes = form.cleaned_data.get('remotes')
-        if remotes:
-            for remote in remotes:
-                project.remotes.add(remote)
-
-        return SingleResponse(request, project, status=HTTPStatus.CREATED, serializer=ProjectSerializer.Base)
+        return SingleResponse(request, project, status=HTTPStatus.CREATED, serializer=ProjectSerializer.Detail)
 
     @method_decorator(token_required)
     @method_decorator(permission_required('core.read_project'))
@@ -58,7 +53,7 @@ class ProjectDetail(View):
         if not has_object_permission('check_project', request.user, project):
             raise ApiException(request, _('User is unauthorized.'), status_code=HTTPStatus.FORBIDDEN)
 
-        return SingleResponse(request, project, serializer=ProjectSerializer.Base)
+        return SingleResponse(request, project, serializer=ProjectSerializer.Detail)
 
     @transaction.atomic
     @method_decorator(token_required)
@@ -77,13 +72,7 @@ class ProjectDetail(View):
         form.fill(project)
         project.save()
 
-        remotes = form.cleaned_data.get('remotes')
-        if remotes:
-            project.remotes.clear()
-            for remote in remotes:
-                project.remotes.add(remote)
-
-        return SingleResponse(request, data=project, status=HTTPStatus.OK, serializer=ProjectSerializer.Base)
+        return SingleResponse(request, data=project, status=HTTPStatus.OK, serializer=ProjectSerializer.Detail)
 
     @transaction.atomic
     @method_decorator(token_required)
@@ -94,6 +83,9 @@ class ProjectDetail(View):
         except Project.DoesNotExist:
             raise ApiException(request, _('Project does not exist.'), status_code=HTTPStatus.NOT_FOUND)
 
+        for remote in project.remotes.all():
+            remote.services.all().delete()
+            remote.delete()
         project.delete()
 
         return HttpResponse(status=HTTPStatus.NO_CONTENT)

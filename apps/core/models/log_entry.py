@@ -12,5 +12,5 @@ class LogEntry(BaseLogModel):
         default_permissions = ()
 
     status_code = models.IntegerField(null=True, verbose_name=_('log_entry_status_code'))
-    request_body = AesJSONField(null=True, verbose_name=_('log_entry_request_body'))
+    request_body = AesJSONField(null=True, default=dict, verbose_name=_('log_entry_request_body'))
     username = models.CharField(max_length=100, null=True, verbose_name=_('log_entry_username'))

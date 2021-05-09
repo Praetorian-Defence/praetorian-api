@@ -15,17 +15,17 @@ class ApiKey(BaseModel):
         verbose_name = _('api_key')
         verbose_name_plural = _('api_keys')
 
-    class DevicePlatformEnum(Enum):
-        IOS = 'ios'
-        ANDROID = 'android'
-        WEB = 'web'
-        EXTERNAL = 'external'
+    class ApiKeyType(Enum):
+        PROXY_CLIENT = 'proxy_client'
+        USER_CLIENT = 'user_client'
+        GIT = 'git'
+        DEBUG = 'debug'
 
         def __str__(self):
             return _(f"api_key_{self.value}")
 
     name = models.CharField(max_length=100, null=False, unique=True)
-    platform = EnumChoiceField(DevicePlatformEnum, null=False, default=DevicePlatformEnum.WEB)
+    type = EnumChoiceField(ApiKeyType, null=False, default=ApiKeyType.DEBUG)
     key = models.CharField(max_length=100, null=False, unique=True)
     secret = models.CharField(max_length=100, null=False)
     is_active = models.BooleanField(null=False, default=False)

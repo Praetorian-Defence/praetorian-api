@@ -1,4 +1,3 @@
-import json
 import random
 import string
 import uuid
@@ -37,9 +36,8 @@ def create_temporary_user(request):
     if not form.is_valid():
         raise ValidationException(request, form)
 
-    project = form.cleaned_data.get('project_id')
-    remote = form.cleaned_data.get('remote_id')
-    service = form.cleaned_data.get('service_id')
+    project = form.cleaned_data['project_id']
+    remote = form.cleaned_data['remote_id']
 
     try:
         UserProjectDevice.objects.get(user=request.user, project=project, device=device)
@@ -50,10 +48,6 @@ def create_temporary_user(request):
     if remote not in project.remotes.all():
         raise ApiException(
             request, _('Specified remote does not belong to the specified project.'), status_code=HTTPStatus.NOT_FOUND
-        )
-    if service not in remote.services.all():
-        raise ApiException(
-            request, _('Specified service does not belong to the specified remote.'), status_code=HTTPStatus.NOT_FOUND
         )
 
     email = get_random_email(7)
@@ -71,7 +65,7 @@ def create_temporary_user(request):
 
     password = User.objects.make_random_password()
     temporary_user.set_password(password)
-    temporary_user.additional_data = {'remote_id': str(remote.id), 'service_id': str(service.id)}
+    temporary_user.additional_data = {'remote_id': str(remote.id)}
     assign_role(temporary_user, 'temporary')
     temporary_user.save()
 
@@ -104,7 +98,7 @@ def create_temporary_user(request):
     response = {
         'username': temporary_user.username,
         'password': password,
-        'variables': _get_all_keys(service.variables)
+        'variables': _get_all_keys(remote.variables)
     }
 
     return SingleResponse(

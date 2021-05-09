@@ -38,7 +38,7 @@ class User(BaseModel, AbstractBaseUser, PermissionsMixin):
     is_temporary = models.BooleanField(default=False, verbose_name=_('user_is_temporary'))
 
     source = EnumChoiceField(Source, null=False, default=Source.DB, verbose_name=_('user_source'))
-    additional_data = AesJSONField(null=False, default='{}', verbose_name=_('user_additional_data'))
+    additional_data = AesJSONField(null=False, default=dict, verbose_name=_('user_additional_data'))
     active_to = models.DateTimeField(null=True, verbose_name=_('user_active_to'))
 
     language = models.ForeignKey('Language', null=False, on_delete=models.CASCADE, verbose_name=_('user_language'))

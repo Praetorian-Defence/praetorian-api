@@ -9,7 +9,7 @@ class ApiKeySerializer:
     class Base(Serializer):
         id: UUID
         name: str
-        platform: ApiKey.DevicePlatformEnum
+        type: ApiKey.ApiKeyType
         key: str
         secret: str
         is_active: bool

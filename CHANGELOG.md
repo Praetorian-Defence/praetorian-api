@@ -31,3 +31,8 @@
 ## 1.1.1 : 2021-07-05
 
 - 🌸 Changed installation requires dependencies versions in the setup.py.
+
+## 1.2.0 : 2021-09-05
+
+- 🍁 Changed DB schema.
+- 🍁 Changed forms, serializers and validation checks in specific endpoints.
