@@ -18,6 +18,7 @@ from apps.api.permissions import permission_required
 from apps.api.response import SingleResponse
 from apps.core.models import User, Language, Device, UserProjectDevice
 from apps.core.services.notification import NotificationService
+from apps.core.services.variables import VariablesService
 
 
 def get_random_email(length):
@@ -95,24 +96,14 @@ def create_temporary_user(request):
         template='_emails/temporary_user_activation.html'
     ).send_email()
 
+    variables = VariablesService.create(request=request, variables=remote.variables).get_variables()
+
     response = {
         'username': temporary_user.username,
         'password': password,
-        'variables': _get_all_keys(remote.variables)
+        'variables': variables
     }
 
     return SingleResponse(
         request, response, status=HTTPStatus.CREATED
     )
-
-
-def _get_all_keys(dictionary):
-    keys = []
-
-    for k, v in dictionary.items():
-        if isinstance(v, dict):
-            keys.append({k: _get_all_keys(v)})
-        else:
-            keys.append(k)
-
-    return keys

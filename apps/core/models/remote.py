@@ -25,12 +25,3 @@ class Remote(BaseModel):
     project = models.ForeignKey(
         'Project', null=False, on_delete=models.CASCADE, related_name='remotes', verbose_name=_('remote_project')
     )
-
-    def validate_unique(self, exclude=None):
-        qs = Remote.objects.filter(name=self.name)
-        if qs.filter(project__pk=self.project_id).exists():
-            raise ValidationError(_('Remote name must be unique per project.'))
-
-    def save(self, *args, **kwargs):
-        self.validate_unique()
-        super(Remote, self).save(*args, **kwargs)

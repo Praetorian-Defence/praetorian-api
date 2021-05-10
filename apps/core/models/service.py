@@ -33,12 +33,3 @@ class Service(BaseModel):
     remote = models.ForeignKey(
         'Remote', null=False, on_delete=models.CASCADE,  related_name='services', verbose_name=_('service_remote')
     )
-
-    def validate_unique(self, exclude=None):
-        qs = Service.objects.filter(name=self.name)
-        if qs.filter(remote__pk=self.remote_id).exists():
-            raise ValidationError(_('Service name must be unique per remote.'))
-
-    def save(self, *args, **kwargs):
-        self.validate_unique()
-        super(Service, self).save(*args, **kwargs)

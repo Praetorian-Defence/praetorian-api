@@ -45,10 +45,10 @@ class GeneralResponse(HttpResponse):
     def __init__(self, request, data: Union[dict, BaseModel] = None, serializer: Type[Serializer] = None, **kwargs):
         params = {}
         if data is not None:
-            content_type = request.headers.get('accept', 'application/json')
+            content_type = str(request.headers.get('accept', 'application/json'))
             if content_type in ['*/*', 'application/json']:
                 params['content_type'] = 'application/json'
-                params['content'] = json.dumps(data, cls=ApiJSONEncoder, serializer=serializer)
+                params['content'] = json.dumps(data, cls=ApiJSONEncoder, serializer=serializer, request=request)
             else:
                 params['content_type'] = 'application/json'
                 params['status'] = HTTPStatus.NOT_ACCEPTABLE

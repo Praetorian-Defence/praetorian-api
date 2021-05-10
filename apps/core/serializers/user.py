@@ -29,7 +29,7 @@ class UserSerializer:
         additional_data: dict = {}
 
         @staticmethod
-        def resolve_role(user) -> str:
+        def resolve_role(user, **kwargs) -> str:
             role_name = 'admin'
 
             if not user.is_superuser:
@@ -64,7 +64,7 @@ class UserSerializer:
         my_devices: List[RelatedDevice] = None
 
         @staticmethod
-        def resolve_role(user) -> str:
+        def resolve_role(user, **kwargs) -> str:
             role_name = 'admin'
 
             if not user.is_superuser:

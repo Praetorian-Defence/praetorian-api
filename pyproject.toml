@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "praetorian_api"
-version = "1.2.0"
+version = "1.2.1"
 description = "Centralized management and distribution of sensitive access data"
 authors = ["Adam Žúrek <adamzurek14@gmail.com>"]
 license = "MIT"
@@ -14,7 +14,7 @@ django-filter = "^2.2.0"
 django-api-forms = "^0.18.0"
 django-enum-choices = "^2.1.2"
 django-object-checker = "^1.0.0"
-django-camel-spitter = "^0.3.1"
+django-camel-spitter = "^0.3.2"
 django-imap-backend = "^0.2.3"
 django-role-permissions = "^3.1.1"
 

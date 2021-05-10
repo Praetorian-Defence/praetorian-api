@@ -12,9 +12,15 @@ from django.utils.translation import gettext as _
 
 class ApiJSONEncoder(DjangoJSONEncoder):
     def __init__(self, **kwargs):
+        self._request = None
+        self._serializer = None
+
         if 'serializer' in kwargs:
             self._serializer = kwargs.get('serializer', None)
             del kwargs['serializer']
+        if 'request' in kwargs:
+            self._request = kwargs.get('request')
+            del kwargs['request']
         super().__init__(**kwargs)
 
     def default(self, o):
@@ -22,7 +28,7 @@ class ApiJSONEncoder(DjangoJSONEncoder):
             return float(o)
         if isinstance(o, models.Model):
             if self._serializer:
-                return self._serializer(o).dict()
+                return self._serializer(o, request=self._request if self._request else None).dict()
             else:
                 raise RuntimeError(_('Serializer non specified.'))
         if isinstance(o, UUID):

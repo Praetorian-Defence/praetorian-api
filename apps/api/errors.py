@@ -17,6 +17,7 @@ class ApiException(Exception):
         previous: Exception = None,
         to_log: bool = True,
         to_sentry: bool = False,
+        additional_data: dict = None,
         hide_body: bool = False
     ):
         super().__init__(message)
@@ -25,6 +26,11 @@ class ApiException(Exception):
         self._status_code = status_code
         self._message = message
         self._previous = previous
+
+        if additional_data:
+            self._additional_data = additional_data
+        else:
+            self._additional_data = {}
 
         if to_sentry:
             with sentry_sdk.push_scope() as scope:

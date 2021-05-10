@@ -140,7 +140,7 @@ description = "A library which add DBHandler to Django logging handlers."
 name = "django-camel-spitter"
 optional = false
 python-versions = "*"
-version = "0.3.1"
+version = "0.3.2"
 
 [package.dependencies]
 Django = ">=2.0"
@@ -718,7 +718,7 @@ docs = ["sphinx", "jaraco.packaging (>=8.2)", "rst.linker (>=1.9)"]
 testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pytest-cov", "pytest-enabler", "jaraco.itertools", "func-timeout", "pytest-black (>=0.3.7)", "pytest-mypy"]
 
 [metadata]
-content-hash = "b2f9817515d48ef2c3742e9d580e8dfddc2984070f9d54ced59ab34baac3d52e"
+content-hash = "d51fe3c23bc08c5b25391ec9749d585f82682d4d91f63f985c8cd61abb73b104"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -826,8 +826,8 @@ django-api-forms = [
     {file = "django_api_forms-0.18.0-py3-none-any.whl", hash = "sha256:07c315311630e242c5d90050d5a65007bd2b1e6fc31a4d80097ea7e7710670b8"},
 ]
 django-camel-spitter = [
-    {file = "django-camel-spitter-0.3.1.tar.gz", hash = "sha256:fed889e1bc1df162cfa570761c777d1b23ca114d4ae809962a736748b54d7e29"},
-    {file = "django_camel_spitter-0.3.1-py3-none-any.whl", hash = "sha256:1c88514c11ec657b754d70d7a8e7d3eb6c56af15730b67aba718a8d9d467e8ba"},
+    {file = "django-camel-spitter-0.3.2.tar.gz", hash = "sha256:0ced962b8d1fbbe7d1a9e4de938a8e4a096695c525bf3fed1aa0a00b7fec28d9"},
+    {file = "django_camel_spitter-0.3.2-py3-none-any.whl", hash = "sha256:8afdb28a13728904597ac3e25da7adbe50931d350886c96b79424f77a6128835"},
 ]
 django-discover-runner = [
     {file = "django-discover-runner-1.0.tar.gz", hash = "sha256:0ba91fe722c256bcbfdeb36fac7eac0f27e5bfda55d98c4c1cf9ab62b5b084fe"},

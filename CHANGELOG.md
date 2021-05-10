@@ -36,3 +36,9 @@
 
 - 🍁 Changed DB schema.
 - 🍁 Changed forms, serializers and validation checks in specific endpoints.
+
+## 1.2.1 : 2021-10-05
+
+- 🚀 Changed Signature middleware.
+- 🚀 Implemented variables service.
+- 🚀 Added response object to serializers.

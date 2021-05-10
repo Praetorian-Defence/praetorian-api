@@ -9,5 +9,5 @@ class TokenSerializer:
         active_2fa: bool
 
         @staticmethod
-        def resolve_token(token):
+        def resolve_token(token, **kwargs):
             return token.pk

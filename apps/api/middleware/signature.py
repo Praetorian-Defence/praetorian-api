@@ -1,8 +1,3 @@
-import hashlib
-import hmac
-from http import HTTPStatus
-
-from django.conf import settings
 from django.utils.translation import gettext as _
 
 from apps.api.errors import ApiException
@@ -20,51 +15,53 @@ class SignatureMiddleware(object):
     @staticmethod
     def process_view(request, view_func, view_args, view_kwargs):
         # View functions
-        if not hasattr(view_func, 'require_apikey'):
-            return None
-
-        if hasattr(view_func, 'require_apikey') and not view_func.require_apikey:
+        if hasattr(view_func, 'signature_exempt') and view_func.signature_exempt:
             return None
 
         # View classes
-        if hasattr(view_func, 'view_class') and \
-           hasattr(view_func.view_class, 'require_apikey') and \
-           request.method.lower() not in view_func.view_class.require_apikey:
+        if hasattr(view_func, 'view_class') \
+            and hasattr(view_func.view_class, 'skip_signature') \
+            and request.method.lower() in view_func.view_class.skip_signature:
             return None
 
         api_key = request.headers.get('X-Apikey')
         signature = request.headers.get('X-Signature', '')
         try:
-            api_key_model = ApiKey.objects.get(pk=api_key, is_active=True)
+            api_key_model = ApiKey.objects.get(key=api_key, is_active=True)
         except ApiKey.DoesNotExist:
             return ErrorResponse.create_from_exception(ApiException(request, _('Invalid api key.')))
 
         request.api_key = api_key_model
 
-        # Do not check signature for GitLab API keys
-        if api_key_model.platform == ApiKey.ApiKeyType.GIT:
-            return None
-
-        message = f"{request.body.decode('utf-8')}:{request.path}"
-        signature_check = hmac.new(
-            api_key_model.secret.encode('utf-8'),
-            msg=message.encode('utf-8'),
-            digestmod=hashlib.sha256
-        ).hexdigest()
-
-        # Do not check signature for DEBUG API keys in DEBUG environment
-        if api_key_model.platform == ApiKey.ApiKeyType.DEBUG and settings.DEBUG:
-            return None
-
-        if signature != signature_check:
-            return ErrorResponse.create_from_exception(
-                ApiException(
-                    request,
-                    _('Invalid signature.'),
-                    HTTPStatus.FORBIDDEN,
-                    to_sentry=True,
-                )
-            )
+        # # Do not check signature for GitLab API keys
+        # if api_key_model.platform == ApiKey.ApiKeyType.GIT:
+        #     return None
+        #
+        # message = f"{request.body.decode('utf-8')}:{request.path}"
+        # signature_check = hmac.new(
+        #     api_key_model.secret.encode('utf-8'),
+        #     msg=message.encode('utf-8'),
+        #     digestmod=hashlib.sha256
+        # ).hexdigest()
+        #
+        # # Do not check signature for DEBUG API keys in DEBUG environment
+        # if api_key_model.platform == ApiKey.ApiKeyType.DEBUG and settings.DEBUG:
+        #     return None
+        #
+        # if signature != signature_check:
+        #     return ErrorResponse.create_from_exception(
+        #         ApiException(
+        #             request,
+        #             _('Invalid signature.'),
+        #             HTTPStatus.FORBIDDEN,
+        #             to_sentry=True,
+        #             additional_data={
+        #                 'received': signature,
+        #                 'expected': signature_check,
+        #                 'message': message,
+        #             }
+        #         )
+        #     )
         return None
 
 
