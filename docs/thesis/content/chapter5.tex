@@ -1,177 +1,117 @@
-\chapter{Vyhodnotenie navrhovaného riešenia}\label{ch:vyhodnotenie-navrhovaneho-riesenia}
+\chapter{Implementácia}\label{ch:implementácia}
 
-Primárnym výsledkom nášho navrhovaného riešenia bolo zabezpečenie prístupu na vzdialené zariadenie.
-Samotný prístup na koncové zariadenia musí spĺňať bezpečnostné požiadavky vo všetkých fázach implementovaného prípadu
-použitia.
-Ďalším dôležitým cieľom bolo zaistenie komunikácie medzi jednotlivými časťami systému a modulárne navrhnúť všetky potrebné
-súčasti tak, aby ich bolo možné s pribúdajúcimi kritériami bezpečnosti, alebo použitia jednoducho doimplementovať.
+\section{Webové API}\label{sec:webove-api}
 
-Pri nasadení nášho riešenia, v systéme figuruje iba používateľ typu „superuser“, ktorý má všetky systémové práva.
-Tento používateľ vie vytvoriť potrebné záznamy, ako napríklad: projekty, koncové zariadenia, role, používateľov, a ďalšie,
-ktoré sú nevyhnutné pre správne fungovanie systému.
+Prvou implementovanou časťou systému, bolo webové api rozhranie, ktoré je naprogramované v programovacom jazyku \inlinecode{Python 3.7}
+s webovým frameworkom \\ \inlinecode{Django 3.2.1}.
 
-Vytvorenie používateľa s rolou „devops“ je po prihlásení superuserom nasledovné:
-\newpage
-\textbf{\large Požiadavka [POST]:}
+Autentifikácia je postavená na princípe webového tokenu, ktorý je používateľovi po prihlásení následne priradený po určitú dobu.
+Validácia jednotlivých požiadaviek na api je overovaná pomocou podpisu, ktorý je vygenerovaný z troch častí: api kľúč, diel
+požiadavky a tajomstvo.
+Podpis v hlavičke požiadavky sa musí rovnať vygenerovanému podpisu na strane servera, inak je požiadavka od klienta neplatná.
+Rozširujúcou možnosťou autentifikácie je povolenie dvojfaktorového overenia pomocou knižnice \inlinecode{pyotp}, ktorá obsahuje
+nástroje na komunikáciu s google api pre vytvorenie unikátneho účtu a následnú validáciu vygenerovaných jednorázových hesiel
+(One Time Passwords - OTP).
+Po aktivácii účtu sa vygeneruje tajomstvo, ktoré slúži pre aktiváciu účtu na google api.
+Naše webové api rozhranie po aktivácii toto tajomstvo pošle ako qr kód vo forme emailu prislúchajúcemu používateľovi, ktorý si
+qr kód naskenuje napríklad v aplikácii „Authenticator“.
+Tým sa mu aktivuje účet, cez ktorý vie generovať spomínané OTP, ktorými je možné sa autentifikovať v našom webovom api.
 
-\begin{lstlisting}[language=json,firstnumber=1]
-{
-  "email": "devops@praetorian.sk",
-  "password": "devops",
-  "name": "devops",
-  "surname": "devops",
-  "role": "devops",
-  "is_vpn": false,
-  "additional_data": {},
-  "language_id": "ee3f8e7a-c9d8-4d96-8dd0-816775b25b7d"
-}
-\end{lstlisting}
+Autorizácia používateľov je kontrolovaná kombináciou nami rozšírenej knižnice \inlinecode{django-role-permissions}, knižnice
+\inlinecode{django-filter} a vlastnej implementácii knižnice\newline\inlinecode{django-object-checker}.
+Prvé rozšírenie zabezpečuje manažment skupín, oprávnení a kontrolu používateľov na základe ich role, alebo konkrétneho povolenia.
+Druhý nástroj, ako aj názov napovedá, predovšetkým slúži na filtrovanie odpovedí pre požiadavky od klienta.
+Pri tomto procese je možné na úrovni filtrovania kontrolovať reštrikciu odosielaných správ, podľa dostupných oprávnení používateľa.
+Posledným rozšírením je nami naimplementovaná knižnica umožňujúca formu abstrakcie, pri kontrole prístupu k jednotlivým objektom.
+Týmto spôsobom je rozšírený štandardný autorizačný prístup za pomoci rolí (RBAC) o funkcionalitu kontroly oprávnení používateľov k
+danému objektu na základe jeho atribútov (ABAC).
 
-\textbf{\large Odpoveď:}
-
-\begin{lstlisting}[language=json,firstnumber=1]
-{
-  "response": {
-    "id": "dbab895b-5568-45bf-95a3-55d96118836c",
-    "username": "devops@praetorian.sk",
-    "name": "devops",
-    "surname": "devops",
-    "email": "devops@praetorian.sk",
-    "phone": null,
-    "role": "devops",
-    "is_temporary": false,
-    "additional_data": {}
-  }
-}
-\end{lstlisting}
-
-Po úspešnom vytvorení používateľa a po registrovaní jeho zariadenia v systéme, je mu možné priradiť superuserom jeden z
-existujúcich projektov v systéme a následne sa za neho prihlásiť:
-
-\textbf{\large Požiadavka [POST]:}
-
-\begin{lstlisting}[language=json,firstnumber=1]
-{
-  "username": "devops@praetorian.sk",
-  "password": "devops"
-}
-\end{lstlisting}
-
-\textbf{\large Odpoveď:}
-
-\begin{lstlisting}[language=json,firstnumber=1]
-{
-  "response": {
-    "token": "22fcf8a5-7c90-4e3a-a665-7cf842b46283",
-    "active_2fa": false
-  }
-}
-\end{lstlisting}
-
-Ako je z odpovede webového api rozhrania vidieť, používateľ nie je overený dvojfaktorovou autentifikáciou.
-Táto hodnota sa v odpovedi nachádza z dôvodu informovania, či je potrebné vyžiadanie tohto dodatočného typu autentifikácie.
-
-Pre vyžiadanie dvojfaktorovej autentifikácie je potrebné si danú službu aktivovať nasledovným spôsobom:
-
-\textbf{\large Požiadavka [GET]:}
-
-\inlinecode{\{\{ api\_url \}\}/v1/users/\{\{ user\_id \}\}/2fa/}
-
-\newpage
-\textbf{\large Odpoveď:}
-
-\begin{lstlisting}[language=json,firstnumber=1]
-{
-  "response": {
-    "qr_code": "otpauth://totp/Praetorian%20API:devops%40praetorian.sk?secret=J4UZONZ36IQGLZAM&issuer=Praetorian%20API"
-  }
-}
-\end{lstlisting}
-
-Reťazec v odpovedi slúži na vytvorenie qr kódu, ktorý bude zobrazený v grafickom užívateľskom rozhraní, pričom používateľ
-je taktiež o aktivácii dvojfaktorovej autentifikácie informovaný pomocou zaslaného systémového emailu, ktorého obsah
-je na obrázku~\ref{fig:obr_13}.
+Čo sa týka návrhu a implementácie dátového úložiska, relačná databáza, ktorá uchováva všetky potrebné informácie o systéme
+je typu \inlinecode{PostgreSQL 12} a všetky operácie sú implementované pomocou vstavaného objektovo-relačného
+mapovania (Object–Relational Mapping - ORM) v spomínanom frameworku Django.
+Nasledujúci rozšírený entitno-relačný (extended entity relationship - EER) diagram~\ref{fig:obr_13}~znázorňuje
+vzťahy a atribúty nami nakonfigurovanej databázy.
 
 \begin{figure}[H]
-\begin{center}\includegraphics[width=\textwidth,height=9cm,keepaspectratio=true]{assets/2fa_email.png}\end{center}
-\caption[Obsah emailu informujúcom o aktivácii dvojfaktorovej autentifikácie]{Obsah emailu informujúcom o aktivácii dvojfaktorovej autentifikácie}\label{fig:obr_14}
+\begin{center}\includegraphics[width=\textwidth,height=15cm,keepaspectratio=true]{assets/eer_diagram_v2}\end{center}
+\caption[Rozšírený entitno-relačný diagram]{Rozšírený entitno-relačný diagram}\label{fig:obr_13}
 \end{figure}
 
-Naskenovaním daného qr kódu, napríklad v aplikácii „Authenticator“, sa vytvorí nový účet, ktorému je priradený práve jeden OTP
-s veľmi krátkou životnosťou.
-Po uplynutí životnosti sa OTP automaticky pregeneruje.
-Vytvorený účet v aplikácii Authenticator so zobrazeným OTP je znázornený na obrázku~\ref{fig:obr_15}.
+Z databázovej schémy je možné vidieť formu uchovávania záznamov v tabuľke \inlinecode{log\_entries}, ktorá slúži na bezpečné
+zaznamenávanie všetkých udalostí na strane danej webovej aplikácie.
+Do tabuľky sa taktiež zaznamenávajú telá požiadaviek, ktoré používateľ v určitom čase vykonal, pričom požiadavky uchovávajúce
+citlivé údaje, ako napríklad prihlasovacie údaje používateľa sa z pravidla neukladajú.
+Na audtitovanie záznamov do databázy je použitá nami naimplementovaná knižnica \inlinecode{django-camel-spitter}, ktorá rozširuje
+vstavaný logovací systém \inlinecode{python.logging}.
 
-\begin{figure}[H]
-\begin{center}\includegraphics[width=\textwidth,height=9cm,keepaspectratio=true]{assets/authenticator.png}\end{center}
-\caption[Zobrazenie aktivovaného účtu s OTP v aplikácii Authenticator]{Zobrazenie aktivovaného účtu s OTP v aplikácii Authenticator}\label{fig:obr_15}
-\end{figure}
+Ďalším monitorovacím rozšírením je komunikácia na službu Sentry, ktorá slúži na prehľadné zobrazovanie a sledovanie chýb v
+systéme, čím pomáha pri reportovaní chýb a opravách systému.
 
-Ďalšou z možností nami vytvoreného používateľa je pripojenie sa na vzdialené zariadenie pomocou ssh proxy servera, pričom na
-pripojenie je použité interaktívne prostredie.
-Celý proces pripojenia používateľa ku koncovému zariadeniu je zobrazený na obrázku~\ref{fig:obr_16}
+Kryptografia zahŕňajúca, šifrovanie údajov v databáze, ukladanie hesiel a vytváranie certifikátov je obsiahnutá v knižniciach
+\inlinecode{pycryptodome}, \inlinecode{pyopenssl} a \inlinecode{argon}.
 
-\begin{figure}[H]
-\begin{center}\includegraphics[width=\textwidth,height=15cm,keepaspectratio=true]{assets/interactive_session.png}\end{center}
-\caption[Proces pripojenia cez interaktívne prostredie]{Proces pripojenia cez interaktívne prostredie}\label{fig:obr_16}
-\end{figure}
+Vzťah \emph{one-to-many} medzi tabuľkou \inlinecode{remotes} a \inlinecode{projects} môže byť v budúcnosti upravený na \emph{many-to-many},
+pričom hodnota \emph{variables} z tabuľky \inlinecode{remotes} by sa vytiahla do separátnej tabuľky.
+Ak by na určitom koncovom zariadení bolo viacero projektov, prístupy (host, port, user, password) z jednoho koncového zariadenia
+by bolo možné použiť naprieč viacerými projektami, čím by sa znížila duplicita dát v databáze.
+Ak sa jedná o rozdielne hodnoty (\emph{variables}) prislúchajúce koncovému zariadeniu naprieč rôznymi projektami, každý
+vzťah projekt, remote a variables by bol mapovaný spájajúcou tabuľkou obsahujúcu tieto tri cudzie kľúče a utvárala by trojice.
 
-Používateľ cez interaktívne prostredie vytvoril na koncovom zariadení priečinok s názvom „test\_file“.
-Ak chce cez neinteraktívne prostredie daný priečinok zmazať, musí si v prvom rade vytvoriť skript, ktorý bude obsahovať
-tri príkazy:
-\newpage
+Ak by si špecifikácia vyžadovala rozšírenie miery autorizácie riešenia, spomínanú spájajúcu tabuľku by bolo možné ďalej
+rozšíriť o cudzí kľúč používateľa, prípadne aj jeho zariadenia.
+Tým by bolo umožnené kontrolovať prístup používateľa nielen k danému projektu, ale aj k danému koncovému zariadeniu.
 
-\begin{enumerate}
-  \item \inlinecode{ls -la}
-  \item \inlinecode{rmdir log\_entries}
-  \item \inlinecode{ls -la}
-\end{enumerate}
+\section{SSH Poxy server}\label{sec:ssh-proxy-server}
 
-Nasledovne si musí vytvoriť dočasného používateľa, ktorého úlohou bude daný skript jednorázovo vykonať, pričom bude po
-dokončení úlohy dočasný požívateľ vymazaný.
-Pre vytvorenie dočasného používateľa je potrebné sa prihlásiť za permanentného používateľa do webového api rozhrania a
-vytvoriť nasledovnú požiadavku:
+Druhou časťou systému je samotný proxy server, ktorý je primárne postavený na knižnici \inlinecode{paramiko}.
+Táto knižnica pokrýva celú implementáciu protokolu ssh verzie 2, pričom poskytuje funkcie klienta aj servera.
+Proxy server musí zabezpečovať rolu ssh servera počas komunikácie s klientom a rolu klienta pri komunikácii so vzdialeným
+zariadením.
+Pre rozhranie servera paramiko disponuje triedou \inlinecode{ServerInterface}, ktorá je veľmi jednoducho konfigurovateľná
+a rozšíriteľná.
+Na druhej strane pre vytvorenie a správu spojenia cez ssh klienta je možné použiť triedu \inlinecode{SSHClient}.
 
-\textbf{\large Požiadavka [POST]:}
+Komunikáciu medzi našou webovou aplikáciou a daným proxy serverom zabezpečuje knižnica \inlinecode{praetorian-api-client},
+ktorá je nami navrhnutá a implementovaná pre modulárnejšiu a jednoduchšiu správu posielaných správ.
+Taktiež je týmto spôsobom umožnené všetku logiku autentifikácie a autorizácie zachovať na strane webovej aplikácie.
 
-\begin{lstlisting}[language=json,firstnumber=1]
-{
-  "project_id": "408c57f3-6ea4-42dc-beb3-a0051b97182f",
-  "remote_id": "f2228baf-d999-4d7a-9780-b8f2be97956f"
-}
-\end{lstlisting}
+\section{Rozšírenie knižnice fabric}\label{sec:rozsierenie-kniznice-fabric}
 
-\textbf{\large Odpoveď:}
+Knižnica fabric je jedným z mnoha nástrojov používaných na vzdialené vykonávanie príkazov ssh, predovšetkým s cieľom konfigurácie, správy a
+nasadzovania projektov pre koncové zariadenia.
+Príkladom volania knižnice s cieľom nasadenia produktu môže byť nasledovný príkaz:
 
-\begin{lstlisting}[language=json,firstnumber=1]
-{
-  "response": {
-    "username": "jPTgEYC@praetorian.sk",
-    "password": "AnVV6kLPA9"
-  }
-}
-\end{lstlisting}
+\begin{Verbatim}[frame=single]
+fab deploy production
+\end{Verbatim}
 
-Používateľovi taktiež v prípade zabudnutia prístupových údajov k dočasnému používateľovi dôjde notifikácia s potrebnými
-informáciami, ktorej obsah je zobrazený na obrázku~\ref{fig:obr_17}.
+Príkaz \emph{fab}, hovorí o použití spomínanej knižnice s cieľom nájdenia súboru obsahujúceho ssh príkazy, rozdelené do funkcií podľa druhu použitia.
+Druhý príkaz \emph{deploy} volá konkrétnu funkciu zo spomínaného súboru, pričom posledný príkaz \emph{production} hovorí o názve koncového zariadenia pre daný projekt.
+Našou úlohou bolo túto prehľadnú funkcionalitu ponechať s cieľom rozšírenia procesu autentifikácie, autorizácie a správy citlivých údajov.
 
-\begin{figure}[H]
-\begin{center}\includegraphics[width=\textwidth,height=9cm,keepaspectratio=true]{assets/temporary_credentials.png}\end{center}
-\caption[Obsah emailu informujúcom o prístupových údajoch dočasného používateľa]{Obsah emailu informujúcom o prístupových údajoch dočasného používateľa}\label{fig:obr_17}
-\end{figure}
+Rozšírenie s názvom \inlinecode{praetorian-fabric} pridáva do knižnice novú triedu \\ \inlinecode{PraetorianConfig}.
+Konštruktor si vyžaduje iba názov projektu, pričom dodatočné informácie, ako prístupové údaje používateľa a api servera sú
+získané z environment premenných.
+Tým pádom sa pri vytvorení konfiguračného objektu uskutoční pripojenie na api server cez api klient s overením prístupových
+údajov používateľa.
+Pripojenie na ssh proxy server sa uskutočňuje až po zavolaní konkrétnej funkcie (v našom prípade \emph{deploy}), ktorá si
+na vstupe žiada názov koncového zariadenia (\emph{production}).
+Po zadaní údajov konfiguračný objekt typu \inlinecode{PraetorianConfig} zavolá metódu \inlinecode{connect}, kde objekt už názov
+projektu a koncového zariadenia pozná.
+Ak bola identita používateľa overená, je možné sa pripojiť na ssh proxy server, kde prístupové údaje
+(adresa, port) sú získané taktiež z environmnent premenných.
+Čo sa týka názvu používateľa a hesla ku koncovému zariadeniu, tieto údaje si uchováva databáza šifrované pomocou AES šifry.
+Po úspešnom pripojení na ssh proxy server je používateľovi umožnené volať metódu \inlinecode{get\_variable}, ktorá vráti
+(ako sme spomínali v štvrtej kapitole: Návrh riešenia) hodnotu citlivých údajov podľa názvu za podmienky, ak údaje môžu
+byť zobrazované používateľom. Ak nie, príkaz na koncové zariadenie bude vyzerať nasledovne:
 
-Po úspešnom vytvorení skriptu a dočasného používateľa je možné sa pripojiť na koncové zariadenie cez neinteraktívne prostredie,
-ktorého vykonanie je na obrázku~\ref{fig:obr_18}.
+\begin{Verbatim}[frame=single]
+ctx.run('mkdir {{test_file}}')
+\end{Verbatim}
 
-\begin{figure}[H]
-\begin{center}\includegraphics[width=\textwidth,height=12cm,keepaspectratio=true]{assets/non_interactive_session.png}\end{center}
-\caption[Proces pripojenia cez neinteraktívne prostredie]{Proces pripojenia cez neinteraktívne prostredie}\label{fig:obr_18}
-\end{figure}
+Pričom hodnota \emph{test\_file} reprezentuje názov dôvernej informácie, ktorej skutočnú formu vie za názov nahradiť až samotný
+ssh proxy server bez možnosti používateľom zistiť jej pravú hodnotu.
 
-Po úspešnom dokončení vykonávania príkazov na dané koncové zariadenie, bolo nasledovne ukončené spojenie a dočasný používateľ
-bol vymazaný.
-
-Dané riešenie pokrýva viacero scenárov použitia, ako napríklad manažment používateľov, projektov a skupín, monitorovanie
-všetkých systémových akcií, kontrola povolených zariadení a mnoho ďalších.
-No hlavnou úlohou v danej fáze riešenia bolo predovšetkým preukázať zmysel riešeného zadania preukázanou modularitou a procesom
-bezpečného pripojenia na vzdialené zariadenia, ktorý je možné rozširovať o nové bezpečnostné prvky a prípady použitia.
+Takýmto spôsobom je možné rozšíriť akýkoľvek nástroj používaný na vzdialené vykonávanie ssh príkazov, pričom neexistuje
+žiadne obmedzenie medzi druhom programovacieho jazyka, frameworkom a podobne.
+Z tohto dôvodu je naše riešenie viacúčelové a nepodlieha rôznorodosti technológií.

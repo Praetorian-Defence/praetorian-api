@@ -28,18 +28,25 @@
 % Thesis assignment
 \newpage
 \thispagestyle{empty}
-\includepdf[pages=1,scale=0.85]{assets/zadanie}
+\includepdf[pages=1,scale=1]{assets/zadanie}
 \newpage
 \emptypage
+
+% Thesis proposal assignment
+\newpage
+\thispagestyle{empty}
+\includepdf[pages=1,scale=1]{assets/navrh_zadanie}
+\includepdf[pages=2,scale=1]{assets/navrh_zadanie}
+\newpage
 
 % Declaration of honor
 \include{pages/declaration}
 
+% Acknowledgements
+\include{pages/acknowledgements}
+
 % Annotation
 \include{pages/annotation}
-
-% Acknowledgements
-%\include{pages/acknowledgements}
 
 % Table of contents
 \renewcommand{\contentsname}{Obsah}
@@ -49,17 +56,14 @@
 % List of figures
 \renewcommand{\listfigurename}{Zoznam obrázkov}
 \listoffigures
-\markboth{}{}
-
-% List of tables
-%\renewcommand{\listtablename}{Zoznam tabuliek}
-%\listoftables{}
+\pagebreak
 
 % List of abbreviations
 \include{pages/abbreviations}
 
 % Enable page numbering
 \pagenumbering{arabic}
+\lhead{\nouppercase{\leftmark}}
 
 % Begin refferences segment
 \renewcommand\bibname{Reference}
@@ -71,6 +75,7 @@
 \include{content/chapter4}
 \include{content/chapter5}
 \include{content/chapter6}
+\include{content/chapter7}
 
 % Bibliography
 \printbibliography[heading=references,segment=\therefsegment]
@@ -85,5 +90,6 @@
 \appendix
 \include{content/appendix1}
 \include{content/appendix2}
+\include{content/appendix3}
 
 \end{document}
