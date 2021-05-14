@@ -1,0 +1,58 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Cover page
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{templates/header}
+
+\ifx\FIITlagEN\undefined
+Vedúci práce: \FIITsupervisor
+\else
+Supervisor: \FIITsupervisor
+\fi
+
+\medskip{}
+
+\ifx\FIITlagEN\undefined
+\FIITdateSK
+\else
+\FIITdate
+\fi
+
+\pagenumbering{roman}
+\emptypage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Thesis title page
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{templates/header}
+
+\ifx\FIITlagEN\undefined
+Študijný program: \quad\quad\quad\FIITstudyProgramSK
+
+Študijný odbor: \quad\quad\quad\quad\FIITdegreeCourseSK
+
+Miesto vypracovania:\quad\quad\FIITinstituteSK
+
+Vedúci práce: \quad\quad\quad\quad\quad\FIITsupervisor
+\else
+Study program:              \quad\FIITstudyProgram
+
+Degree course:              \quad\FIITdegreeCourse
+
+Place of elaboration:       \quad\FIITinstitute
+
+Supervisor:                 \quad\FIITsupervisor
+\fi
+
+\medskip{}
+
+\ifx\FIITlagEN\undefined
+\FIITdateSK
+\else
+\FIITdate
+\fi
+
+\emptypage

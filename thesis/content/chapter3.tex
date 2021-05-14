@@ -1,0 +1,51 @@
+\chapter{Požiadavky na riešenie}\label{ch:poziadavky}
+
+Návrh hlavného systému a jeho komponentov sa odvíja od presne stanovených požiadaviek, ktoré špecifikujú mieru toho, čo
+je od riešenia nutné očakávať z pohľadu funkcionality a aké špecifické parametre by mal systém zahŕňať.
+
+\section{Funkcionálne požiadavky}\label{sec:funkcionalne-poziadavky}
+
+\begin{itemize}
+    \item Riešenie musí pokrývať možnosti konfigurácie a správy jednotlivých entít v systéme.
+    \begin{itemize}
+        \item Pridanie, zobrazenie, upravovanie a mazanie používateľov.
+        \item Pridanie, zobrazenie, upravovanie a mazanie rolí a práv používateľov.
+        \item Pridanie, zobrazenie, upravovanie a mazanie citlivých údajov na dátovom úložisku.
+        \item Pridanie, zobrazenie, upravovanie a mazanie projektov.
+        \item Pridanie, zobrazenie, upravovanie a mazanie koncových zariadení.
+        \item Pridanie, zobrazenie, upravovanie a mazanie používateľských zariadení.
+        \item Pridanie, zobrazenie, upravovanie a mazanie služieb.
+        \item Priraďovanie a odoberanie rolí a práv používateľom.
+        \item Priraďovanie a odoberanie projektov a zariadení používateľom.
+        \item Priraďovanie a odoberanie služieb koncovým zariadeniam.
+        \item Obnova hesiel.
+        \item Aktivácia dvojfaktorovej autentifikácie.
+        \item Zobrazovanie systémových logov.
+        \item Pridanie, zobrazenie, upravovanie a mazanie api kľúčov.
+    \end{itemize}
+    \item Riešenie musí obsahovať možnosť autentifikácie a autorizácie.
+    \item Riešenie je schopné auditovať používateľove a systémové operácie.
+    \item Riešenie musí vedieť komunikovať naprieč svojimi komponentami.
+    \item Riešenie musí pokrývať možnosť priameho pripojenia na vzdialené zariadenie.
+    \item Riešenie musí poskytnúť interaktívnu možnosť komunikácie s koncovým zariadením.
+    \item Riešenie musí vedieť neinteraktívne spúšťať sekvenčne príkazy zo súboru, ktoré vykoná na zvolenom koncovom zariadení.
+    \item Riešenie musí byť schopné nasadiť finálny produkt na koncové zariadenia.
+    \item Riešenie musí vedieť posielať emaily s potrebnými informáciami.
+\end{itemize}
+
+\section{Nefunkcionálne požiadavky}\label{sec:nefunkcionalne-poziadavky}
+
+\begin{itemize}
+    \item Komunikácia medzi používateľom a api serverom musí byť šifrovaná a bezpečná.
+    \item Komunikácia medzi api serverom a ssh proxy serverom musí byť šifrovaná a bezpečná.
+    \item Komunikácia medzi ssh proxy serverom a koncovým zariadením musí byť šifrovaná a bezpečná.
+    \item K dôverným citlivým údajom nemá prístup žiaden používateľ.
+    \item Používateľ nesmie mať žiadne informácie o koncových zariadeniach.
+    \item Ssh proxy server umožňuje pripojenie viacerých zariadení súčasne.
+    \item Systém musí byť použiteľný naprieč rôznymi druhmi projektov a ich použitých technológií.
+    \item Systém musí byť modulárny a rozšíriteľný.
+    \item Systém musí byť bezpečný, udržiavateľný a auditovateľný.
+    \item Systém musí byť schopný sa zotaviť zo zlyhania.
+    \item Systém nesmie umožniť neautorizovaný prístup k citlivým údajom.
+    \item Systém nesmie poskytnúť pri priamom prístupe k dátovému úložisku citlivé dáta v čitateľnej podobe.
+\end{itemize}
