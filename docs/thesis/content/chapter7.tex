@@ -6,9 +6,9 @@ najcitlivejšie.
 Prístup k citlivým údajom podlieha určitým oprávneniam, ktoré je možné nakonfigurovať pre každú z firiem rozdielne, aby
 odzrkadľovali vnútro-firemnú štruktúru.
 Z dôvodu vyžadovania takejto formy prístupu u všetkých typoch firemných procesov, sme sa rozhodli využiť danú myšlienku
-centralizovaného úložiska rozšírením vo forme nadstavby api rozhrania, cez ktoré bude umožnená bezpečná komunikácia s centralizovaným
-úložiskom.
-Týmto riešením je umožnené konfigurovať nielen vnútro-firemnú štruktúru, no taktiež manažovanie citlivých údajov a ich monitorovanie.
+centralizovaného úložiska rozšírenú o nadstavbu api rozhrania.
+Touto formou bude umožnená bezpečná komunikácia s centralizovaným úložiskom.
+Daným riešením je tým pádom umožnené konfigurovať nielen vnútro-firemnú štruktúru, no taktiež manažovanie citlivých údajov a ich monitorovanie.
 Keďže výsledné webové api rozhranie reprezentovalo samostatný modul, bolo možné vytvoriť ďalšie moduly s rôznymi funkcionalitami.
 Modul vo forme ssh proxy servera vie s webovým api rozhraním komunikovať a poskytuje ďalšie možné formy nadstavby,
 ako napríklad poskytnutie komunikácie so vzdialenými zariadeniami.
@@ -19,8 +19,8 @@ ktoréhokoľvek nástroja tohto typu bez ohľadu na použitý programovací jazy
 Kľúčovým bodom výskumu bolo navrhnutie a implementácia komunikácie medzi dvoma uzlami, ktoré sú medzi sebou anonymizované za
 pomoci tretej strany.
 Medzi zariadeniami by bolo možné posielať rôzne citlivé, prístupové a konfiguračné údaje bez nutnosti používateľa k nim
-akýmkoľvek spôsobom pristúpiť, pričom všetky tieto operácie museli podliehať striktnou kontrolou bezpečnosti, aby bolo
-dané riešenie možné využívať v praxi softvérovými firmami.
+akýmkoľvek spôsobom pristúpiť.
+Všetky tieto operácie museli podliehať striktnou kontrolou bezpečnosti, aby bolo dané riešenie možné využívať v praxi softvérovými firmami.
 Systém bol navrhovaný a implementovaný dodržiavaním kritérií, ako bezpečnosť, modularita, udržiavateľnosť, rozšíriteľnosť
 a auditovateľnosť.
 
