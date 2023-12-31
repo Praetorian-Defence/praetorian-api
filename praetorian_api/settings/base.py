@@ -23,6 +23,7 @@ from sentry_sdk.integrations.django import DjangoIntegration
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ENV_FILE = os.path.join(BASE_DIR, '.env')
 LOG_DIR = os.path.join(BASE_DIR, 'logs')
+PRIVATE_DIR = os.path.join(BASE_DIR, 'private')
 
 # .env
 if os.path.exists(ENV_FILE):
@@ -178,7 +179,7 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-DATA_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 10
+DATA_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 10  # 50MB
 
 # Sentry
 

@@ -16,6 +16,7 @@ class ApiKey(BaseModel):
         verbose_name_plural = _('api_keys')
 
     class ApiKeyType(Enum):
+        WEB = 'web'
         PROXY_CLIENT = 'proxy_client'
         USER_CLIENT = 'user_client'
         GIT = 'git'

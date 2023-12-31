@@ -8,3 +8,4 @@ from apps.core.models.token import Token
 from apps.core.models.language import Language
 from apps.core.models.api_key import ApiKey
 from apps.core.models.log_entry import LogEntry
+from apps.core.models.log import Log

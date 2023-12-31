@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		.scroll-box {
+			width: 800px; /* Adjust as needed */
+			height: 200px; /* Adjust as needed */
+			overflow: auto; /* Enables scrolling */
+			border: 1px solid white; /* Changed to white for visibility on black background */
+			padding: 10px;
+			background-color: #333; /* Optional: dark grey background for the box */
+			color: white; /* Ensure text inside the box is white */
+		}
+
+		#just-line-break {
+			white-space: pre-line;
+		}
+
+		#line-break-and-tab {
+			white-space: pre-wrap;
+		}
+	</style>
+</head>
+<body>
+
+<div class="scroll-box">
+		<p style="color: white">
+			{% for line in logs %}
+				{% if line.type == 'input' %}
+					{{ line.prompt }} {{ line.data }}
+				{% else %}
+					<div id="line-break-and-tab">
+						{{ line.data }}
+					</div>
+				{% endif %}
+			{% endfor %}
+		</p>
+</div>
+
+</body>
+</html>

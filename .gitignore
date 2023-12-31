@@ -20,3 +20,4 @@ praetorian_api.egg-info
 
 /logs/
 !/logs/.gitkeep
+/private/*

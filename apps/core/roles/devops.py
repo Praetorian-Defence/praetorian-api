@@ -20,4 +20,8 @@ class Devops(AbstractUserRole):
         'read_device': True,
         'add_device': False,
         'delete_device': False,
+
+        'read_log': True,
+        'add_log': True,
+        'delete_log': True,
     }
