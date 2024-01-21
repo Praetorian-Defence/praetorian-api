@@ -4,9 +4,6 @@ DEBUG = True
 
 TIME_ZONE = 'Europe/Bratislava'
 
-MIDDLEWARE += [
-    'apps.api.middleware.signature.SignatureMiddleware'
-]
 
 # Emails
 # EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'

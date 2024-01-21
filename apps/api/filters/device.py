@@ -15,14 +15,11 @@ class DeviceFilter(django_filters.FilterSet):
 
     @property
     def qs(self):
-        queryset = super().qs
-        user = getattr(self.request, 'user', None)
-
-        return queryset
+        return super().qs
 
     @staticmethod
     def filter_query(qs, name, value):
         return qs.filter(
-            Q(name__icontains=value) |
-            Q(certificate__icontains=value)
+            Q(name__icontains=value)
+            | Q(certificate__icontains=value)
         ).distinct()

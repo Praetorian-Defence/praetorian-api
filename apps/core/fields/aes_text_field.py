@@ -17,7 +17,9 @@ class AesTextField(models.TextField):
     # when getting data from DB
     def from_db_value(self, value, expression, connection):
         if value:
-            decrypted_data = AesEncryptor.create_from_secret(settings.AES_SECRET.encode(), self._aes_mode).decrypt(value)
+            decrypted_data = AesEncryptor.create_from_secret(
+                settings.AES_SECRET.encode(), self._aes_mode
+            ).decrypt(value)
         else:
             decrypted_data = None
         return decrypted_data

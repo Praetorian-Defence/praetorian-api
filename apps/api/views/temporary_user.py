@@ -61,7 +61,8 @@ def create_temporary_user(request):
         is_temporary=True,
         is_active=True,
         active_to=timezone.now() + settings.TEMPORARY_USER_EXPIRATION,
-        language=Language.objects.get(code='sk')
+        language=Language.objects.get(code='sk'),
+        creator=request.user,
     )
 
     password = User.objects.make_random_password()
@@ -81,7 +82,7 @@ def create_temporary_user(request):
 
     NotificationService.create(
         recipients=[request.user.email],
-        sender=f"{settings.EMAIL_SENDER_NAME} <{settings.EMAIL_SENDER}>",
+        sender=f'{settings.EMAIL_SENDER_NAME} <{settings.EMAIL_SENDER}>',
         subject=_('[Praetorian API] - Temporary user activation'),
         content={
             'message': _(

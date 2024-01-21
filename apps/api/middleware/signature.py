@@ -19,13 +19,15 @@ class SignatureMiddleware(object):
             return None
 
         # View classes
-        if hasattr(view_func, 'view_class') \
-            and hasattr(view_func.view_class, 'skip_signature') \
-            and request.method.lower() in view_func.view_class.skip_signature:
+        if (
+            hasattr(view_func, 'view_class')
+            and hasattr(view_func.view_class, 'skip_signature')
+            and request.method.lower() in view_func.view_class.skip_signature
+        ):
             return None
 
         api_key = request.headers.get('X-Apikey')
-        signature = request.headers.get('X-Signature', '')
+        # signature = request.headers.get('X-Signature', '')
         try:
             api_key_model = ApiKey.objects.get(key=api_key, is_active=True)
         except ApiKey.DoesNotExist:

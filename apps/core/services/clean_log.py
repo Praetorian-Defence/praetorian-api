@@ -4,7 +4,7 @@ from apps.core.models import Log
 class CleanLogService:
     def __init__(self, log: Log) -> None:
         self._log = log
-        self._data = log.base_log
+        self._data = log.base_log['log']
 
         self._recorded_data = []
 
@@ -38,9 +38,6 @@ class CleanLogService:
             if to_change_next_item:
                 continue
 
-            if self._data[i]['timestamp'] == 1697379170.51279:
-                print()
-
             item = self._data[i]
             sanitized_data = self._sanitize_string(item['data'])  # Sanitize the data here
 
@@ -51,7 +48,7 @@ class CleanLogService:
 
             if last_type == item['type']:
                 accumulated_data = self._check_data(sanitized_data, accumulated_data)
-                prompt = item.get('prompt', "Input: ").replace('[?2004h', '')
+                prompt = item.get('prompt', "Input: " if last_type == 'input' else 'Output: ').replace('[?2004h', '')
             else:
                 self._print_data(accumulated_data, last_type, prompt, timestamp)
                 accumulated_data = self._check_data(sanitized_data)
@@ -62,7 +59,8 @@ class CleanLogService:
             if i == len(self._data) - 1:
                 self._print_data(accumulated_data, last_type, prompt, timestamp)
 
-        self._log.cleaned_log = self._recorded_data
+        self._log.cleaned_log = {'log': self._recorded_data}
+        self._log.base_log = None  # can not store ascii values like /u0000
         self._log.save()
 
     @staticmethod
@@ -95,7 +93,7 @@ class CleanLogService:
 
             accumulated_data += sanitized_data
 
-        # "\x1B[K" '\u0007' overwrites last character in full-width line https://github.com/ninja-build/ninja/issues/2209
+    # "\x1B[K" '\u0007' overwrites last character in full-width line https://github.com/ninja-build/ninja/issues/2209
 
         return accumulated_data
 
@@ -159,14 +157,24 @@ class CleanLogService:
         return ''.join(output)
 
     def _print_data(self, data, data_type, prompt, timestamp):
-        self._recorded_data.append(
-            {
-                'timestamp': timestamp,
-                'data': data,
-                'type': data_type,
-                'prompt': prompt
-            }
-        )
+        if '@' in prompt:
+            self._recorded_data.append(
+                {
+                    'timestamp': timestamp,
+                    'data': data,
+                    'type': data_type,
+                    'prompt': prompt
+                }
+            )
+        else:
+            self._recorded_data.append(
+                {
+                    'timestamp': timestamp,
+                    'data': data,
+                    'type': data_type,
+                    'prompt': prompt
+                }
+            )
 
     def _skip_next_item(self, data: dict, i: int) -> bool:
         result = False

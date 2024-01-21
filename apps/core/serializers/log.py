@@ -1,4 +1,3 @@
-from typing import List
 from uuid import UUID
 
 from porcupine.base import Serializer
@@ -14,7 +13,7 @@ class LogSerializer:
         remote_id: UUID
         user_id: UUID
         device_id: UUID
-        cleaned_log: List[dict] = None
+        cleaned_log: dict = None
 
     class Detail(Base):
         remote: RemoteSerializer.Base

@@ -1,10 +1,10 @@
-from django_api_forms import Form
-from django.forms import ModelChoiceField, fields
+from django_api_forms import Form, AnyField
+from django.forms import ModelChoiceField
 
-from apps.core.models import Remote, Device
+from apps.core.models import Remote
 
 
 class LogForms:
     class Create(Form):
-        base_log =  fields.JSONField(required=True)
+        base_log = AnyField(required=True)
         remote_id = ModelChoiceField(queryset=Remote.objects.all(), required=True)

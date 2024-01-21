@@ -33,7 +33,6 @@ urlpatterns = [
     path('projects/<uuid:project_id>/', project.ProjectDetail.as_view(), name='project-detail'),
 
     path('logs/', log.LogManagement.as_view(), name='log-management'),
-    path('view-log/', log.LogView.as_view(), name='log-detail'),
 
     # Admin only
     path('log_entries/', log_entry.LogEntryManagement.as_view(), name='log-entry-management'),

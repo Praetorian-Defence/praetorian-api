@@ -6,8 +6,8 @@ authors = ["Adam Žúrek <adamzurek14@gmail.com>", "Erik Belák <erik.belak@gmai
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.7"
-python-dotenv = "^0.13.0"
+python = "^3.9"
+python-dotenv = "^1.0.0"
 porcupine-python = "^0.4.0"
 django = "^3.2.1"
 django-filter = "^2.2.0"
@@ -17,7 +17,10 @@ django-object-checker = "^1.0.0"
 django-camel-spitter = "^0.3.2"
 django-imap-backend = "^0.2.3"
 django-role-permissions = "^3.1.1"
+django-bootstrap-v5 = "^1.0.11"
+django-cors-headers = "^3.12.0"
 
+Markdown = "^3.4.1"
 psycopg2-binary = "^2.8.5"
 pycryptodome = "^3.9.8"
 pyopenssl = "^19.1.0"
@@ -27,6 +30,7 @@ qrcode = "^6.1.0"
 pillow = "^8.1.0"
 
 sentry-sdk = "^0.18.0"
+flake8 = "^7.0.0"
 
 [tool.poetry.dev-dependencies]
 mkdocs = "^1.1.2"

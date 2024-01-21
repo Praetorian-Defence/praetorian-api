@@ -1,3 +1,7 @@
+## 1.4.0 : 2024-21-01
+
+- 🪟️ Added simple web log view
+
 ## 1.3.0 : 2023-31-12
 
 - 🪵 Implemented ssh log capture.

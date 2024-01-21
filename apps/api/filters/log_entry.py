@@ -17,7 +17,7 @@ class LogEntryFilter(django_filters.FilterSet):
     @staticmethod
     def filter_query(qs, name, value):
         return qs.filter(
-            Q(username__icontains=value) |
-            Q(level__icontains=value) |
-            Q(message__icontains=value)
+            Q(username__icontains=value)
+            | Q(level__icontains=value)
+            | Q(message__icontains=value)
         ).distinct()

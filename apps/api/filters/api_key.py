@@ -20,8 +20,8 @@ class ApiKeyFilter(django_filters.FilterSet):
     @staticmethod
     def filter_query(qs, name, value):
         return qs.filter(
-            Q(name__icontains=value) |
-            Q(type__icontains=value) |
-            Q(key__icontains=value) |
-            Q(secret__icontains=value)
+            Q(name__icontains=value)
+            | Q(type__icontains=value)
+            | Q(key__icontains=value)
+            | Q(secret__icontains=value)
         ).distinct()

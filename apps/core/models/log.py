@@ -24,5 +24,5 @@ class Log(BaseModel):
     device = models.ForeignKey(
         'Device', on_delete=models.CASCADE, related_name='logs', verbose_name=_('log_device')
     )
-    base_log = models.JSONField(default=dict, verbose_name=_('log_log_base'))
+    base_log = models.JSONField(null=True, default=dict, verbose_name=_('log_log_base'))
     cleaned_log = models.JSONField(default=dict, verbose_name=_('log_log_cleaned'))

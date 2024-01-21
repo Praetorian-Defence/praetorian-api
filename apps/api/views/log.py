@@ -28,6 +28,7 @@ class LogManagement(View):
 
         log = Log()
         form.fill(log)
+        log.base_log = {"log": form.cleaned_data['base_log']}
         log.device = request.logged_device
         log.user = request.user
 
@@ -42,15 +43,3 @@ class LogManagement(View):
         logs = LogFilter(request.GET, queryset=Log.objects.all(), request=request).qs
 
         return PaginationResponse(request, logs, serializer=LogSerializer.Base)
-
-class LogView(View):
-    def get(self, request):
-        try:
-            log = Log.objects.get(pk='47321741-14b4-4528-978c-050b14b916a0')
-        except Log.DoesNotExist:
-            raise ApiException(request, _('Log does not exist.'), status_code=HTTPStatus.NOT_FOUND)
-
-        logs = {'logs': log.cleaned_log}
-
-        return render(request, 'logs/log_detail.html', context=logs)
-

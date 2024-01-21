@@ -28,4 +28,4 @@ and install all required dependencies.
 
 ---
 Developed with 💙 and ☕️ by [Adam Žúrek](https://zurek11.github.io/), Erik Belák
-with the support of [BACKBONE s.r.o.](https://www.backbone.sk/), 2023 (C)
+with the support of [BACKBONE s.r.o.](https://www.backbone.sk/), 2024 (C)
