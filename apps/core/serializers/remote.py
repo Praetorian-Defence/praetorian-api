@@ -30,8 +30,9 @@ class RemoteSerializer:
 
             return serialized_project
 
-        @staticmethod
-        def resolve_variables(data, **kwargs) -> dict:
-            request = kwargs['request']
-
-            return VariablesService.create(request=request, variables=data.variables).get_variables()
+        # @staticmethod
+        # def resolve_variables(data, **kwargs) -> dict:
+        #     request = kwargs['request']
+        #
+        #     return VariablesService.create(request=request, variables=data.variables).get_variables()
+#

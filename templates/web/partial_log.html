@@ -1,3 +1,4 @@
+{% spaceless %}
 <div class="chat-header clearfix">
 	<div class="row">
 		<div class="col-lg-6">
@@ -10,17 +11,12 @@
 		<div class="chat-history">
 			<div class="scroll-box">
 				{% for line in log.cleaned_log.log %}
-					{% if line.type == 'input' %}
-						<div id="line-break-and-tab">
-							<p style="color: white"> {{ line.prompt }} {{ line.data }}</p>
-						</div>
-					{% else %}
-						<div id="line-break-and-tab">
-							<p style="color: red"> {{ line.data }}</p>
-						</div>
-					{% endif %}
+					<div id="line-break-and-tab">
+						{% if line.type == 'input' %}<p style="color: white">{{ line.prompt }} {{ line.data|safe }}</p>{% else %}<p style="color: red">{{ line.data|safe }}</p>{% endif %}
+					</div>
 				{% endfor %}
 			</div>
 		</div>
 	</div>
 </div>
+{% endspaceless %}

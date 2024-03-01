@@ -10,7 +10,7 @@ from apps.core.models import Log
 
 class LogView(View):
     def get(self, request):
-        logs = Log.objects.all()
+        logs = Log.objects.all().order_by('-created_at')
 
         data = {
             'logs': logs,

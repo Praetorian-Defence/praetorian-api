@@ -97,12 +97,12 @@ def create_temporary_user(request):
         template='_emails/temporary_user_activation.html'
     ).send_email()
 
-    variables = VariablesService.create(request=request, variables=remote.variables).get_variables()
+    # variables = VariablesService.create(request=request, variables=remote.variables).get_variables()
 
     response = {
         'username': temporary_user.username,
         'password': password,
-        'variables': variables
+        'variables': remote.variables
     }
 
     return SingleResponse(

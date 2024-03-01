@@ -1,3 +1,5 @@
+import re
+
 from apps.core.models import Log
 
 
@@ -5,6 +7,8 @@ class CleanLogService:
     def __init__(self, log: Log) -> None:
         self._log = log
         self._data = log.base_log['log']
+        self._secret_pattern = re.compile(r'\{\{\s*(.*?)\s*\}\}')
+        self._variables = log.remote.variables
 
         self._recorded_data = []
 
@@ -63,8 +67,7 @@ class CleanLogService:
         self._log.base_log = None  # can not store ascii values like /u0000
         self._log.save()
 
-    @staticmethod
-    def _check_data(sanitized_data, accumulated_data=''):
+    def _check_data(self, sanitized_data, accumulated_data=''):
         if bytes(sanitized_data, 'utf-8') == b'\x7f':
             accumulated_data = accumulated_data[:-1]
         else:
@@ -93,7 +96,8 @@ class CleanLogService:
 
             accumulated_data += sanitized_data
 
-    # "\x1B[K" '\u0007' overwrites last character in full-width line https://github.com/ninja-build/ninja/issues/2209
+        # "\x1B[K" '\u0007'
+        # overwrites last character in full-width line https://github.com/ninja-build/ninja/issues/2209
 
         return accumulated_data
 
@@ -156,7 +160,35 @@ class CleanLogService:
 
         return ''.join(output)
 
+    def _get_variables(self, accumulated_data):
+        return re.findall(self._secret_pattern, accumulated_data)
+
+    def _replace_variables(self, data):
+        vars = self._get_variables(data)
+        for var in vars:
+            # Retrieve the value for the current variable, defaulting to 'Not exists!' if not found
+            value = self._variables.get(var, 'Not exists!')
+            title = f'{var}: {value}'  # Custom title for the tooltip
+
+            # Define a lambda function for use in the regex substitution
+            # This function constructs the HTML string, embedding the variable and its value
+            replacement = lambda match: (
+                f'<span class="custom-tooltip" onclick="copyToClipboard(this)" data-var="{var}">'
+                f'{{{{ {var} }}}}'
+                f'<span class="tooltip-content">{title}</span></span>'
+                f'{match.group(1)}'
+            )
+
+            # Compile a regex pattern to match the variable placeholder
+            pattern = re.compile(re.escape(f'{{{{ {var} }}}}') + r'(\s|$)')
+
+            # Substitute each placeholder with the corresponding HTML span element
+            data = pattern.sub(replacement, data)
+        return data
+
     def _print_data(self, data, data_type, prompt, timestamp):
+        data = self._replace_variables(data)
+
         if '@' in prompt:
             self._recorded_data.append(
                 {
@@ -197,4 +229,5 @@ class CleanLogService:
     def _sanitize_string(s):
         """Remove null characters from a string."""
         """Removes null bytes and other characters that might cause issues with curses"""
+        s = s.replace('\u0000', '')
         return s.replace('\x00', '')

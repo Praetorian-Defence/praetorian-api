@@ -1,4 +1,8 @@
-## 1.4.0 : 2024-21-01
+## 1.5.0 : 2024-03-01
+
+- ⚒️️ Added tooltip like feature into log view
+
+## 1.4.0 : 2024-01-21
 
 - 🪟️ Added simple web log view
 

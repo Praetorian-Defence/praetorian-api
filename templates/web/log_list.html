@@ -274,6 +274,57 @@
 				overflow-x: auto
 			}
 		}
+
+
+		.active {
+			background-color: #ADD8E6; /* Light Blue color; change as needed */
+		}
+
+		.tooltip {
+			position: relative;
+			display: inline-block;
+		}
+
+		.tooltip .tooltiptext {
+			visibility: hidden;
+			width: 120px;
+			background-color: black;
+			color: #fff;
+			text-align: center;
+			border-radius: 6px;
+			padding: 5px 0;
+			position: absolute;
+			z-index: 1;
+			bottom: 150%;
+			left: 50%;
+			margin-left: -60px;
+		}
+
+		.tooltip:hover .tooltiptext {
+			visibility: visible;
+		}
+
+		.custom-tooltip {
+			position: relative;
+			cursor: pointer;
+		}
+
+		.tooltip-content {
+			visibility: hidden;
+			width: 120px;
+			background-color: black;
+			color: #fff;
+			text-align: center;
+			border-radius: 6px;
+			padding: 5px 0;
+			position: absolute;
+			z-index: 1;
+		}
+
+		.custom-tooltip:hover .tooltip-content {
+			visibility: visible;
+		}
+
 	</style>
 </head>
 <body>
@@ -309,28 +360,91 @@
 	</div>
 </div>
 
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-$(document).ready(function() {
-	$('.log-link').click(function(e) {
-		e.preventDefault(); // Prevent default action of the link
+	$(document).ready(function () {
+		$('.log-link').click(function (e) {
+			e.preventDefault(); // Prevent default action of the link
 
-		var url = $(this).attr('href'); // Get the URL from the href attribute
+			// Add 'active' class to the parent 'li' of the clicked 'a' tag
+			$(this).closest('li').addClass('active').siblings().removeClass('active');
 
-		$.ajax({
-			url: url,
-			type: 'GET',
-			success: function(response) {
-				$('.chat').html(response); // Update the .chat div
-			},
-			error: function(error) {
-				console.log("Error: " + error);
-			}
+			var url = $(this).attr('href'); // Get the URL from the href attribute
+
+			$.ajax({
+				url: url,
+				type: 'GET',
+				success: function (response) {
+					$('.chat').html(response); // Update the .chat div
+				},
+				error: function (error) {
+					console.log("Error: " + error);
+				}
+			});
 		});
 	});
-});
 </script>
 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	function copyToClipboard(text) {
+		// Create a temporary input
+		var tempInput = document.createElement("input");
+		tempInput.value = text;
+		document.body.appendChild(tempInput);
+		tempInput.select(); // Select the text
+		document.execCommand("copy"); // Execute copy command
+		document.body.removeChild(tempInput); // Remove temporary input
+		alert("Copied: " + text); // Optional: Alert the copied text
+	}
+</script>
+<script>
+	$(document).ready(function () {
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+			return new bootstrap.Tooltip(tooltipTriggerEl)
+		});
+	});
+
+</script>
+<script>
+	$(document).ready(function () {
+		// Static available_variables object
+		var available_variables = {
+			"test_file1": "Description for test_file1",
+			"test_file2": "Description for test_file2",
+			"test_file3": "Description for test_file3"
+			// Add more variables as needed
+		};
+
+		// Event delegation for dynamic content in '.chat-history'
+		$('.chat-history').on('mouseenter', '.variable', function () {
+			var variableName = $(this).data('variable');
+			var value = available_variables[variableName] || 'Variable not found';
+			// Show tooltip with value
+			$(this).find('.tooltiptext').text(value).show();
+		}).on('mouseleave', '.variable', function () {
+			// Hide tooltip on mouse leave
+			$(this).find('.tooltiptext').hide();
+		});
+	});
+
+
+</script>
+
+<script>
+	function copyToClipboard(element) {
+		var varValue = element.getAttribute('data-var');
+		var inputElement = element.querySelector('.var-copy-input');
+		inputElement.value = varValue; // Set the variable value to the input
+		inputElement.select(); // Select the content
+		document.execCommand('copy'); // Copy
+		alert("Copied: " + varValue); // Alert the copied text (optional)
+	}
+
+</script>
 
 </body>
 </html>
