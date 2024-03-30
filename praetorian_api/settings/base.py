@@ -83,6 +83,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
     'apps.api.middleware.token.TokenMiddleware',
     'apps.api.middleware.device.DeviceMiddleware',
     'apps.api.middleware.exceptions.ExceptionMiddleware',
@@ -167,7 +168,8 @@ TEMPORARY_USER_EXPIRATION = datetime.timedelta(1)
 PASSWORD_RECOVERY_TIME = timezone.timedelta(hours=72)
 
 AUTHENTICATION_BACKENDS = [
-    'apps.api.auth.backend.TokenBackend',
+    'apps.api.auth.ldap_backend.CustomLDAPBackend',
+    'apps.api.auth.token_backend.TokenBackend',
 ]
 
 # Internationalization
@@ -276,3 +278,7 @@ LOGGING = {
         }
     }
 }
+
+# Active Directory
+LDAP_UPDATE_PASSWORD_URL = '/User/{distinguishedName}/password'
+LDAP_USER_DETAIL_URL = '/User/{distinguishedName}'

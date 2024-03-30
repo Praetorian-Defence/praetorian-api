@@ -28,6 +28,7 @@ argon2-cffi = "^20.1.0"
 pyotp = "^2.4.0"
 qrcode = "^6.1.0"
 pillow = "^8.1.0"
+python-ldap = "^3.4.4"
 
 sentry-sdk = "^0.18.0"
 flake8 = "^7.0.0"

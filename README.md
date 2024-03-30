@@ -26,6 +26,42 @@ and install all required dependencies.
 
 > `python manage.py dumpdata core.ApiKey > apps/core/fixtures/api_keys.json`
 
+## Authentication
+
+1. LDAP: `apps.api.auth.ldap_backend.LDAPBackend`
+2. TOKEN: `apps.api.auth.token_backend.TokenBackend`
+
+### LDAP Content setup
+```json
+{
+  "BIND_DN": "",
+  "BASE_URL": "",
+  "GROUP_TYPE": "GroupOfNamesType",
+  "SERVER_URI": "",
+  "USER_SEARCH": {
+    "scope": 2,
+    "base_dn": "",
+    "filterstr": "mail=%(user)s"
+  },
+  "GROUP_SEARCH": {
+    "scope": 2,
+    "base_dn": "",
+    "filterstr": "(objectClass=group)"
+  },
+  "BIND_PASSWORD": "",
+  "USER_ATTR_MAP": {
+    "name": "givenName",
+    "email": "mail",
+    "phone": "telephoneNumber",
+    "surname": "sn",
+    "username": "sAMAccountName",
+    "is_active": "enabled"
+  },
+  "USER_LOGIN_ATTR": "userPrincipalName",
+  "AUTH_SOURCE_LDAP_NAME": ""
+}
+```
+
 ---
 Developed with 💙 and ☕️ by [Adam Žúrek](https://zurek11.github.io/), Erik Belák
 with the support of [BACKBONE s.r.o.](https://www.backbone.sk/), 2024 (C)

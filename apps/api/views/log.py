@@ -1,13 +1,11 @@
 from http import HTTPStatus
 
 from django.db import transaction
-from django.shortcuts import render
 from django.utils.decorators import method_decorator
-from django.utils.translation import gettext_lazy as _
 from django.views import View
 
 from apps.api.auth.decorators import token_required
-from apps.api.errors import ValidationException, ApiException
+from apps.api.errors import ValidationException
 from apps.api.filters.log import LogFilter
 from apps.api.forms.log import LogForms
 from apps.api.permissions import permission_required

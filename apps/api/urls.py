@@ -14,6 +14,7 @@ urlpatterns = [
     path('users/me/', user.UserProfile.as_view(), name='user-profile'),
     path('users/<uuid:user_id>/', user.UserDetail.as_view(), name='user-detail'),
     path('users/<uuid:user_id>/2fa/', user.User2faActivate.as_view(), name='user-2fa'),
+    path('users/<uuid:user_id>/active-directory/', user.UserActiveDirectoryDetail.as_view()),
 
     path('temporary_users/create/', temporary_user.create_temporary_user, name='temporary-user-create'),
 

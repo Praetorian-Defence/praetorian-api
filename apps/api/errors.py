@@ -2,6 +2,8 @@ import json
 import logging
 import traceback
 from http import HTTPStatus
+from typing import Optional
+
 import sentry_sdk
 from django.conf import settings
 from django.utils.translation import gettext as _
@@ -83,3 +85,30 @@ class ValidationException(ApiException):
     @property
     def payload(self) -> dict:
         return self._form.errors
+
+
+class ActiveDirectoryManagerException(Exception):
+    def __init__(self, status: int, title: str = None, previous: Optional[Exception] = None):
+        super().__init__(title)
+
+        self._title = title
+        self._status = status
+        self._previous = previous
+
+    @property
+    def title(self) -> str:
+        return self._title
+
+    @property
+    def status(self) -> int:
+        return self._status
+
+    @property
+    def previous(self) -> Exception:
+        return self._previous
+
+    def to_dict(self):
+        return {
+            'title': self.title,
+            'status': self.status
+        }
