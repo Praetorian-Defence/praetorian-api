@@ -25,7 +25,7 @@ class LogManagement(View):
             raise ValidationException(request, form)
 
         log = Log()
-        form.fill(log)
+        form.populate(log)
         log.base_log = {"log": form.cleaned_data['base_log']}
         log.device = request.logged_device
         log.user = request.user

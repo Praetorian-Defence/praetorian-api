@@ -26,7 +26,7 @@ class ApiKeyManagement(View):
             raise ValidationException(request, form)
 
         api_key = ApiKey()
-        form.fill(api_key)
+        form.populate(api_key)
         api_key.save()
 
         logging.getLogger('logger').info(
@@ -72,7 +72,7 @@ class ApiKeyDetail(View):
         if not form.is_valid():
             raise ValidationException(request, form)
 
-        form.fill(api_key)
+        form.populate(api_key)
         api_key.save()
 
         return SingleResponse(request, data=api_key, status=HTTPStatus.OK, serializer=ApiKeySerializer.Base)

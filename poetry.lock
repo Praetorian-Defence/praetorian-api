@@ -42,13 +42,13 @@ tests = ["coverage[toml] (>=5.0.2)", "hypothesis", "pytest"]
 
 [[package]]
 name = "asgiref"
-version = "3.7.2"
+version = "3.8.1"
 description = "ASGI specs, helper code, and adapters"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "asgiref-3.7.2-py3-none-any.whl", hash = "sha256:89b2ef2247e3b562a16eef663bc0e2e703ec6468e2fa8a5cd61cd449786d4f6e"},
-    {file = "asgiref-3.7.2.tar.gz", hash = "sha256:9e0ce3aa93a819ba5b45120216b23878cf6e8525eb3848653452b4192b92afed"},
+    {file = "asgiref-3.8.1-py3-none-any.whl", hash = "sha256:3e1e3ecc849832fe52ccf2cb6686b7a55f82bb1d6aee72a58826471390335e47"},
+    {file = "asgiref-3.8.1.tar.gz", hash = "sha256:c343bd80a0bec947a9860adb4c432ffa7db769836c64238fc34bdc3fec84d590"},
 ]
 
 [package.dependencies]
@@ -274,13 +274,13 @@ test-randomorder = ["pytest-randomly"]
 
 [[package]]
 name = "django"
-version = "3.2.24"
+version = "3.2.25"
 description = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "Django-3.2.24-py3-none-any.whl", hash = "sha256:5dd5b787c3ba39637610fe700f54bf158e33560ea0dba600c19921e7ff926ec5"},
-    {file = "Django-3.2.24.tar.gz", hash = "sha256:aaee9fb0fb4ebd4311520887ad2e33313d368846607f82a9a0ed461cd4c35b18"},
+    {file = "Django-3.2.25-py3-none-any.whl", hash = "sha256:a52ea7fcf280b16f7b739cec38fa6d3f8953a5456986944c3ca97e79882b4e38"},
+    {file = "Django-3.2.25.tar.gz", hash = "sha256:7ca38a78654aee72378594d63e51636c04b8e28574f5505dff630895b5472777"},
 ]
 
 [package.dependencies]
@@ -294,21 +294,23 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 name = "django-api-forms"
-version = "0.18.0"
-description = "Declarative Django request validation"
+version = "1.0.0rc9"
+description = "Declarative Django request validation for RESTful APIs"
 optional = false
-python-versions = "*"
+python-versions = ">=3.9,<4.0"
 files = [
-    {file = "django-api-forms-0.18.0.tar.gz", hash = "sha256:f19dd440c8933dc7c68f6ce7b190e848df7a09d515005ac4b94ba37851d0756d"},
-    {file = "django_api_forms-0.18.0-py3-none-any.whl", hash = "sha256:07c315311630e242c5d90050d5a65007bd2b1e6fc31a4d80097ea7e7710670b8"},
+    {file = "django_api_forms-1.0.0rc9-py3-none-any.whl", hash = "sha256:f41492c9d9c77f103a698bbe2afca639a554abb8f32c3023663442cbfc203bd6"},
+    {file = "django_api_forms-1.0.0rc9.tar.gz", hash = "sha256:e7c8ea28bc3a4f10f91e13bd1a19b3bc8d3ddc1b0094f312011d1965cf1bc131"},
 ]
 
 [package.dependencies]
 Django = ">=2.0"
 
 [package.extras]
+gdal = ["gdal (>=3.6.3,<4.0.0)"]
 msgpack = ["msgpack"]
 pillow = ["Pillow (>=2.1)"]
+rrule = ["python-dateutil (>=2.8.2,<3.0.0)"]
 
 [[package]]
 name = "django-bootstrap-v5"
@@ -484,22 +486,22 @@ dev = ["flake8", "markdown", "twine", "wheel"]
 
 [[package]]
 name = "importlib-metadata"
-version = "7.0.1"
+version = "7.1.0"
 description = "Read metadata from Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "importlib_metadata-7.0.1-py3-none-any.whl", hash = "sha256:4805911c3a4ec7c3966410053e9ec6a1fecd629117df5adee56dfc9432a1081e"},
-    {file = "importlib_metadata-7.0.1.tar.gz", hash = "sha256:f238736bb06590ae52ac1fab06a3a9ef1d8dce2b7a35b5ab329371d6c8f5d2cc"},
+    {file = "importlib_metadata-7.1.0-py3-none-any.whl", hash = "sha256:30962b96c0c223483ed6cc7280e7f0199feb01a0e40cfae4d4450fc6fab1f570"},
+    {file = "importlib_metadata-7.1.0.tar.gz", hash = "sha256:b78938b926ee8d5f020fc4772d487045805a55ddbad2ecf21c6d60938dc7fcd2"},
 ]
 
 [package.dependencies]
 zipp = ">=0.5"
 
 [package.extras]
-docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (<7.2.5)", "sphinx (>=3.5)", "sphinx-lint"]
+docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
 perf = ["ipython"]
-testing = ["flufl.flake8", "importlib-resources (>=1.3)", "packaging", "pyfakefs", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy (>=0.9.1)", "pytest-perf (>=0.9.2)", "pytest-ruff"]
+testing = ["flufl.flake8", "importlib-resources (>=1.3)", "jaraco.test (>=5.4)", "packaging", "pyfakefs", "pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy", "pytest-perf (>=0.9.2)", "pytest-ruff (>=0.2.1)"]
 
 [[package]]
 name = "invoke"
@@ -531,13 +533,13 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "markdown"
-version = "3.5.2"
+version = "3.6"
 description = "Python implementation of John Gruber's Markdown."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "Markdown-3.5.2-py3-none-any.whl", hash = "sha256:d43323865d89fc0cb9b20c75fc8ad313af307cc087e84b657d9eec768eddeadd"},
-    {file = "Markdown-3.5.2.tar.gz", hash = "sha256:e1ac7b3dc550ee80e602e71c1d168002f062e49f1b11e26a36264dafd4df2ef8"},
+    {file = "Markdown-3.6-py3-none-any.whl", hash = "sha256:48f276f4d8cfb8ce6527c8f79e2ee29708508bf4d40aa410fbc3b4ee832c850f"},
+    {file = "Markdown-3.6.tar.gz", hash = "sha256:ed4f41f6daecbeeb96e576ce414c41d2d876daa9a16cb35fa8ed8c2ddfad0224"},
 ]
 
 [package.dependencies]
@@ -700,13 +702,13 @@ files = [
 
 [[package]]
 name = "packaging"
-version = "23.2"
+version = "24.0"
 description = "Core utilities for Python packages"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "packaging-23.2-py3-none-any.whl", hash = "sha256:8c491190033a9af7e1d931d0b5dacc2ef47509b34dd0de67ed209b5203fc88c7"},
-    {file = "packaging-23.2.tar.gz", hash = "sha256:048fb0e9405036518eaaf48a55953c750c11e1a1b68e0dd1a9d62ed0c092cfc5"},
+    {file = "packaging-24.0-py3-none-any.whl", hash = "sha256:2ddfb553fdf02fb784c234c7ba6ccc288296ceabec964ad2eae3777778130bc5"},
+    {file = "packaging-24.0.tar.gz", hash = "sha256:eb82c5e3e56209074766e6885bb04b8c38a0c015d0a30036ebe7ece34c9989e9"},
 ]
 
 [[package]]
@@ -953,13 +955,13 @@ files = [
 
 [[package]]
 name = "pycparser"
-version = "2.21"
+version = "2.22"
 description = "C parser in Python"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+python-versions = ">=3.8"
 files = [
-    {file = "pycparser-2.21-py2.py3-none-any.whl", hash = "sha256:8ee45429555515e1f6b185e78100aea234072576aa43ab53aefcae078162fca9"},
-    {file = "pycparser-2.21.tar.gz", hash = "sha256:e644fdec12f7872f86c58ff790da456218b10f863970249516d60a5eaca77206"},
+    {file = "pycparser-2.22-py3-none-any.whl", hash = "sha256:c3702b6d3dd8c7abc1afa565d7e63d53a1d0bd86cdc24edd75470f4de499cfcc"},
+    {file = "pycparser-2.22.tar.gz", hash = "sha256:491c8be9c040f5390f5bf44a5b07752bd07f56edf992381b05c701439eec10f6"},
 ]
 
 [[package]]
@@ -1067,13 +1069,13 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pymdown-extensions"
-version = "10.7"
+version = "10.7.1"
 description = "Extension pack for Python Markdown."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pymdown_extensions-10.7-py3-none-any.whl", hash = "sha256:6ca215bc57bc12bf32b414887a68b810637d039124ed9b2e5bd3325cbb2c050c"},
-    {file = "pymdown_extensions-10.7.tar.gz", hash = "sha256:c0d64d5cf62566f59e6b2b690a4095c931107c250a8c8e1351c1de5f6b036deb"},
+    {file = "pymdown_extensions-10.7.1-py3-none-any.whl", hash = "sha256:f5cc7000d7ff0d1ce9395d216017fa4df3dde800afb1fb72d1c7d3fd35e710f4"},
+    {file = "pymdown_extensions-10.7.1.tar.gz", hash = "sha256:c70e146bdd83c744ffc766b4671999796aba18842b268510a329f7f64700d584"},
 ]
 
 [package.dependencies]
@@ -1429,20 +1431,20 @@ watchmedo = ["PyYAML (>=3.10)"]
 
 [[package]]
 name = "zipp"
-version = "3.17.0"
+version = "3.18.1"
 description = "Backport of pathlib-compatible object wrapper for zip files"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "zipp-3.17.0-py3-none-any.whl", hash = "sha256:0e923e726174922dce09c53c59ad483ff7bbb8e572e00c7f7c46b88556409f31"},
-    {file = "zipp-3.17.0.tar.gz", hash = "sha256:84e64a1c28cf7e91ed2078bb8cc8c259cb19b76942096c8d7b84947690cabaf0"},
+    {file = "zipp-3.18.1-py3-none-any.whl", hash = "sha256:206f5a15f2af3dbaee80769fb7dc6f249695e940acca08dfb2a4769fe61e538b"},
+    {file = "zipp-3.18.1.tar.gz", hash = "sha256:2884ed22e7d8961de1c9a05142eb69a247f120291bc0206a00a7642f09b5b715"},
 ]
 
 [package.extras]
-docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (<7.2.5)", "sphinx (>=3.5)", "sphinx-lint"]
-testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-ignore-flaky", "pytest-mypy (>=0.9.1)", "pytest-ruff"]
+docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
+testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-ignore-flaky", "pytest-mypy", "pytest-ruff (>=0.2.1)"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "1a5301adf6cb9283b13da1e43eee2cdeca8601a302cb137cd3e56c5cc59b8f37"
+content-hash = "cf66c419e9618a4a19a20982218699face95337da67385173b0bd56ab7bf6354"

@@ -37,7 +37,7 @@ class RemoteManagement(View):
             )
 
         remote = Remote()
-        form.fill(remote)
+        form.populate(remote)
         remote.variables = {}
         remote.save()
 
@@ -89,7 +89,7 @@ class RemoteDetail(View):
                     status_code=HTTPStatus.CONFLICT
                 )
 
-        form.fill(remote)
+        form.populate(remote)
         remote.save()
 
         return SingleResponse(request, data=remote, status=HTTPStatus.OK, serializer=RemoteSerializer.Base)

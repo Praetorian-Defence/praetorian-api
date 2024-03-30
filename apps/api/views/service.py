@@ -36,7 +36,7 @@ class ServiceManagement(View):
             )
 
         service = Service()
-        form.fill(service)
+        form.populate(service)
         service.save()
 
         return SingleResponse(request, service, status=HTTPStatus.CREATED, serializer=ServiceSerializer.Base)
@@ -84,7 +84,7 @@ class ServiceDetail(View):
                     status_code=HTTPStatus.CONFLICT
                 )
 
-        form.fill(service)
+        form.populate(service)
         service.save()
 
         return SingleResponse(request, data=service, status=HTTPStatus.OK, serializer=ServiceSerializer.Base)

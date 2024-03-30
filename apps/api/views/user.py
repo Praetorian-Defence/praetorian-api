@@ -65,7 +65,7 @@ class UserManagement(View):
         role = form.cleaned_data.get('role')
 
         user = User()
-        form.fill(user)
+        form.populate(user)
 
         user.set_password(password)
         user.username = user.email
@@ -116,7 +116,7 @@ class UserDetail(View):
             if User.objects.filter(email=email).exists():
                 raise ApiException(request, _('Email is already used.'), status_code=HTTPStatus.CONFLICT)
 
-        form.fill(user)
+        form.populate(user)
         user.username = email
         if assign_projects is not None:
             user.assign_projects(request, assign_projects)

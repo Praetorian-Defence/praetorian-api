@@ -1,3 +1,7 @@
+## 1.7.0 : 2024-03-28
+
+- 👔 Updated django-api-forms to major version
+
 ## 1.6.0 : 2024-03-28
 
 - 🧞‍️️ Added support for active directory
