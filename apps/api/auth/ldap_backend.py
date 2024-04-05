@@ -14,7 +14,7 @@ from django.utils.translation import gettext as _
 from rolepermissions.roles import assign_role
 
 from apps.api.errors import ActiveDirectoryManagerException
-from apps.core.models import AuthSource, AuthSourceGroup, Language, UserProjectDevice, Project, Device
+from apps.core.models import AuthSource, AuthSourceGroup, Language
 from apps.core.services.requestor import Requestor
 
 User = get_user_model()
@@ -93,7 +93,7 @@ class CustomLDAPBackend(ModelBackend):
             try:
                 connection.simple_bind_s(config['BIND_DN'], config['BIND_PASSWORD'])
             except ldap.LDAPError:
-                return User
+                return user
 
             result_id = connection.search(
                 config['USER_SEARCH']['base_dn'],

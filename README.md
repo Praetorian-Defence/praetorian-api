@@ -71,7 +71,6 @@ docker network inspect praetorian
 ping db
 ```bash
 docker-compose exec web python -c "import socket; s = socket.socket(socket.AF_INET, socket.SOCK_STREAM); s.connect(('db', 5432)); print('Successfully connected'); s.close()"
-Successfully connected
 ```
 open container using bash
 ```bash
