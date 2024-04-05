@@ -1,0 +1,85 @@
+name: praetorian-docker
+version: '3.8'
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - private_storage:/usr/local/app/private
+      - ./logs:/var/log
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: praetorian_api_docker
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      BASE_URL: http://localhost:9000
+      ADMIN_BASE_URL: http://localhost:4000
+      DJANGO_SETTINGS_MODULE: praetorian_api.settings.development
+      SECRET_KEY: 'oqjwvmob^(qwlil^8ub8%a@o5@a!^x0j1*^*1m@y46k%(6+w'
+    network_mode: bridge
+    ports:
+      - "9000:9000"
+    depends_on:
+      - db
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    volumes:
+      - private_storage:/usr/local/app/private
+      - ./logs:/var/log
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: praetorian_api_docker
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      BASE_URL: http://localhost:9000
+      ADMIN_BASE_URL: http://localhost:4000
+      DJANGO_SETTINGS_MODULE: praetorian_api.settings.web
+      SECRET_KEY: 'oqjwvmob^(qwlil^8ub8%a@o5@a!^x0j1*^*1m@y46k%(6+v'
+      SSH_LOGGING_LEVEL: INFO
+      CONSOLE_LOGGING_LEVEL: INFO
+      PRAETORIAN_API_URL: http://localhost:9000/v1/
+      PRAETORIAN_API_KEY: 6152af5d-9699-4978-aae8-200d27dcc241
+      PRAETORIAN_API_SECRET: meeseeks
+    network_mode: bridge
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+  db:
+    image: postgres:16
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: praetorian_api_docker
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    network_mode: bridge
+  ssh:
+    image: praetorian-ssh-proxy
+    volumes:
+      - ssh_data:/data
+    depends_on:
+      - django
+    environment:
+      SSH_LOGGING_LEVEL: INFO
+      CONSOLE_LOGGING_LEVEL: INFO
+      PRAETORIAN_API_URL: http://localhost:8000/v1/
+      PRAETORIAN_API_KEY: 6152af5d-9699-4978-aae8-200d27dcc241
+      PRAETORIAN_API_SECRET: meeseeks
+    network_mode: bridge
+#    ports:
+#      - "2100:2100"
+
+#networks:
+#  intranet:
+#    name: praetorian
+volumes:
+  private_storage:
+  postgresql_data:
+  ssh_data:

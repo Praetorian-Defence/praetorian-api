@@ -1,3 +1,4 @@
+import logging
 from http import HTTPStatus
 
 from django.shortcuts import render
@@ -16,6 +17,11 @@ class LogView(View):
             'logs': logs,
             'log': logs.first()
         }
+
+        if not logs:
+            logging.getLogger('logger').info('No log data')
+        else:
+            logging.getLogger('logger').info('There is data')
 
         return render(request, 'web/log_list.html', data)
 

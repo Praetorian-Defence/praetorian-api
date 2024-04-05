@@ -168,8 +168,8 @@ TEMPORARY_USER_EXPIRATION = datetime.timedelta(1)
 PASSWORD_RECOVERY_TIME = timezone.timedelta(hours=72)
 
 AUTHENTICATION_BACKENDS = [
-    'apps.api.auth.ldap_backend.CustomLDAPBackend',
     'apps.api.auth.token_backend.TokenBackend',
+    'apps.api.auth.ldap_backend.CustomLDAPBackend',
 ]
 
 # Internationalization

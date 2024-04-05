@@ -62,6 +62,32 @@ and install all required dependencies.
 }
 ```
 
+## Docker
+
+```bash
+docker network ls
+docker network inspect praetorian
+```
+ping db
+```bash
+docker-compose exec web python -c "import socket; s = socket.socket(socket.AF_INET, socket.SOCK_STREAM); s.connect(('db', 5432)); print('Successfully connected'); s.close()"
+Successfully connected
+```
+open container using bash
+```bash
+docker-compose exec <container_name> bash
+```
+
+start python shell in container
+```bash
+docker-compose exec web python manage.py shell
+```
+then use python
+```python
+from apps.core.models import User
+print(User.objects.all())
+```
+
 ---
 Developed with 💙 and ☕️ by [Adam Žúrek](https://zurek11.github.io/), Erik Belák
 with the support of [BACKBONE s.r.o.](https://www.backbone.sk/), 2024 (C)

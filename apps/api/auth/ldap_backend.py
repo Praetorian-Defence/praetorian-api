@@ -77,13 +77,6 @@ class CustomLDAPBackend(ModelBackend):
 
         # TODO: update based on groups
         assign_role(user, 'devops')
-        device, created = Device.objects.get_or_create(
-            user=user,
-            name=user.email,
-            certificate=uuid.uuid4(),
-            ip_address='127.0.0.1'
-        )
-        UserProjectDevice.objects.get_or_create(user=user, project=Project.objects.first(), device=device)
 
         return user
 
