@@ -269,13 +269,23 @@ LOGGING = {
             'class': 'camel_spitter.db_handler.DBHandler',
             'model': 'apps.core.models.LogEntry',
             'filters': ['db_filter']
-        }
+        },
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": "logs/debug.log",
+        },
     },
     'loggers': {
         'logger': {
             'handlers': ['db'],
             'level': 'INFO'
-        }
+        },
+        "django": {
+            "handlers": ["file"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
     }
 }
 
