@@ -16,7 +16,7 @@ from apps.api.errors import ValidationException, ApiException
 from apps.api.forms.temporary_user import TemporaryUserForms
 from apps.api.permissions import permission_required
 from apps.api.response import SingleResponse
-from apps.core.models import User, Language, Device, UserProjectDevice
+from apps.core.models import User, Language, Device, UserProjectDevice, AuthSource
 from apps.core.services.notification import NotificationService
 from apps.core.services.variables import VariablesService
 
@@ -60,6 +60,7 @@ def create_temporary_user(request):
         surname='temp_user',
         is_temporary=True,
         is_active=True,
+        auth_source=AuthSource.objects.get(driver=AuthSource.DriverEnum.DB)
         active_to=timezone.now() + settings.TEMPORARY_USER_EXPIRATION,
         language=Language.objects.get(code='sk'),
         creator=request.user,
