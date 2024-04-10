@@ -60,7 +60,7 @@ def create_temporary_user(request):
         surname='temp_user',
         is_temporary=True,
         is_active=True,
-        auth_source=AuthSource.objects.get(driver=AuthSource.DriverEnum.DB)
+        auth_source=AuthSource.objects.get(driver=AuthSource.DriverEnum.DB),
         active_to=timezone.now() + settings.TEMPORARY_USER_EXPIRATION,
         language=Language.objects.get(code='sk'),
         creator=request.user,
