@@ -1,20 +1,22 @@
+import base64
+import json
 import re
 
-from apps.core.models import Log
+from apps.core.models import AuditLog
 
 
-class CleanLogService:
-    def __init__(self, log: Log) -> None:
-        self._log = log
-        self._data = log.base_log['log']
+class AuditLogService:
+    def __init__(self, audit_log: AuditLog) -> None:
+        self._log = audit_log
+        self._data = audit_log.base_log['log']
         self._secret_pattern = re.compile(r'\{\{\s*(.*?)\s*\}\}')
-        self._variables = log.remote.variables
+        self._variables = audit_log.remote.variables
 
         self._recorded_data = []
 
     @classmethod
-    def create_from_request(cls, log: Log) -> 'CleanLogService':
-        return CleanLogService(log)
+    def create_from_request(cls, audit_log: AuditLog) -> 'AuditLogService':
+        return AuditLogService(audit_log)
 
     def clean(self):
         next_item = False
@@ -59,12 +61,16 @@ class CleanLogService:
                 last_type = item['type']
                 timestamp = item['timestamp']
 
-            # If this is the last item, print it
-            if i == len(self._data) - 1:
-                self._print_data(accumulated_data, last_type, prompt, timestamp)
+        self._print_data(accumulated_data, last_type, prompt, timestamp)
 
-        self._log.cleaned_log = {'log': self._recorded_data}
-        self._log.base_log = None  # can not store ascii values like /u0000
+        self._log.base_log['log'] = base64.b64encode(
+            json.dumps(self._log.base_log['log']).encode('utf-8')
+        ).decode('utf-8')
+
+        self._log.cleaned_log = {'log': base64.b64encode(
+            json.dumps(self._recorded_data).encode('utf-8')
+        ).decode('utf-8')}
+
         self._log.save()
 
     def _check_data(self, sanitized_data, accumulated_data=''):

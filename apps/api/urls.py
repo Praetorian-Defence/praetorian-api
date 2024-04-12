@@ -1,6 +1,6 @@
 from django.urls import path
 
-from apps.api.views import project, auth, user, remote, service, device, api_key, log_entry, temporary_user, log
+from apps.api.views import project, auth, user, remote, service, device, api_key, log_entry, temporary_user, audit_log
 
 urlpatterns = [
     # Authentication
@@ -33,7 +33,7 @@ urlpatterns = [
     path('projects/', project.ProjectManagement.as_view(), name='project-management'),
     path('projects/<uuid:project_id>/', project.ProjectDetail.as_view(), name='project-detail'),
 
-    path('logs/', log.LogManagement.as_view(), name='log-management'),
+    path('logs/', audit_log.AuditLogManagement.as_view(), name='audit-log-management'),
 
     # Admin only
     path('log_entries/', log_entry.LogEntryManagement.as_view(), name='log-entry-management'),

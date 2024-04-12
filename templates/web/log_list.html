@@ -344,11 +344,27 @@
 						{% for log in logs %}
 							<li class="clearfix">
 								<a href="{% url 'log_detail' log.id %}" class="log-link">
-									<div class="about">
-										<div class="name">{{ log.user.name }} {{ log.user.surname }}</div>
-										<small>{{ log.remote.project.name }}: {{ log.remote.host }}</small>
-										<div class="status">{{ log.created_at }}</div>
-									</div>
+									{% if log.user.is_temporary %}
+
+										<div class="about">
+											<div class="name">
+												{{ log.user.creator.name }} {{ log.user.creator.surname }}
+											</div>
+											<div class="status">Dočasný používateľ</div>
+											<small>{{ log.remote.project.name }}: {{ log.remote.host }}</small>
+											<div class="status">{{ log.created_at }}</div>
+										</div>
+									{% else %}
+										<div class="about">
+											<div class="name">{{ log.user.name }} {{ log.user.surname }}</div>
+											<div class="status">Permanentný používateľ</div>
+											<small>{{ log.remote.project.name }}: {{ log.remote.host }}</small>
+											<div class="status">{{ log.created_at }}</div>
+										</div>
+
+									{% endif %}
+
+
 								</a>
 							</li>
 						{% endfor %}

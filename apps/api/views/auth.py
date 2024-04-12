@@ -47,7 +47,6 @@ class AuthUser(View):
             }
         )
 
-
         if user is None:
             raise ApiException(request, _('Incorrect username or password'), HTTPStatus.UNAUTHORIZED)
 

@@ -1,5 +1,4 @@
 import re
-import uuid
 from datetime import datetime
 from http import HTTPStatus
 from typing import TypedDict, Dict, Union, List, Optional

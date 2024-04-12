@@ -1,22 +1,45 @@
 {% spaceless %}
-<div class="chat-header clearfix">
-	<div class="row">
-		<div class="col-lg-6">
-			<div class="chat-about">
-				<h3 class="m-b-0">{{ log.user.name }}</h3>
-				<h5 class="m-b-0">{{ log.remote.project.name }}: {{ log.remote.host }}</h5>
-				<small>{{ log.created_at }}</small>
-			</div>
-		</div>
-		<div class="chat-history">
-			<div class="scroll-box">
-				{% for line in log.cleaned_log.log %}
-					<div id="line-break-and-tab">
-						{% if line.type == 'input' %}<p style="color: white">{{ line.prompt }} {{ line.data|safe }}</p>{% else %}<p style="color: red">{{ line.data|safe }}</p>{% endif %}
+	<div class="chat-header clearfix">
+		<div class="row">
+			{% if log.user.is_temporary %}
+				<div class="col-lg-6">
+					<div class="chat-about">
+						<h3 class="m-b-0">{{ log.user.creator.name }} {{ log.user.creator.surname }}</h3>
+						<h5 class="m-b-0">{{ log.remote.project.name }}: {{ log.remote.host }}</h5>
+						<small>{{ log.created_at }}</small>
 					</div>
-				{% endfor %}
+				</div>
+					<div class="col-lg-6 text-right">
+					<div class="chat-about">
+						<h5 class="m-b-0">Dočasný používateľ</h5>
+					</div>
+				</div>
+
+			{% else %}
+				<div class="col-lg-6">
+					<div class="chat-about">
+						<h3 class="m-b-0">{{ log.user.name }} {{ log.user.surname }}</h3>
+						<h5 class="m-b-0">{{ log.remote.project.name }}: {{ log.remote.host }}</h5>
+						<small>{{ log.created_at }}</small>
+					</div>
+				</div>
+				<div class="col-lg-6 text-right">
+					<div class="chat-about">
+						<h5 class="m-b-0">Permanentný používateľ</h5>
+					</div>
+				</div>
+			{% endif %}
+			<div class="chat-history">
+				<div class="scroll-box">
+					{% for line in log.cleaned_log.log %}
+						<div id="line-break-and-tab">
+							{% if line.type == 'input' %}
+								<p style="color: white">{{ line.prompt }} {{ line.data|safe }}</p>{% else %}
+								<p style="color: red">{{ line.data|safe }}</p>{% endif %}
+						</div>
+					{% endfor %}
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 {% endspaceless %}

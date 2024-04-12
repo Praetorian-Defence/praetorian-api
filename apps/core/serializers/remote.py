@@ -5,7 +5,6 @@ from uuid import UUID
 from porcupine.base import Serializer
 
 from apps.core.serializers.service import ServiceSerializer
-from apps.core.services.variables import VariablesService
 
 
 class RemoteSerializer:

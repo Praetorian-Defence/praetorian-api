@@ -18,7 +18,6 @@ from apps.api.permissions import permission_required
 from apps.api.response import SingleResponse
 from apps.core.models import User, Language, Device, UserProjectDevice, AuthSource
 from apps.core.services.notification import NotificationService
-from apps.core.services.variables import VariablesService
 
 
 def get_random_email(length):

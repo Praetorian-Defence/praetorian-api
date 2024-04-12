@@ -7,7 +7,7 @@ from apps.core.serializers.remote import RemoteSerializer
 from apps.core.serializers.user import UserSerializer
 
 
-class LogSerializer:
+class AuditLogSerializer:
     class Base(Serializer):
         id: UUID
         remote_id: UUID

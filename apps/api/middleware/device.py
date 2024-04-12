@@ -26,7 +26,9 @@ class DeviceMiddleware(object):
                 logged_device = device
 
         if not logged_device:
-            logged_device, created = Device.objects.get_or_create(user=user, ip_address=ip_address, certificate=ip_address)
+            logged_device, created = Device.objects.get_or_create(
+                user=user, ip_address=ip_address, certificate=ip_address
+            )
 
         return logged_device, ip_address
 

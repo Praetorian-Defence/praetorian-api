@@ -15,7 +15,7 @@ from pathlib import Path
 
 import sentry_sdk
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -54,7 +54,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -68,7 +67,6 @@ INSTALLED_APPS = [
 
     'rolepermissions',
     'corsheaders',
-    'bootstrap5',
 
     'apps.core',
     'apps.api',
@@ -111,7 +109,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'praetorian_api.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -219,6 +216,7 @@ if os.getenv('SENTRY_DSN', False):
 
         return event
 
+
     sentry_sdk.init(
         integrations=[DjangoIntegration()],
         attach_stacktrace=True,
@@ -227,9 +225,8 @@ if os.getenv('SENTRY_DSN', False):
         before_send=before_send,
     )
 
-
 CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1:8000','http://localhost:8000'
+    'http://127.0.0.1:8000', 'http://localhost:8000'
 ]
 
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
@@ -275,16 +272,23 @@ LOGGING = {
             "class": "logging.FileHandler",
             "filename": "logs/debug.log",
         },
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
     },
     'loggers': {
         'logger': {
             'handlers': ['db'],
             'level': 'INFO'
         },
-        "django": {
-            "handlers": ["file"],
-            "level": "DEBUG",
-            "propagate": True,
+        # "django": {
+        #     "handlers": ["file", "console"],
+        #     "level": "DEBUG",
+        #     "propagate": True,
+        # },
+        'django': {
+            'handlers': ['console', "file"],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
     }
 }
