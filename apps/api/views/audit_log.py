@@ -7,7 +7,7 @@ from django.views import View
 from apps.api.auth.decorators import token_required
 from apps.api.errors import ValidationException
 from apps.api.filters.audit_log import AuditLogFilter
-from apps.api.forms.log import LogForms
+from apps.api.forms.log import AuditLogForms
 from apps.api.permissions import permission_required
 from apps.api.response import SingleResponse, PaginationResponse
 from apps.core.models import AuditLog
@@ -19,7 +19,7 @@ class AuditLogManagement(View):
     @transaction.atomic
     @method_decorator(token_required)
     def post(self, request):
-        form = LogForms.Create.create_from_request(request)
+        form = AuditLogForms.Create.create_from_request(request)
 
         if not form.is_valid():
             raise ValidationException(request, form)
