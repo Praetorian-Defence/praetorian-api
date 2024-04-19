@@ -20,4 +20,8 @@ class Temporary(AbstractUserRole):
         'read_device': False,
         'add_device': False,
         'delete_device': False,
+
+        'read_log': False,
+        'add_log': True,
+        'delete_log': False,
     }

@@ -15,16 +15,18 @@ Including another URLconf
 """
 import os
 
-from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import path, include
 from django.views.static import serve
 
+from apps.web.urls import urlpatterns as web_urlpatterns
 from apps.api import urls as api_urlpatterns
 
 urlpatterns = []
 urlpatterns += [
-    path(r'v1/', include(api_urlpatterns))
+    path('', include(web_urlpatterns)),
+    path('v1/', include(api_urlpatterns))
 ]
 
 if os.getenv('DJANGO_SETTINGS_MODULE') == 'settings.development':

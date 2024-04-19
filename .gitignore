@@ -4,6 +4,7 @@
 /venv
 __pycache__
 praetorian_api.egg-info
+*.DS_Store
 
 
 /apps/core/fixtures/
@@ -20,3 +21,6 @@ praetorian_api.egg-info
 
 /logs/
 !/logs/.gitkeep
+/private/*
+
+requirements.txt

@@ -1,7 +1,5 @@
 from django_api_forms import Form
-from django.forms import fields, ModelMultipleChoiceField
-
-from apps.core.models import Remote
+from django.forms import fields
 
 
 class ProjectForms:

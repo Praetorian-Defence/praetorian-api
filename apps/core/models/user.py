@@ -26,6 +26,12 @@ class User(BaseModel, AbstractBaseUser, PermissionsMixin):
         LDAP = 'ldap'
         DB = 'db'
 
+    creator = models.ForeignKey(
+        'User', null=True, on_delete=models.CASCADE, related_name='temporary_users', verbose_name=_('user_creator')
+    )
+    auth_source = models.ForeignKey(
+        'AuthSource', null=False, on_delete=models.CASCADE, related_name='users', verbose_name=_('user_auth_source'),
+    )
     username = models.CharField(max_length=255, unique=True, verbose_name=_('username'))
     name = models.CharField(max_length=100, verbose_name=_('user_name'))
     surname = models.CharField(max_length=100, verbose_name=_('user_surname'))

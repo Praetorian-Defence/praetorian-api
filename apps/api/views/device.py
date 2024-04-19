@@ -30,7 +30,7 @@ class DeviceManagement(View):
 
         user = form.cleaned_data['user']
         device = Device()
-        form.fill(device)
+        form.populate(device)
         device.save()
 
         if user.my_devices.exists() and user.is_active is False:
@@ -84,7 +84,7 @@ class DeviceDetail(View):
         if not form.is_valid():
             raise ValidationException(request, form)
 
-        form.fill(device)
+        form.populate(device)
         device.save()
 
         return SingleResponse(request, data=device, status=HTTPStatus.OK, serializer=DeviceSerializer.Base)

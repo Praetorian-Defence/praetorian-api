@@ -11,22 +11,37 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 import datetime
 import os
+from pathlib import Path
 
 import sentry_sdk
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from sentry_sdk.integrations.django import DjangoIntegration
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ENV_FILE = os.path.join(BASE_DIR, '.env')
 LOG_DIR = os.path.join(BASE_DIR, 'logs')
+PRIVATE_DIR = os.path.join(BASE_DIR, 'private')
+BUILD_FILE = Path(f"{BASE_DIR}/BUILD.txt")
+VERSION_FILE = Path(f"{BASE_DIR}/VERSION.txt")
 
 # .env
 if os.path.exists(ENV_FILE):
     load_dotenv(dotenv_path=ENV_FILE, verbose=True)
+
+if BUILD_FILE.exists():
+    with open(BUILD_FILE) as f:
+        BUILD = f.readline().replace('\n', '')
+else:
+    BUILD = datetime.datetime.now().isoformat()
+
+if VERSION_FILE.exists():
+    with open(VERSION_FILE) as f:
+        VERSION = f.readline().replace('\n', '')
+else:
+    VERSION = 'dev'
 
 BASE_URL = os.getenv('BASE_URL', None)
 ADMIN_BASE_URL = os.getenv('ADMIN_BASE_URL', None)
@@ -39,27 +54,34 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
+
     'rolepermissions',
+    'corsheaders',
+
     'apps.core',
-    'apps.api'
+    'apps.api',
+    'apps.web'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
     'apps.api.middleware.token.TokenMiddleware',
     'apps.api.middleware.device.DeviceMiddleware',
     'apps.api.middleware.exceptions.ExceptionMiddleware',
@@ -80,13 +102,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.web.context_processors.info',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'praetorian_api.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -143,7 +165,8 @@ TEMPORARY_USER_EXPIRATION = datetime.timedelta(1)
 PASSWORD_RECOVERY_TIME = timezone.timedelta(hours=72)
 
 AUTHENTICATION_BACKENDS = [
-    'apps.api.auth.backend.TokenBackend',
+    'apps.api.auth.token_backend.TokenBackend',
+    'apps.api.auth.ldap_backend.CustomLDAPBackend',
 ]
 
 # Internationalization
@@ -178,7 +201,7 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-DATA_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 10
+DATA_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 10  # 50MB
 
 # Sentry
 
@@ -193,6 +216,7 @@ if os.getenv('SENTRY_DSN', False):
 
         return event
 
+
     sentry_sdk.init(
         integrations=[DjangoIntegration()],
         attach_stacktrace=True,
@@ -200,6 +224,12 @@ if os.getenv('SENTRY_DSN', False):
         request_bodies='always',
         before_send=before_send,
     )
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:8000', 'http://localhost:8000'
+]
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 # Security
 
@@ -236,12 +266,33 @@ LOGGING = {
             'class': 'camel_spitter.db_handler.DBHandler',
             'model': 'apps.core.models.LogEntry',
             'filters': ['db_filter']
-        }
+        },
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": "logs/debug.log",
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
     },
     'loggers': {
         'logger': {
             'handlers': ['db'],
             'level': 'INFO'
-        }
+        },
+        # "django": {
+        #     "handlers": ["file", "console"],
+        #     "level": "DEBUG",
+        #     "propagate": True,
+        # },
+        'django': {
+            'handlers': ['console', "file"],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
     }
 }
+
+# Active Directory
+LDAP_UPDATE_PASSWORD_URL = '/User/{distinguishedName}/password'
+LDAP_USER_DETAIL_URL = '/User/{distinguishedName}'

@@ -1,0 +1,22 @@
+[flake8]
+ignore = E203,W503,E704,
+
+per-file-ignores =
+    apps/core/checkers/__init__.py:F401
+    apps/core/roles/__init__.py:F401
+    apps/api/permissions.py:E731
+
+exclude =
+    .git,
+    .pytest_cache,
+    venv,
+    __pycache__,
+    build,
+    dist,
+    docs,
+    apps/core/models/__init__.py,
+    apps/core/migrations,
+    praetorian_api/settings,
+    praetorian_api.egg-info,
+
+max-line-length = 119

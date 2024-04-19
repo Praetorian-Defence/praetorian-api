@@ -12,6 +12,8 @@ class RemoteForms:
         host = fields.CharField(max_length=30, required=True)
         port = fields.CharField(max_length=8, required=False)
         variables = AnyField(required=False)
+        user = fields.CharField()
+        password = fields.CharField()
 
         project_id = ModelChoiceField(queryset=Project.objects.all(), required=True)
 

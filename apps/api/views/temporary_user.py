@@ -16,9 +16,8 @@ from apps.api.errors import ValidationException, ApiException
 from apps.api.forms.temporary_user import TemporaryUserForms
 from apps.api.permissions import permission_required
 from apps.api.response import SingleResponse
-from apps.core.models import User, Language, Device, UserProjectDevice
+from apps.core.models import User, Language, Device, UserProjectDevice, AuthSource
 from apps.core.services.notification import NotificationService
-from apps.core.services.variables import VariablesService
 
 
 def get_random_email(length):
@@ -60,8 +59,10 @@ def create_temporary_user(request):
         surname='temp_user',
         is_temporary=True,
         is_active=True,
+        auth_source=AuthSource.objects.get(driver=AuthSource.DriverEnum.DB),
         active_to=timezone.now() + settings.TEMPORARY_USER_EXPIRATION,
-        language=Language.objects.get(code='sk')
+        language=Language.objects.get(code='sk'),
+        creator=request.user,
     )
 
     password = User.objects.make_random_password()
@@ -81,7 +82,7 @@ def create_temporary_user(request):
 
     NotificationService.create(
         recipients=[request.user.email],
-        sender=f"{settings.EMAIL_SENDER_NAME} <{settings.EMAIL_SENDER}>",
+        sender=f'{settings.EMAIL_SENDER_NAME} <{settings.EMAIL_SENDER}>',
         subject=_('[Praetorian API] - Temporary user activation'),
         content={
             'message': _(
@@ -96,12 +97,12 @@ def create_temporary_user(request):
         template='_emails/temporary_user_activation.html'
     ).send_email()
 
-    variables = VariablesService.create(request=request, variables=remote.variables).get_variables()
+    # variables = VariablesService.create(request=request, variables=remote.variables).get_variables()
 
     response = {
         'username': temporary_user.username,
         'password': password,
-        'variables': variables
+        'variables': remote.variables
     }
 
     return SingleResponse(

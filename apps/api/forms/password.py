@@ -1,5 +1,5 @@
 from django.forms import fields
-from django_api_forms import Form, BooleanField
+from django_api_forms import Form
 
 
 class PasswordRecoveryForm(Form):

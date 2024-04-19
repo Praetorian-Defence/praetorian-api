@@ -1,6 +1,6 @@
 from django.urls import path
 
-from apps.api.views import project, auth, user, remote, service, device, api_key, log_entry, temporary_user
+from apps.api.views import project, auth, user, remote, service, device, api_key, log_entry, temporary_user, audit_log
 
 urlpatterns = [
     # Authentication
@@ -14,6 +14,7 @@ urlpatterns = [
     path('users/me/', user.UserProfile.as_view(), name='user-profile'),
     path('users/<uuid:user_id>/', user.UserDetail.as_view(), name='user-detail'),
     path('users/<uuid:user_id>/2fa/', user.User2faActivate.as_view(), name='user-2fa'),
+    path('users/<uuid:user_id>/active-directory/', user.UserActiveDirectoryDetail.as_view()),
 
     path('temporary_users/create/', temporary_user.create_temporary_user, name='temporary-user-create'),
 
@@ -32,8 +33,9 @@ urlpatterns = [
     path('projects/', project.ProjectManagement.as_view(), name='project-management'),
     path('projects/<uuid:project_id>/', project.ProjectDetail.as_view(), name='project-detail'),
 
-    # Admin only
+    path('logs/', audit_log.AuditLogManagement.as_view(), name='audit-log-management'),
 
+    # Admin only
     path('log_entries/', log_entry.LogEntryManagement.as_view(), name='log-entry-management'),
     path('api_keys/', api_key.ApiKeyManagement.as_view(), name='api-key-management'),
     path('api_keys/<uuid:api_key_id>/', api_key.ApiKeyDetail.as_view(), name='api-key-detail'),

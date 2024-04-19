@@ -18,14 +18,15 @@ from django.views import View
 from django.utils.translation import gettext_lazy as _
 from rolepermissions.roles import assign_role, clear_roles
 
+from apps.api.auth.ldap_backend import LDAPService
 from apps.api.filters.user import UserFilter
 from apps.api.auth.decorators import token_required
-from apps.api.errors import ValidationException, ApiException
+from apps.api.errors import ValidationException, ApiException, ActiveDirectoryManagerException
 from apps.api.forms.password import PasswordActivateForm
 from apps.api.forms.user import UserForms
 from apps.api.permissions import permission_required
 from apps.api.response import SingleResponse, PaginationResponse
-from apps.core.models import User
+from apps.core.models import User, AuthSource
 from apps.core.models.password_recovery import PasswordRecovery
 from apps.core.serializers.password import PasswordRecoverySerializer
 from apps.core.serializers.user import UserSerializer
@@ -64,7 +65,7 @@ class UserManagement(View):
         role = form.cleaned_data.get('role')
 
         user = User()
-        form.fill(user)
+        form.populate(user)
 
         user.set_password(password)
         user.username = user.email
@@ -115,7 +116,7 @@ class UserDetail(View):
             if User.objects.filter(email=email).exists():
                 raise ApiException(request, _('Email is already used.'), status_code=HTTPStatus.CONFLICT)
 
-        form.fill(user)
+        form.populate(user)
         user.username = email
         if assign_projects is not None:
             user.assign_projects(request, assign_projects)
@@ -266,3 +267,24 @@ class PasswordActivateManagement(View):
         PasswordRecovery.objects.filter(user=password_recovery.user).delete()
 
         return SingleResponse(request, None, status=HTTPStatus.NO_CONTENT)
+
+
+class UserActiveDirectoryDetail(View):
+    @method_decorator(token_required)
+    def get(self, request, user_id):
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            raise ApiException(request, _('User does not exist.'), status_code=HTTPStatus.NOT_FOUND)
+
+        if user.auth_source.driver == AuthSource.DriverEnum.LDAP:
+            try:
+                user = LDAPService(user).get_user()
+            except ActiveDirectoryManagerException:
+                raise ApiException(request, _('LDAP error!'), status_code=HTTPStatus.UNPROCESSABLE_ENTITY)
+        else:
+            raise ApiException(
+                request, _('User is not member of active directory!'), status_code=HTTPStatus.CONFLICT
+            )
+
+        return SingleResponse(request, user)

@@ -1,6 +1,5 @@
 from enum import Enum
 
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_enum_choices.fields import EnumChoiceField
@@ -31,5 +30,5 @@ class Service(BaseModel):
     variables = AesJSONField(null=False, default=dict, verbose_name=_('service_variables'))
 
     remote = models.ForeignKey(
-        'Remote', null=False, on_delete=models.CASCADE,  related_name='services', verbose_name=_('service_remote')
+        'Remote', null=False, on_delete=models.CASCADE, related_name='services', verbose_name=_('service_remote')
     )

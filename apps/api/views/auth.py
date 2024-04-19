@@ -1,3 +1,4 @@
+import logging
 from http import HTTPStatus
 
 import pyotp
@@ -23,7 +24,28 @@ class AuthUser(View):
 
         data = form.cleaned_data
 
+        logging.getLogger('logger').info(
+            _('Auth: {user_name}.'.format(
+                user_name=data['username']
+            )),
+            extra={
+                'status_code': HTTPStatus.CREATED,
+                'request_body': data,
+            }
+        )
+
         user = authenticate(request, username=data.get('username'), password=data.get('password'))
+
+        logging.getLogger('logger').info(
+            _('User: {user_name}.'.format(
+                user_name=data['username']
+            )),
+            extra={
+                'status_code': HTTPStatus.CREATED,
+                'request_body': data,
+                'username': user.email
+            }
+        )
 
         if user is None:
             raise ApiException(request, _('Incorrect username or password'), HTTPStatus.UNAUTHORIZED)
@@ -33,6 +55,17 @@ class AuthUser(View):
         token = Token.objects.create(
             user_id=user.pk,
             expires_at=expires_at
+        )
+
+        logging.getLogger('logger').info(
+            _('Token: {user_name}.'.format(
+                user_name=data['username']
+            )),
+            extra={
+                'status_code': HTTPStatus.CREATED,
+                'request_body': data,
+                'username': user.email
+            }
         )
 
         return SingleResponse(request, token, status=HTTPStatus.OK, serializer=TokenSerializer.Base)

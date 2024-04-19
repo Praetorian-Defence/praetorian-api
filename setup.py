@@ -35,7 +35,8 @@ setup(
         'pyotp==2.4.*',
         'qrcode==6.1.*',
         'Pillow>=8.1.2',
-        'sentry-sdk==0.18.*'
+        'sentry-sdk==0.18.*',
+        'python-ldap==3.4.*'
     ],
     url='https://github.com/Praetorian-Defence/praetorian-api',
     license='MIT',

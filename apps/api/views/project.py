@@ -28,7 +28,7 @@ class ProjectManagement(View):
             raise ValidationException(request, form)
 
         project = Project()
-        form.fill(project)
+        form.populate(project)
         project.save()
 
         return SingleResponse(request, project, status=HTTPStatus.CREATED, serializer=ProjectSerializer.Detail)
@@ -69,7 +69,7 @@ class ProjectDetail(View):
         if not form.is_valid():
             raise ValidationException(request, form)
 
-        form.fill(project)
+        form.populate(project)
         project.save()
 
         return SingleResponse(request, data=project, status=HTTPStatus.OK, serializer=ProjectSerializer.Detail)
