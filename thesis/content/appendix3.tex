@@ -1,0 +1,154 @@
+\renewcommand\chaptername{Príloha}
+
+\chapter{Používateľská príručka}
+
+\renewcommand*{\thepage}{C\arabic{page}}
+\setcounter{page}{1}
+
+Príručka obsahuje informácie o postupe inštalácie systému, jeho konfigurácie a používania.
+
+Celý systém je rozdelený na päť častí, ktoré sa nachádzajú v priloženom elektronickom médiu.
+Riešenia \inlinecode{praetorian-api-client} a \inlinecode{praetorian-fabric} slúžia, ako knižnice používané v iných súčastiach systému.
+Tým pádom ich nie je potrebné inštalovať, konfigurovať ani spúšťať.
+Napriek tomu sa dodatočné informácie o daných knižniciach nachádzajú v súbore \emph{README.md} sídliacom v koreňovom adresári projektu.
+
+Čo sa týka projektu \inlinecode{praetorian-test-deploy}, ten slúži na testovacie účely, ako forma vyvýjaného produktu
+obsahujúceho potrebné skripty na komunikáciu s koncovými zariadeniami.
+
+Z týchto dôvodov je príručka podľa dvoch hlavných komponentov systému, čo sú \inlinecode{praetorian-api} a \inlinecode{praetorian-ssh-proxy} rozdelená na iba dve časti.
+
+
+\section{Praetorian API}
+
+Projekt slúži, ako api server komunikujúci so zariadením používateľa prostredníctvom HTTPS REST komunikácie.
+Riešenie obsahuje správu a manažment všetkých entít v systéme.
+
+\subsection{Inštaláca}
+
+Na spustenie daného riešenia je potrebné si nainštalovať:
+
+\begin{enumerate}
+\item Programovací jazyk \inlinecode{python 3.7+}:
+\begin{itemize}
+\item \emph{https://www.python.org/downloads/}
+\end{itemize}
+\item Relačnú databázu \inlinecode{PostgreSql 12}:
+\begin{itemize}
+\item \emph{https://www.postgresql.org/download/}
+\end{itemize}
+\end{enumerate}
+
+Ďalším krokom je vytvorenie virtuálneho prostredia a inštalácia package manažéra \inlinecode{poetry} pre konkrétny projekt pomocou príkazov:
+\begin{itemize}
+\item \inlinecode{python -m venv venv}
+\item \inlinecode{pip install poetry}
+\end{itemize}
+
+Posledným krokom inštalácie je inštalácia závislostí pomocou príkazu:
+\begin{itemize}
+\item \inlinecode{poetry install}
+\end{itemize}
+
+\subsection{Konfigurácia}
+
+Pre nastavenie pripojenia databázy PostgreSQL je potrebné vytvoriť súbor \inlinecode{.env}, kde budú nastavené environment
+premenné podľa ukážky v súbore \inlinecode{.env.example}.
+\newpage
+
+Inicializácia databázy je vykonaná nasledujúcimi príkazmi:
+\begin{itemize}
+\item \inlinecode{python manage.py migrate}
+\item \inlinecode{python manage.py sync\_roles}
+\end{itemize}
+
+Na vytvorenie prvého používateľa v systéme s administrátorskými právami je potrebné vykonať nasledujúci príkaz:
+\begin{itemize}
+\item \inlinecode{python manage.py createsuperuser}
+\end{itemize}
+
+\subsection{Návod}
+
+Projekt je možné spustiť príkazom:
+\begin{itemize}
+\item \inlinecode{python manage.py runserver [HOST]:[PORT]}
+\item Príklad: \inlinecode{python manage.py runserver localhost:8000}
+\end{itemize}
+
+Pre volanie požiadaviek na spustený api server je potrebné si nainštalovať jednu z platform pre vývoj API, ako napríklad:
+
+\begin{enumerate}
+\item \inlinecode{Postman}:
+\begin{itemize}
+\item \emph{https://www.postman.com/downloads/}
+\end{itemize}
+\end{enumerate}
+
+Celá REST API dokumentácia vo formáte PDF s príkladmi požiadaviek a odpovedí sa nachádza v obsahu priloženého média v
+adresári \emph{docs}.
+
+\section{Praetorian SSH Proxy}
+
+Daný projekt slúži, ako tretia strana zastrešujúca komunikáciu medzi zariadením používateľa a koncovým zariadením zákazníka.
+Komunikácia prebieha aj medzi proxy serverom a api serverom pomocou api klienta.
+
+\subsection{Inštaláca}
+
+Na spustenie daného riešenia je potrebné si nainštalovať:
+
+\begin{enumerate}
+\item Programovací jazyk \inlinecode{python 3.8+}:
+\begin{itemize}
+\item \emph{https://www.python.org/downloads/}
+\end{itemize}
+\end{enumerate}
+
+Ďalším krokom je vytvorenie virtuálneho prostredia a inštalácia package manažéra \inlinecode{poetry} pre konkrétny projekt pomocou príkazov:
+\begin{itemize}
+\item \inlinecode{python -m venv venv}
+\item \inlinecode{pip install poetry}
+\end{itemize}
+
+Posledným krokom inštalácie je inštalácia závislostí pomocou príkazu:
+\begin{itemize}
+\item \inlinecode{poetry install}
+\end{itemize}
+
+\subsection{Konfigurácia}
+
+Pre nastavenie pripojenia na api server je potrebné vytvoriť súbor \inlinecode{.env}, kde budú nastavené environment
+premenné podľa ukážky v súbore \inlinecode{.env.example}.
+
+\subsection{Návod}
+
+Projekt je možné spustiť príkazom:
+\begin{itemize}
+\item \inlinecode{python run.py [HOST] [PORT]}
+\item Príklad: \inlinecode{python run.py localhost 22}
+\end{itemize}
+
+\newpage
+
+Na koncové zariadenie pomocou interaktívneho session je možné sa pripojiť príkazom:
+\begin{enumerate}
+    \item Nepriamy spôsob:
+    \begin{itemize}
+        \item \inlinecode{ssh [USERNAME]@[HOST] -p [PORT]}
+        \item Príklad: \inlinecode{ssh user@praetorian.sk@localhost -p 22}
+    \end{itemize}
+    \item Priamy spôsob:
+    \begin{itemize}
+        \item Priame: \inlinecode{ssh [USERNAME]+[PROJECT]-[REMOTE]@localhost -p 22}
+        \item Príklad: \inlinecode{ssh user@praetorian.sk+Project-Remote@localhost -p 22}
+    \end{itemize}
+\end{enumerate}
+
+Na pripojenie sa ku koncovému zariadeniu pomocou neinteraktívneho session je potrebný projekt s nainštalovanou rozšírenou
+knižnicou fabric.
+Pre otestovanie tohto spôsobu je možné otvoriť spomínaný \inlinecode{praetorian-test-deploy} projekt v ktorého README.md súbore
+sa nachádzajú všetky potrebné informácie.
+Po vytvorení skriptu je možné zavolať neinteraktívny session príkazom:
+
+\begin{itemize}
+\item \inlinecode{fab [FUNCTION] [REMOTE]}
+\item Príklad: \inlinecode{fab deploy production}
+\end{itemize}
